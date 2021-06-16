@@ -12,7 +12,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import firebase from 'firebase'
 
 function Copyright() {
   return (
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -70,6 +69,8 @@ export default function SignIn() {
 
   const classes = useStyles();
 
+  console.log(props.isLogIn)
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -78,7 +79,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {props.isLogIn ? "Sign In" : "Sign Up"}
         </Typography>
         <form onSubmit={submitDataHandler} className={classes.form} noValidate>
           <TextField
@@ -105,7 +106,7 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <TextField
+          {!props.isLogIn ? <TextField
             onChange={userDataHandler}
             variant="outlined"
             margin="normal"
@@ -116,7 +117,8 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-          />
+          /> : ''}
+          
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

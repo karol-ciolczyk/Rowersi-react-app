@@ -36,11 +36,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function TransitionsModal(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (event) => {
+    const isLogIn = event.target.textContent.toLowerCase() === 'login'
+    props.onIsLogInHandler(isLogIn);
+
     setOpen(true);
   };
 
@@ -50,14 +54,18 @@ export default function TransitionsModal(props) {
 
   return (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        type="button"
-        onClick={handleOpen}
-      >
-        {props.buttonText}
-      </Button>
+      <div className={classes.button}>
+        <Button
+          size="large"
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={handleOpen}
+        >
+          {props.buttonText}
+        </Button>
+      </div>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -78,4 +86,4 @@ export default function TransitionsModal(props) {
       </Modal>
     </div>
   );
-};
+}
