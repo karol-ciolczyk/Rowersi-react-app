@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
       height: theme.spacing(80),
     },
   },
+  button: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 export default function TransitionsModal(props) {
