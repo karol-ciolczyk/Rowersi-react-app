@@ -12,6 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import firebase from "firebase";
+import createUserWithEmailAndPassword from "../../firebase/createUserWithEmailandPassword";
 
 function Copyright() {
   return (
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn(props) {
+  const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -62,14 +65,18 @@ export default function SignIn(props) {
     });
   };
 
-  const submitDataHandler = (event) => {
+  const firebaseAuthSubmitData = (event) => {
     event.preventDefault();
     console.log(userData);
+    const { email, password, repeatePassword } = userData;
+
+    if (!props.isLogIn) {
+      createUserWithEmailAndPassword(email, password)
+      .then(userData => {
+        console.log(userData)
+      });
+    }
   };
-
-  const classes = useStyles();
-
-  console.log(props.isLogIn)
 
   return (
     <Container component="main" maxWidth="xs">
@@ -81,7 +88,11 @@ export default function SignIn(props) {
         <Typography component="h1" variant="h5">
           {props.isLogIn ? "Sign In" : "Sign Up"}
         </Typography>
-        <form onSubmit={submitDataHandler} className={classes.form} noValidate>
+        <form
+          onSubmit={firebaseAuthSubmitData}
+          className={classes.form}
+          noValidate
+        >
           <TextField
             onChange={userDataHandler}
             variant="outlined"
@@ -106,19 +117,23 @@ export default function SignIn(props) {
             id="password"
             autoComplete="current-password"
           />
-          {!props.isLogIn ? <TextField
-            onChange={userDataHandler}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="repeatePassword"
-            label="Repeat Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          /> : ''}
-          
+          {!props.isLogIn ? (
+            <TextField
+              onChange={userDataHandler}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="repeatePassword"
+              label="Repeat Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+          ) : (
+            ""
+          )}
+
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
