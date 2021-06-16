@@ -9,7 +9,6 @@ function App() {
   return (
     <React.Fragment>
       <TransitionsModal 
-      numberOfModalButtons={2} 
       buttonText={`LogIn // SignUp`}>
         <LoginForm />
       </TransitionsModal>
