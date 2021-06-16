@@ -54,9 +54,11 @@ export default function SignIn(props) {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
-    repeatePassword: "",
+    repeatPassword: "",
     isLogIn: false,
   });
+
+  const { email, password, repeatPassword, isLogIn } = userData;
 
   useEffect(() => {
     setUserData((lastState) => {
@@ -67,7 +69,7 @@ export default function SignIn(props) {
     });
   }, []);
 
-  const userDataHandler = (event) => {
+  const userDataChangeHandler = (event) => {
     setUserData((lastState) => {
       return {
         ...lastState,
@@ -76,17 +78,23 @@ export default function SignIn(props) {
     });
   };
 
-  const firebaseAuthSubmitData = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
-    const { email, password, repeatePassword, isLogIn } = userData;
 
-    if (!isLogIn && password === repeatePassword) {
+    if (!isLogIn && password === repeatPassword) {
       createUserWithEmailAndPassword(email, password);
     } else if (isLogIn) {
       signInWithEmailAndPassword(email, password).then((userData) => {
         console.log("here is", userData);
       });
     }
+
+    setUserData({
+      email: "",
+      password: "",
+      repeatPassword: "",
+      isLogIn: false,
+    });
   };
 
   return (
@@ -99,13 +107,10 @@ export default function SignIn(props) {
         <Typography component="h1" variant="h5">
           {props.isLogIn ? "Sign In" : "Sign Up"}
         </Typography>
-        <form
-          onSubmit={firebaseAuthSubmitData}
-          className={classes.form}
-          noValidate
-        >
+        <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
-            onChange={userDataHandler}
+            onChange={userDataChangeHandler}
+            value={email}
             variant="outlined"
             margin="normal"
             required
@@ -117,7 +122,8 @@ export default function SignIn(props) {
             autoFocus
           />
           <TextField
-            onChange={userDataHandler}
+            onChange={userDataChangeHandler}
+            value={password}
             variant="outlined"
             margin="normal"
             required
@@ -130,12 +136,13 @@ export default function SignIn(props) {
           />
           {!props.isLogIn ? (
             <TextField
-              onChange={userDataHandler}
+              onChange={userDataChangeHandler}
+              value={repeatPassword}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              name="repeatePassword"
+              name="repeatPassword"
               label="Repeat Password"
               type="password"
               id="password"
