@@ -11,7 +11,6 @@ function App() {
       <TransitionsModal>
         <LoginForm />
       </TransitionsModal>
-      <LoginForm />
     </React.Fragment>
   );
 }
