@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import firebase from "firebase";
 import createUserWithEmailAndPassword from "../../firebase/createUserWithEmailandPassword";
+import signInWithEmailAndPassword from "../../firebase/signInWithEmailAndPassword";
 
 function Copyright() {
   return (
