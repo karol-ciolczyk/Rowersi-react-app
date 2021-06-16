@@ -50,9 +50,14 @@ export default function TransitionsModal(props) {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        react-transition-group
-      </button>
+      <Button
+        variant="contained"
+        color="primary"
+        type="button"
+        onClick={handleOpen}
+      >
+        Sign Up // Log In
+      </Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -67,7 +72,7 @@ export default function TransitionsModal(props) {
       >
         <Fade in={open}>
           <Paper className={classes.root} elevation={3}>
-          {props.children}
+            {props.children}
           </Paper>
         </Fade>
       </Modal>
