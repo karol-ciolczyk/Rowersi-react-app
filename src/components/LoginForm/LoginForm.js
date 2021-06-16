@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -55,7 +55,17 @@ export default function SignIn(props) {
     email: "",
     password: "",
     repeatePassword: "",
+    isLogIn: false,
   });
+
+  useEffect(() => {
+    setUserData((lastState) => {
+      return {
+        ...lastState,
+        isLogIn: props.isLogIn,
+      };
+    });
+  }, []);
 
   const userDataHandler = (event) => {
     setUserData((lastState) => {
@@ -68,13 +78,13 @@ export default function SignIn(props) {
 
   const firebaseAuthSubmitData = (event) => {
     event.preventDefault();
-    console.log(userData);
-    const { email, password, repeatePassword } = userData;
+    const { email, password, repeatePassword, isLogIn } = userData;
 
-    if (!props.isLogIn) {
-      createUserWithEmailAndPassword(email, password)
-      .then(userData => {
-        console.log(userData)
+    if (!isLogIn && password === repeatePassword) {
+      createUserWithEmailAndPassword(email, password);
+    } else if (isLogIn) {
+      signInWithEmailAndPassword(email, password).then((userData) => {
+        console.log("here is", userData);
       });
     }
   };

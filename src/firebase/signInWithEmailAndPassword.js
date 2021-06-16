@@ -1,7 +1,7 @@
 import firebase from "firebase";
 
 const signInWithEmailAndPassword = (email, password) => {
-  firebase
+  return firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
