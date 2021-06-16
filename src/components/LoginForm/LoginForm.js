@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -47,8 +47,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const bbb = (event)=>{
-    console.log(event.target.value)
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+    repeatePassword: "",
+  });
+
+  const userDataHandler = (event) => {
+    setUserData((lastState) => {
+      return {
+        ...lastState,
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+
+  const submitDataHandler = (event) => {
+    event.preventDefault();
+    console.log(userData);
   };
 
   const classes = useStyles();
@@ -63,8 +79,9 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={submitDataHandler} className={classes.form} noValidate>
           <TextField
+            onChange={userDataHandler}
             variant="outlined"
             margin="normal"
             required
@@ -76,6 +93,7 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+            onChange={userDataHandler}
             variant="outlined"
             margin="normal"
             required
@@ -87,12 +105,13 @@ export default function SignIn() {
             autoComplete="current-password"
           />
           <TextField
+            onChange={userDataHandler}
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Reapeat Password"
+            name="repeatePassword"
+            label="Repeat Password"
             type="password"
             id="password"
             autoComplete="current-password"
