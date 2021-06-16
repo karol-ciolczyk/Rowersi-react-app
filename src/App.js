@@ -1,14 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import LoginForm from './components/LoginForm/LoginForm'
-import TransitionsModal from './components/Modal/TransitionsModal';
+import LoginForm from "./components/LoginForm/LoginForm";
+import TransitionsModal from "./components/Modal/TransitionsModal";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <React.Fragment>
-      <TransitionsModal text={`LogIn // SignUp`}>
+      <TransitionsModal 
+      numberOfModalButtons={2} 
+      buttonText={`LogIn // SignUp`}>
         <LoginForm />
       </TransitionsModal>
     </React.Fragment>

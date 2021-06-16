@@ -56,7 +56,7 @@ export default function TransitionsModal(props) {
         type="button"
         onClick={handleOpen}
       >
-        {props.text}
+        {props.buttonText}
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
