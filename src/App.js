@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   return (
     <React.Fragment>
-      <TransitionsModal>
+      <TransitionsModal text={`LogIn // SignUp`}>
         <LoginForm />
       </TransitionsModal>
     </React.Fragment>

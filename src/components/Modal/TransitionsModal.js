@@ -56,7 +56,7 @@ export default function TransitionsModal(props) {
         type="button"
         onClick={handleOpen}
       >
-        Sign Up // Log In
+        {props.text}
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
