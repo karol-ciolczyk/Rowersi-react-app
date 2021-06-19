@@ -2,6 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, InputBase, fade, makeStyles } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
+import styled from 'styled-components';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,14 +85,30 @@ export default function Navbar() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </div>
-                    <Button variant="contained" color="secondary">
-                        Sign up or Login in
-                    </Button>
-                    <IconButton aria-label='account'>
-                        <AccountCircle />
-                    </IconButton>
+                    <Flexbox>
+                        <div>
+                            <LoginButton variant="contained" color="secondary">
+                                Loginin
+                            </LoginButton>
+                            <Button variant="contained" color="secondary">
+                                Register
+                            </Button>
+                            <IconButton aria-label='account'>
+                                <AccountCircle />
+                            </IconButton>
+                        </div>
+                    </Flexbox>
                 </Toolbar>
             </AppBar>
         </div>
     );
 }
+
+
+const Flexbox = styled.div`
+margin-left: auto;
+`
+const LoginButton = styled(Button)`
+background-color: tomato;
+margin: 0 5px;
+`
