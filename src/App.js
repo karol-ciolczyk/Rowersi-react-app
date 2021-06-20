@@ -1,13 +1,16 @@
 import React from "react";
 
-import AutoGrid from './components/AutoGrid/AutoGrid'
+import LoginForm from './components/LoginForm/LoginForm'
+import Modal from './components/Modal/Modal'
 
 import "./App.css";
 
 function App() {
   return (
     <React.Fragment>
-      <AutoGrid />
+      <Modal buttonName={'Login'}>
+        <LoginForm />
+      </Modal>
     </React.Fragment>
   );
 }

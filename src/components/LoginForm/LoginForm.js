@@ -12,9 +12,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import firebase from "firebase";
-import createUserWithEmailAndPassword from "../../firebase/createUserWithEmailandPassword";
-import signInWithEmailAndPassword from "../../firebase/signInWithEmailAndPassword";
 
 function Copyright() {
   return (
@@ -49,25 +46,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(props) {
+export default function LoginForm() {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
     password: "",
-    repeatPassword: "",
-    isLogIn: false,
   });
 
-  const { email, password, repeatPassword, isLogIn } = userData;
-
-  useEffect(() => {
-    setUserData((lastState) => {
-      return {
-        ...lastState,
-        isLogIn: props.isLogIn,
-      };
-    });
-  }, []);
+  const {email, password} = userData;
 
   const userDataChangeHandler = (event) => {
     setUserData((lastState) => {
@@ -81,14 +67,6 @@ export default function SignIn(props) {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (!isLogIn && password === repeatPassword) {
-      createUserWithEmailAndPassword(email, password);
-    } else if (isLogIn) {
-      signInWithEmailAndPassword(email, password).then((userData) => {
-        console.log("here is", userData);
-      });
-    }
-
     setUserData({
       email: "",
       password: "",
@@ -96,6 +74,8 @@ export default function SignIn(props) {
       isLogIn: false,
     });
   };
+
+  console.log(userData);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -105,7 +85,7 @@ export default function SignIn(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          {props.isLogIn ? "Sign In" : "Sign Up"}
+          FormulageFormulage
         </Typography>
         <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
@@ -134,24 +114,6 @@ export default function SignIn(props) {
             id="password"
             autoComplete="current-password"
           />
-          {!props.isLogIn ? (
-            <TextField
-              onChange={userDataChangeHandler}
-              value={repeatPassword}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="repeatPassword"
-              label="Repeat Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          ) : (
-            ""
-          )}
-
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

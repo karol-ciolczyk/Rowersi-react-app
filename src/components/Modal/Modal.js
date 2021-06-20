@@ -41,10 +41,7 @@ export default function TransitionsModal(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = (event) => {
-    const isLogIn = event.target.textContent.toLowerCase() === 'login'
-    props.onIsLogInHandler(isLogIn);
-
+  const handleOpen = () => {
     setOpen(true);
   };
 
@@ -61,8 +58,8 @@ export default function TransitionsModal(props) {
           color="primary"
           type="button"
           onClick={handleOpen}
-        >
-          {props.buttonText}
+        > 
+        {props.buttonName}
         </Button>
       </div>
 
