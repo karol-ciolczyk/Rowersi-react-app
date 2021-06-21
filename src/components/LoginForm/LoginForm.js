@@ -73,8 +73,6 @@ export default function LoginForm() {
     setUserData({
       email: "",
       password: "",
-      repeatPassword: "",
-      isLogIn: false,
     });
   };
 
