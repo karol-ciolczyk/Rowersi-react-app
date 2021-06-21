@@ -1,4 +1,4 @@
-function UserAvatar(props) {
+export function UserAvatar(props) {
     return (
         <img 
           src={props}
