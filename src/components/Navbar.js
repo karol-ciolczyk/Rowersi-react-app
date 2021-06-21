@@ -94,12 +94,9 @@ export default function Navbar() {
             </div>
             <Flexbox>
               <div>
-                  <Modal>
-                      <LoginForm />
-                  </Modal>
-                <LoginButton variant="contained" color="secondary">
-                  Loginin
-                </LoginButton>
+                <Modal buttonName="Login">
+                    <LoginForm />
+                </Modal>
                 <Button variant="contained" color="secondary">
                   Register
                 </Button>

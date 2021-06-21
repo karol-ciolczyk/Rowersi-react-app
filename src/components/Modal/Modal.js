@@ -42,11 +42,11 @@ export default function TransitionsModal(props) {
     <>
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         href="#contained-buttons"
         onClick={handleOpen}
       >
-        blablabla
+        {props.buttonName}
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
