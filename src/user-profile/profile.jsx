@@ -1,6 +1,7 @@
 import { UserAvatar } from "./avatar";
 import { UserWallpaper } from "./user-wallpaper";
 
+export function Profile (){
 function handleUserWallpaper() {
 //if user has uploaded wallpaper use it or get default wallpaper
 };
@@ -14,3 +15,4 @@ return (
     <UserAvatar props={handleUserAvatar} />
     </>
 );
+}

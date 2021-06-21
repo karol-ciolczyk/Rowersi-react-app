@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Modal from './Modal/Modal';
 import LoginForm from './LoginForm/LoginForm'
 import SignUpForm from './SignUpForm/SignUpForm'
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,9 +102,11 @@ export default function Navbar() {
                 <Modal buttonName="Sign Up">
                   <SignUpForm />
                 </Modal>
+                <Link to="/profile">
                 <IconButton aria-label="account">
                   <AccountCircle />
                 </IconButton>
+                </Link>
               </div>
             </Flexbox>
           </Toolbar>
