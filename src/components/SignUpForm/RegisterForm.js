@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
