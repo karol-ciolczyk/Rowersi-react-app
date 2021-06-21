@@ -5,7 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import Modal from './Modal/Modal';
 import LoginForm from './LoginForm/LoginForm'
-import SignUpForm from './SignUp/SignUp'
+import SignUpForm from './SignUpForm/SignUpForm'
 
 
 const useStyles = makeStyles((theme) => ({
