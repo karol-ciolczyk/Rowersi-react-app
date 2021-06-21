@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RegisterForm() {
+export default function SignUpForm() {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
@@ -134,7 +134,6 @@ export default function RegisterForm() {
             value={nickname}
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             name="nickname"
             label="nickname"

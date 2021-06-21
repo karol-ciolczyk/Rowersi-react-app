@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
       // height: theme.spacing(16),
     },
   },
+  button: {
+    margin: "0px 5px",
+  },
 }));
 
 export default function TransitionsModal(props) {
@@ -41,6 +44,7 @@ export default function TransitionsModal(props) {
   return (
     <>
       <Button
+        className={classes.button}
         variant="contained"
         color="secondary"
         href="#contained-buttons"
