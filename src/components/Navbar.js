@@ -1,8 +1,10 @@
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Button, InputBase, fade, makeStyles } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Button, InputBase, fade, makeStyles, Grid } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
+import Modal from './Modal/Modal';
+import LoginForm from './LoginForm/LoginForm'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,41 +68,46 @@ export default function Navbar() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <AppBar color='default'>
-                <Toolbar>
-                    <Typography color='secondary' className={classes.title} variant="h4" noWrap>
-                        Rowersi
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                    <Flexbox>
-                        <div>
-                            <LoginButton variant="contained" color="secondary">
-                                Loginin
-                            </LoginButton>
-                            <Button variant="contained" color="secondary">
-                                Register
-                            </Button>
-                            <IconButton aria-label='account'>
-                                <AccountCircle />
-                            </IconButton>
-                        </div>
-                    </Flexbox>
-                </Toolbar>
-            </AppBar>
-        </div>
+      <div className={classes.root}>
+        <AppBar color="default">
+          <Toolbar>
+            <Typography
+              color="secondary"
+              className={classes.title}
+              variant="h4"
+              noWrap
+            >
+              Rowersi
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </div>
+            <Flexbox>
+              <div>
+                <Modal buttonName="Login">
+                    <LoginForm />
+                </Modal>
+                <Button variant="contained" color="secondary">
+                  Register
+                </Button>
+                <IconButton aria-label="account">
+                  <AccountCircle />
+                </IconButton>
+              </div>
+            </Flexbox>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
 }
 
