@@ -5,6 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import Modal from './Modal/Modal';
 import LoginForm from './LoginForm/LoginForm'
+import SignUpForm from './SignUp/SignUp'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -94,12 +95,12 @@ export default function Navbar() {
             </div>
             <Flexbox>
               <div>
-                <Modal buttonName="Login">
-                    <LoginForm />
+                <Modal buttonName="Log In">
+                  <LoginForm />
                 </Modal>
-                <Button variant="contained" color="secondary">
-                  Register
-                </Button>
+                <Modal buttonName="Sign Up">
+                  <SignUpForm />
+                </Modal>
                 <IconButton aria-label="account">
                   <AccountCircle />
                 </IconButton>
