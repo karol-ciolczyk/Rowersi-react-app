@@ -1,16 +1,16 @@
 import React from "react";
 
-import LoginForm from './components/LoginForm/LoginForm'
-import Modal from './components/Modal/Modal'
-
+import Navbar from "./components/Navbar";
 import "./App.css";
 
 function App() {
   return (
     <React.Fragment>
-      <Modal buttonName={'Login'}>
-        <LoginForm />
-      </Modal>
+      <div className="App">
+        <header className="App-header">
+          <Navbar />
+        </header>
+      </div>
     </React.Fragment>
   );
 }

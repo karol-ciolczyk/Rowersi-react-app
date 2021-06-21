@@ -3,9 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { PinDropSharp } from "@material-ui/icons";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import { Button } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -14,28 +13,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
   root: {
-    padding: "0 50px",
     display: "flex",
     flexWrap: "wrap",
     "& > *": {
       margin: theme.spacing(1),
-      // width: theme.spacing(70),
-      height: theme.spacing(80),
-    },
-  },
-  button: {
-    "& > *": {
-      margin: theme.spacing(1),
+      // width: theme.spacing(16),
+      // height: theme.spacing(16),
     },
   },
 }));
-
 
 export default function TransitionsModal(props) {
   const classes = useStyles();
@@ -50,19 +39,15 @@ export default function TransitionsModal(props) {
   };
 
   return (
-    <div>
-      <div className={classes.button}>
-        <Button
-          size="large"
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={handleOpen}
-        > 
-        {props.buttonName}
-        </Button>
-      </div>
-
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        href="#contained-buttons"
+        onClick={handleOpen}
+      >
+        blablabla
+      </Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -76,11 +61,13 @@ export default function TransitionsModal(props) {
         }}
       >
         <Fade in={open}>
-          <Paper className={classes.root} elevation={3}>
-            {props.children}
-          </Paper>
+          <div className={classes.root}>
+            <Paper elevation={3} className={classes.paper}>
+              {props.children}
+            </Paper>
+          </div>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
