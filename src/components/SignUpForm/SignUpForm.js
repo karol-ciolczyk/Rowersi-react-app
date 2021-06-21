@@ -6,12 +6,13 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import createUserWithEmailAndPassword from '../../firebase/createUserWithEamilAndPassword'
+import { cannotHaveAUsernamePasswordPort } from "whatwg-url";
 
 function Copyright() {
   return (
@@ -69,6 +70,11 @@ export default function SignUpForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if(password.trim() === repeatPassword.trim()){
+      createUserWithEmailAndPassword(email, password)
+    } else alert("incorrect password");
+
+
     setUserData({
       email: "",
       password: "",
@@ -76,8 +82,6 @@ export default function SignUpForm() {
       nickname: ""
     });
   };
-
-  console.log(userData);
 
   return (
     <Container component="main" maxWidth="xs">

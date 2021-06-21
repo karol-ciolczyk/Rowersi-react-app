@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import signInWithEmailAndPassword from '../../firebase/signInWithEmailAndPassword'
 
 function Copyright() {
   return (
@@ -67,11 +68,11 @@ export default function LoginForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    signInWithEmailAndPassword(email, password).then(console.log)
+
     setUserData({
       email: "",
       password: "",
-      repeatPassword: "",
-      isLogIn: false,
     });
   };
 
@@ -85,7 +86,7 @@ export default function LoginForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          FormulageFormulage
+          Log In
         </Typography>
         <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
@@ -125,7 +126,7 @@ export default function LoginForm() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Log In
           </Button>
           <Grid container>
             <Grid item xs>
