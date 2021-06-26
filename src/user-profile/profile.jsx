@@ -1,7 +1,8 @@
 import { UserAvatar } from "./avatar";
 import { UserWallpaper } from "./user-wallpaper";
 import './profile.css';
-import SimpleTabs from "./profileTab";
+import UserProfileTabs from "./profileTab";
+import { Switch } from "react-router-dom";
 
 export function Profile (){
 
@@ -26,7 +27,10 @@ return (
         <UserAvatar url={handleUserAvatar()} />
         <span>{renderUserName()}</span>
     </div>
-    <SimpleTabs />
+    <UserProfileTabs />
+    <Switch>
+
+    </Switch>
     </>
 );
 }
