@@ -20,9 +20,9 @@ export default function Mapbox(props) {
     profile: "mapbox/cycling",
     unit: "metric",
     interactive: props.isInteractive,
-    alternatives: true,
+    alternatives: false,
     language: "pl",
-    congestion: true, // ???????? nie musi byc dodane później
+    congestion: true,
     steps: true,
     controls: {
       inputs: props.isInput,
@@ -43,33 +43,23 @@ export default function Mapbox(props) {
     map.current.addControl(directions, "top-left");
 
     directions.on("route", (object) => {
-      console.log("route event");
-      console.log(object.route);
+      const originCoordinates = directions.getOrigin().geometry.coordinates;
+      const destinationCoordinates = directions.getOrigin().geometry.coordinates;
+
       setRouteData((previousState) => {
         return {
           distance: object.route[0].distance,
           duration: object.route[0].duration,
+          origin: originCoordinates,
+          destination: destinationCoordinates,
         };
       });
     });
   });
 
-  // useEffect(() => {
-  //   if (!map.current) return; // wait for map to initialize
-  //   map.current.on("move", () => {
-  //     setLng(map.current.getCenter().lng.toFixed(4));
-  //     setLat(map.current.getCenter().lat.toFixed(4));
-  //     setZoom(map.current.getZoom().toFixed(2));
-  //   });
-  // });
-
-
-  // const addRouteHandler = (event)=>{
-  //   event.preventDefault()
-  //   console.log(event.target.name)
-
-  // console.log(directions);
+  
   console.log(routeData);
+
 
   return (
     <>

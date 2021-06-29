@@ -12,7 +12,7 @@ function App() {
           <Navbar />
         </header>
       </div>
-      <MapRouting isInteractive={false} isInput={true} />
+      <MapRouting isInteractive={true} isInput={true} />
     </React.Fragment>
   );
 }
