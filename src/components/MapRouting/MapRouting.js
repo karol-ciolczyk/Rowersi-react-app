@@ -13,6 +13,7 @@ export default function Mapbox(props) {
   const [lng, setLng] = useState(19.52);
   const [lat, setLat] = useState(50.1);
   const [zoom, setZoom] = useState(11);
+  const [routeData, setRouteData] = useState({ distance: "", duration: "" });
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
@@ -41,20 +42,15 @@ export default function Mapbox(props) {
     });
     map.current.addControl(directions, "top-left");
 
-    // const marker = new mapboxgl.Marker({
-    //   color: "red",
-    //   draggable: true,
-    // })
-    //   .setLngLat([-116.5616667, 32.93583333])
-    //   .addTo(map.current);
-
-    map.current.on("load", () => {
-      console.log("map load");
-
-      directions.setOrigin([19.6278, 50.0824]);
-      directions.addWaypoint(0, [19.6278, 50.0824]);
-      directions.addWaypoint(1, [19.1278, 50.9124]);
-      directions.setDestination([19.1278, 50.9124]);
+    directions.on("route", (object) => {
+      console.log("route event");
+      console.log(object.route);
+      setRouteData((previousState) => {
+        return {
+          distance: object.route[0].distance,
+          duration: object.route[0].duration,
+        };
+      });
     });
   });
 
@@ -67,25 +63,13 @@ export default function Mapbox(props) {
   //   });
   // });
 
-  directions.on("route", (object) => {
-    console.log(directions);
-    console.log("route event");
-    console.log(object.route);
-  });
 
   // const addRouteHandler = (event)=>{
   //   event.preventDefault()
   //   console.log(event.target.name)
 
-  //  directions.setOrigin([19.6278, 50.0824]);
-  //  directions.addWaypoint(0, [19.6278, 50.0824]);
-  //  directions.addWaypoint(1, [19.1278, 50.9124]);
-  //  // directions.addWaypoint(2, [-115.5616667, 31.93583333]);
-  //  // directions.setDestination([-115.5616667, 31.93583333]);
-  //  // directions.addWaypoint(3, [-116.3616667, 32.53583333]);
-  //  directions.setDestination([19.1278, 50.9124]);
-
-  console.log(directions);
+  // console.log(directions);
+  console.log(routeData);
 
   return (
     <>
