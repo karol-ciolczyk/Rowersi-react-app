@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import {Link} from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,10 +59,16 @@ export default function UserProfileTabs() {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"  >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+        <Tabs value={value} onChange={handleChange} aria-label="user profile sections"  >
+          <Link to="/profile/profilesettings">
+            <Tab label="Profile" {...a11yProps(0)} />
+          </Link>
+          <Link to="/profile/friendslist">
+          <Tab label="Friends" {...a11yProps(1)} />
+          </Link>
+          <Link to="/profile/dashboard">
+          <Tab label="Dashboard" {...a11yProps(2)} />
+          </Link>
         </Tabs>
       </AppBar>
       {/* <TabPanel value={value} index={0}>

@@ -3,7 +3,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Profile } from "./user-profile/Profile.jsx";
+import { Profile } from "./user-profile/profile.jsx";
 
 function App() {
   return (
