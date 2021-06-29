@@ -1,4 +1,5 @@
 import React from "react";
+import MapRouting from "./components/MapRouting/MapRouting"
 
 import Navbar from "./components/Navbar";
 import "./App.css";
@@ -11,6 +12,7 @@ function App() {
           <Navbar />
         </header>
       </div>
+      <MapRouting isInteractive={false} isInput={true} />
     </React.Fragment>
   );
 }

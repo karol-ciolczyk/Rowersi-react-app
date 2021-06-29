@@ -95,18 +95,6 @@ export default function Mapbox(props) {
         </div>
         <div ref={mapContainer} className={classes["map-container"]} />
       </div>
-      <form>
-        <label>start</label>
-        <input type="number" />
-        <label>end</label>
-        <input type="number" />
-        {/* <button name="route1" type="submit" onClick={addRouteHandler}>
-          add route
-        </button>
-        <button name="route2" type="submit" onClick={addRouteHandler}> */}
-        {/* add route2
-        </button> */}
-      </form>
     </>
   );
 }
