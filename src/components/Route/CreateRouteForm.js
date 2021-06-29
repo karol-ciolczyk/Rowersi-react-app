@@ -9,6 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import UploadImages from '../ImageUpload/UploadImages';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -110,7 +111,9 @@ export default function CreateRouteForm() {
                             </FormControl>
                         </div>
                     </form>
+
                 </div>
+                <UploadImages />
             </Paper>
         </Container>
     );
