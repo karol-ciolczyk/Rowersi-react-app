@@ -4,6 +4,7 @@ import UserSessionContext from "./components/context/userSession-context";
 
 import Navbar from "./components/Navbar";
 import "./App.css";
+import CreateRouteForm from "./components/Route/CreateRouteForm";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -22,6 +23,9 @@ function App() {
         <header className="App-header">
           <Navbar onLoggedInData={loggedInDataHandler} />
         </header>
+<main>
+<CreateRouteForm />
+</main>
       </div>
       <MapRouting isInteractive={true} isInput={true} />
     </UserSessionContext.Provider>
