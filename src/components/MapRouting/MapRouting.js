@@ -4,6 +4,7 @@ import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
 
 import classes from "./MapRouting.module.css";
+import { Paper } from "@material-ui/core";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA";
@@ -65,12 +66,12 @@ export default function Mapbox(props) {
 
   return (
     <>
-      <div>
+      <Paper elevation={5} style={{width: "1000px", margin: "auto"}}>
         <div className={classes.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>
         <div ref={mapContainer} className={classes["map-container"]} />
-      </div>
+      </Paper>
       <ButtonAddRouteDataToFirebase routeData={routeData} />
     </>
   );
