@@ -4,19 +4,20 @@ import MapRouting from "./components/MapRouting/MapRouting"
 import Navbar from "./components/Navbar";
 import "./App.css";
 import CreateRouteForm from "./components/Route/CreateRouteForm";
+import CreateNewRoute from "./components/CreateNewRoute/CreateNewRoute";
 
 function App() {
   return (
     <React.Fragment>
       <div className="App">
         <header className="App-header">
-          <Navbar />
+          <Navbar onLoggedInData={loggedInDataHandler} />
         </header>
-<main>
-<CreateRouteForm />
-</main>
+        {/* <main>
+          <CreateRouteForm />
+        </main> */}
+        <CreateNewRoute />
       </div>
-      <MapRouting isInteractive={true} isInput={true} />
     </React.Fragment>
   );
 }
