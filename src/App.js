@@ -10,7 +10,7 @@ function App() {
     <React.Fragment>
       <div className="App">
         <header className="App-header">
-          <Navbar onLoggedInData={loggedInDataHandler} />
+          <Navbar />
         </header>
         {/* <main>
           <CreateRouteForm />
@@ -22,3 +22,5 @@ function App() {
 }
 
 export default App;
+
+
