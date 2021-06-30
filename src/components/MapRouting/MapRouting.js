@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
 
 import classes from "./MapRouting.module.css";
 
@@ -69,6 +70,7 @@ export default function Mapbox(props) {
         </div>
         <div ref={mapContainer} className={classes["map-container"]} />
       </div>
+      <ButtonAddRouteDataToFirebase />
     </>
   );
 }
