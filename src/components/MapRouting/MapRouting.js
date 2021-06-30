@@ -34,6 +34,9 @@ export default function Mapbox(props) {
     zoom: 10,
   });
 
+  const nav = new mapboxgl.NavigationControl();
+  
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -43,6 +46,7 @@ export default function Mapbox(props) {
       zoom: zoom,
     });
     map.current.addControl(new mapboxgl.FullscreenControl());
+    map.current.addControl(nav, "top-right");
     map.current.addControl(directions, "top-left");
 
     directions.on("route", (object) => {
