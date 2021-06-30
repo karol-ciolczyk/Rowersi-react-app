@@ -85,9 +85,7 @@ export default function LoginForm(props) {
     });
   };
 
-  console.log(userData);
   useEffect(() => {
-    console.log("login action");
     props.onLoggedInData(userData.uid);
   }, [userData.uid]);
   

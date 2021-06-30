@@ -68,13 +68,13 @@ export default function Mapbox(props) {
   
   console.log(routeData);
 
+  useEffect(()=>{
+    props.onRouteData(routeData);
+  }, [routeData])
 
   return (
     <>
       <Paper elevation={5} style={{width: "auto", height: "auto", margin: "auto", marginTop: "100px"}}>
-        {/* <div className={classes.sidebar}>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div> */}
         <div ref={mapContainer} className={classes["map-container"]} />
       </Paper>
       <ButtonAddRouteDataToFirebase routeData={routeData} />

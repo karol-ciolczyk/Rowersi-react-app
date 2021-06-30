@@ -13,10 +13,9 @@ const createUserWithEmailAndPassword = (email, password) => {
       return user;
       // ...
     })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ..
+    .catch((reason) => {
+      console.log(reason);
+      alert(reason.message);
     });
 };
 
