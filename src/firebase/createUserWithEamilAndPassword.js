@@ -8,7 +8,7 @@ const createUserWithEmailAndPassword = (email, password) => {
       // Signed in
       var user = userCredential.user;
 
-      firebase.signOut();
+      firebase.auth().signOut();
 
       return user;
       // ...
