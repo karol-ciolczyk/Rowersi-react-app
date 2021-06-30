@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Button from "@material-ui/core/Button";
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,12 +35,17 @@ const useStyles = makeStyles((theme) => ({
             display: 'block',
         },
     },
-    formControl: {
+    formFullWidth: {
         margin: theme.spacing(2),
         width: '55ch',
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
+    },
+    submit: {
+        width: '55ch',
+        margin: '10px auto',
+        padding: '10px',
     },
 }));
 
@@ -66,12 +72,12 @@ export default function CreateRouteForm() {
 
                     <form form className={classes.root} noValidate autoComplete="off" >
                         <div>
-                            <TextField className={classes.formControl}
+                            <TextField className={classes.formFullWidth}
                                 id="routeTitle"
                                 label="Enter a title for your route"
                                 variant="outlined"
                             />
-                            <TextField className={classes.formControl}
+                            <TextField className={classes.formFullWidth}
                                 id="description"
                                 label="Description"
                                 multiline
@@ -89,7 +95,7 @@ export default function CreateRouteForm() {
                                 variant="outlined"
                             />
 
-                            <FormControl variant="outlined" className={classes.formControl}>
+                            <FormControl variant="outlined" className={classes.formFullWidth}>
                                 <InputLabel id="select-region">Region</InputLabel>
                                 <Select
                                     labelId="select-region"
@@ -110,10 +116,17 @@ export default function CreateRouteForm() {
                                 </Select>
                             </FormControl>
                         </div>
+                        <UploadImages />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Submit
+                        </Button>
                     </form>
-
                 </div>
-                <UploadImages />
             </Paper>
         </Container>
     );
