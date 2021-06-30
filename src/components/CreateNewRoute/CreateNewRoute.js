@@ -14,7 +14,7 @@ const CreateNewRoute = ()=>{
   return (
     <div className={style.container}>
       <MapRouting
-        isInteractive={true}
+        isInteractive={false}
         isInput={true}
         onRouteData={routeDataHandler}
       />
