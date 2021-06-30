@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-// import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
+import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
 
 import classes from "./MapRouting.module.css";
 import { Paper } from "@material-ui/core";
@@ -42,6 +42,7 @@ export default function Mapbox(props) {
       center: [lng, lat],
       zoom: zoom,
     });
+    map.current.addControl(new mapboxgl.FullscreenControl());
     map.current.addControl(directions, "top-left");
 
     directions.on("route", (object) => {
@@ -72,7 +73,7 @@ export default function Mapbox(props) {
         </div> */}
         <div ref={mapContainer} className={classes["map-container"]} />
       </Paper>
-      {/* <ButtonAddRouteDataToFirebase routeData={routeData} /> */}
+      <ButtonAddRouteDataToFirebase routeData={routeData} />
     </>
   );
 }
