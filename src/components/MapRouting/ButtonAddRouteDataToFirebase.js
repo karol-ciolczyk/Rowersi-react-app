@@ -9,7 +9,6 @@ const ButtonAddRouteDataToFirebase = ({routeData})=>{
   const ctx = useContext(UserSessionContext);
   const userUid = ctx.userUid
   const routeDataObject = { ...routeData, user: userUid };
-  console.log(ctx);
 
 
   const buttonClickHandler = () => {

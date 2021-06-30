@@ -93,11 +93,7 @@ export default function LoginForm(props) {
   
 
   return (
-    <UserSessionContext.Provider
-      value={{
-        userUid: userData.uid,
-      }}
-    >
+    
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -165,6 +161,5 @@ export default function LoginForm(props) {
           <Copyright />
         </Box>
       </Container>
-    </UserSessionContext.Provider>
   );
 }
