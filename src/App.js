@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import MapRouting from "./components/MapRouting/MapRouting";
 import UserSessionContext from "./components/context/userSession-context";
 
 import Navbar from "./components/Navbar";
-import "./App.css";
 import CreateRouteForm from "./components/Route/CreateRouteForm";
+import CreateNewRoute from "./components/CreateNewRoute/CreateNewRoute";
+import "./App.css";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -23,11 +24,12 @@ function App() {
         <header className="App-header">
           <Navbar onLoggedInData={loggedInDataHandler} />
         </header>
-<main>
-<CreateRouteForm />
-</main>
+        {/* <main>
+          <CreateRouteForm />
+        </main> */}
+        <CreateNewRoute />
       </div>
-      <MapRouting isInteractive={true} isInput={true} />
+      {/* <MapRouting isInteractive={true} isInput={true} /> */}
     </UserSessionContext.Provider>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
+// import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
 
 import classes from "./MapRouting.module.css";
 import { Paper } from "@material-ui/core";
@@ -66,13 +66,13 @@ export default function Mapbox(props) {
 
   return (
     <>
-      <Paper elevation={5} style={{width: "1000px", margin: "auto"}}>
-        <div className={classes.sidebar}>
+      <Paper elevation={5} style={{width: "auto", height: "auto", margin: "auto", marginTop: "100px"}}>
+        {/* <div className={classes.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
+        </div> */}
         <div ref={mapContainer} className={classes["map-container"]} />
       </Paper>
-      <ButtonAddRouteDataToFirebase routeData={routeData} />
+      {/* <ButtonAddRouteDataToFirebase routeData={routeData} /> */}
     </>
   );
 }
