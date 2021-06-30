@@ -6,7 +6,7 @@ const signInWithEmailAndPassword = (email, password) => {
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Signed in
-      var user = userCredential.user;
+      const user = userCredential.user;
       return user;
       // ...
     })
