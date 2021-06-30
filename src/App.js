@@ -1,5 +1,4 @@
 import React from "react";
-import MapRouting from "./components/MapRouting/MapRouting"
 
 import Navbar from "./components/Navbar";
 import "./App.css";
