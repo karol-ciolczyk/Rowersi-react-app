@@ -1,11 +1,11 @@
 import React from "react";
-import MapRouting from "./components/MapRouting/MapRouting"
 
 import Navbar from "./components/Navbar";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
 import CreateRouteForm from "./components/Route/CreateRouteForm";
+import CreateNewRoute from "./components/CreateNewRoute/CreateNewRoute";
 
 function App() {
   return (
@@ -19,14 +19,17 @@ function App() {
             <Route path="/profile" component={Profile}/>
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
-      <main>
+      {/* <main>
         <CreateRouteForm />
-      </main>
+      </main> */}
+      <CreateNewRoute />
       </div>
-      <MapRouting isInteractive={true} isInput={true} />
+      {/* <MapRouting isInteractive={true} isInput={true} /> */}
       </Router>
     </React.Fragment>
   );
 }
 
 export default App;
+
+
