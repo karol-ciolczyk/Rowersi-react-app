@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import ButtonAddRouteDataToFirebase from "./ButtonAddRouteDataToFirebase";
-
+./directions-styles
 import classes from "./MapRouting.module.css";
 import { Paper } from "@material-ui/core";
 
