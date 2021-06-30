@@ -1,5 +1,5 @@
 import React from "react";
-import MapRouting from "./components/MapRouting/MapRouting";
+import MapRouting from "./components/MapRouting/MapRouting"
 
 import Navbar from "./components/Navbar";
 import "./App.css";
@@ -16,15 +16,14 @@ function App() {
             <Navbar />
           </header>
           <Switch>
-            <Route path="/profile">
-              <Profile />
-            </Route>
+            <Route path="/profile" component={Profile}/>
+            {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
-          <main>
-            <CreateRouteForm />
-          </main>
-        </div>
-        <MapRouting isInteractive={true} isInput={true} />
+      <main>
+        <CreateRouteForm />
+      </main>
+      </div>
+      <MapRouting isInteractive={true} isInput={true} />
       </Router>
     </React.Fragment>
   );
