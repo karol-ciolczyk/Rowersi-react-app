@@ -14,39 +14,43 @@ import UploadImages from '../ImageUpload/UploadImages';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(1),
-        },
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
     },
-    container: {
-        marginRight: '0px',
+  },
+  container: {
+    marginRight: "0px",
+    position: "absolute", ////////   added by Karol
+    zIndex: "1", ////////   added by Karol
+    right: "20px", ////////   added by Karol
+    top: "20px", ////////   added by Karol
+  },
+  paper: {
+    marginTop: "20px",
+    paddingBottom: "20px",
+  },
+  title: {
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    paddingTop: "20px",
+    paddingBottom: "10px",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
-    paper: {
-        marginTop: '20px',
-        paddingBottom: '20px',
-    },
-    title: {
-        textTransform: 'uppercase',
-        fontWeight: 'bold',
-        paddingTop: '20px',
-        paddingBottom: '10px',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
-    formFullWidth: {
-        margin: theme.spacing(2),
-        width: '55ch',
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    submit: {
-        width: '55ch',
-        margin: '10px auto',
-        padding: '10px',
-    },
+  },
+  formFullWidth: {
+    margin: theme.spacing(2),
+    width: "55ch",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  submit: {
+    width: "55ch",
+    margin: "10px auto",
+    padding: "10px",
+  },
 }));
 
 export default function CreateRouteForm() {
