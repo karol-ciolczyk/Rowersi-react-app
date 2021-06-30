@@ -65,8 +65,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Navbar() {
+export default function Navbar(props) {
     const classes = useStyles();
+
+    const loggedInDataHandler = (uid) =>{
+      props.onLoggedInData(uid);
+    };
 
     return (
       <div className={classes.root}>
@@ -96,7 +100,7 @@ export default function Navbar() {
             <Flexbox>
               <div>
                 <Modal buttonName="Log In">
-                  <LoginForm />
+                  <LoginForm onLoggedInData={loggedInDataHandler}/>
                 </Modal>
                 <Modal buttonName="Sign Up">
                   <SignUpForm />

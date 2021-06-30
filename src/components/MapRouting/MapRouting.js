@@ -49,6 +49,7 @@ export default function Mapbox(props) {
 
       setRouteData((previousState) => {
         return {
+          ...previousState,
           distance: object.route[0].distance,
           duration: object.route[0].duration,
           origin: originCoordinates,
@@ -70,7 +71,7 @@ export default function Mapbox(props) {
         </div>
         <div ref={mapContainer} className={classes["map-container"]} />
       </div>
-      <ButtonAddRouteDataToFirebase />
+      <ButtonAddRouteDataToFirebase routeData={routeData} />
     </>
   );
 }

@@ -48,11 +48,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
     password: "",
+    uid: "",
   });
 
   const {email, password} = userData;
@@ -69,7 +70,14 @@ export default function LoginForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    signInWithEmailAndPassword(email, password).then(console.log)
+    signInWithEmailAndPassword(email, password).then((object) =>
+      setUserData((previouseState) => {
+        return {
+          ...previouseState,
+          uid: object.uid,
+        };
+      })
+    );
 
     setUserData({
       email: "",
@@ -78,9 +86,18 @@ export default function LoginForm() {
   };
 
   console.log(userData);
+  useEffect(() => {
+    console.log("login action");
+    props.onLoggedInData(userData.uid);
+  }, [userData.uid]);
+  
 
   return (
-    <UserSessionContext.Provider>
+    <UserSessionContext.Provider
+      value={{
+        userUid: userData.uid,
+      }}
+    >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
