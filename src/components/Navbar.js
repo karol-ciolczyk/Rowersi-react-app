@@ -74,11 +74,16 @@ export default function Navbar() {
         <AppBar color="default">
           <Toolbar>
             <Typography
+              component={Link}
+              to={"/"}
               color="secondary"
               className={classes.title}
               variant="h4"
               noWrap
-            >
+              style={{ textDecoration: 'none' }}
+              >
+              
+            
               Rowersi
             </Typography>
             <div className={classes.search}>
