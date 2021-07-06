@@ -33,6 +33,17 @@ export function ProfileSettings() {
             Upload avatar picture
           </Button>
         </label>
+        <input accept="image/*" type="file" id="uploadProfileWallpaper" className={classes.input} />
+        <label htmlFor="uploadProfileWallpaper">
+          <Button
+            variant="contained"
+            color="primary"
+            component="span"
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload profile wallpaper
+          </Button>
+        </label>
       </div>
     </>
   );
