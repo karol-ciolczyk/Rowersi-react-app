@@ -51,6 +51,21 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px auto",
     padding: "10px",
   },
+  routeDetails: {
+    width: "55ch",
+    margin: "auto",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  routeDetaislItem: {
+    width: theme.spacing(16),
+    padding: "2px",
+    // flexShrink: "0",
+    flexGrow: "1",
+    height: "100px",
+    margin: "1px"
+  },
 }));
 
 export default function CreateRouteForm() {
@@ -62,76 +77,95 @@ export default function CreateRouteForm() {
     };
 
     return (
-        <Container maxWidth="sm" className={classes.container}>
-            <Paper className={classes.paper}>
-                <CssBaseline />
-                <div>
-                    <Typography
-                        color="primary"
-                        className={classes.title}
-                        variant="h5"
-                        noWrap>
-                        Create New Route
-                    </Typography>
+      <Container maxWidth="sm" className={classes.container}>
+        <Paper className={classes.paper}>
+          <CssBaseline />
+          <div>
+            <Typography
+              color="primary"
+              className={classes.title}
+              variant="h5"
+              noWrap
+            >
+              Create New Route
+            </Typography>
 
-                    <form form className={classes.root} noValidate autoComplete="off" >
-                        <div>
-                            <TextField className={classes.formFullWidth}
-                                id="routeTitle"
-                                label="Enter a title for your route"
-                                variant="outlined"
-                            />
-                            <TextField className={classes.formFullWidth}
-                                id="description"
-                                label="Description"
-                                multiline
-                                rows={3}
-                                variant="outlined"
-                            />
-                            <TextField
-                                id="distance"
-                                label="Distance in km"
-                                variant="outlined"
-                            />
-                            <TextField
-                                id="time"
-                                label="Time in hours"
-                                variant="outlined"
-                            />
-
-                            <FormControl variant="outlined" className={classes.formFullWidth}>
-                                <InputLabel id="select-region">Region</InputLabel>
-                                <Select
-                                    labelId="select-region"
-                                    id="select-region"
-                                    value={region}
-                                    onChange={handleChange}
-                                    label="Region"
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value={1}>Greater Poland</MenuItem>
-                                    <MenuItem value={2}>Kuyavia</MenuItem>
-                                    <MenuItem value={3}>Mazury</MenuItem>
-                                    <MenuItem value={4}>Podhale</MenuItem>
-                                    <MenuItem value={5}>Pomerania</MenuItem>
-                                    <MenuItem value={6}>Silesia</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                        <UploadImages />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Submit
-                        </Button>
-                    </form>
+            <form className={classes.root} noValidate autoComplete="off">
+              <div>
+                <TextField
+                  className={classes.formFullWidth}
+                  id="routeTitle"
+                  label="Enter a title for your route"
+                  variant="outlined"
+                />
+                <TextField
+                  className={classes.formFullWidth}
+                  id="description"
+                  label="Description"
+                  multiline
+                  rows={3}
+                  variant="outlined"
+                />
+                <div className={classes.routeDetails}>
+                  <Paper
+                    variant="outlined"
+                    elevation={0}
+                    className={classes.routeDetaislItem}
+                  >
+                    Time:
+                  </Paper>
+                  <Paper
+                    variant="outlined"
+                    elevation={0}
+                    className={classes.routeDetaislItem}
+                  >
+                    Distance
+                  </Paper>
+                  <Paper
+                    variant="outlined"
+                    elevation={0}
+                    className={classes.routeDetaislItem}
+                  >
+                    Ascent-Descent 1231
+                  </Paper>
                 </div>
-            </Paper>
-        </Container>
+
+                <FormControl
+                  variant="outlined"
+                  className={classes.formFullWidth}
+                >
+                  <InputLabel id="select-region">Region</InputLabel>
+                  <Select
+                    labelId="select-region"
+                    id="select-region"
+                    value={region}
+                    onChange={handleChange}
+                    label="Region"
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={1}>Greater Poland</MenuItem>
+                    <MenuItem value={2}>Kuyavia</MenuItem>
+                    <MenuItem value={3}>Mazury</MenuItem>
+                    <MenuItem value={4}>Podhale</MenuItem>
+                    <MenuItem value={5}>Pomerania</MenuItem>
+                    <MenuItem value={6}>Silesia</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <UploadImages />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Submit
+              </Button>
+            </form>
+          </div>
+        </Paper>
+      </Container>
     );
 }
