@@ -82,6 +82,11 @@ export default function Mapbox(props) {
       //   object.route[0].legs[0].steps.map((object) => object.maneuver.location)
       // );
 
+      const bbox = [originCoordinates, destinationCoordinates];
+      map.current.fitBounds(bbox, {
+        padding: 100,
+      });
+
       getElevation(originCoordinates, "origin", props.setRouteData);
       getElevation(destinationCoordinates, "destination", props.setRouteData);
 
