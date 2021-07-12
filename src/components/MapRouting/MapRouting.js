@@ -58,7 +58,7 @@ export default function Mapbox(props) {
   });
 
   
-  console.log("loded");
+  // console.log("routeData");
 
 
   return (
