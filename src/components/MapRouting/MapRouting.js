@@ -108,23 +108,16 @@ export default function Mapbox(props) {
 
 
   return (
-    <>
-      <div>
-        <div className={classes.sidebar}>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-        <Paper
-          elevation={5}
-          style={{
-            width: "auto",
-            height: "auto",
-            margin: "auto",
-            marginTop: "100px",
-          }}
-        >
-          <div ref={mapContainer} className={classes["map-container"]} />
-        </Paper>
-      </div>
-    </>
+     <Paper
+        elevation={5}
+        style={{
+          width: "auto",
+          height: "auto",
+          margin: "auto",
+          marginTop: "100px",
+        }}
+      >
+        <div ref={mapContainer} className={classes["map-container"]} />
+      </Paper>
   );
 }
