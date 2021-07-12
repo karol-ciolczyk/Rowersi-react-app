@@ -60,11 +60,10 @@ const useStyles = makeStyles((theme) => ({
   },
   routeDetaislItem: {
     width: theme.spacing(16),
-    padding: "2px",
-    // flexShrink: "0",
     flexGrow: "1",
     height: "100px",
-    margin: "1px"
+    margin: "1px",
+    padding: "20px 3px"
   },
 }));
 
@@ -112,7 +111,6 @@ export default function CreateRouteForm() {
                     elevation={0}
                     className={classes.routeDetaislItem}
                   >
-                    Time:
                   </Paper>
                   <Paper
                     variant="outlined"
