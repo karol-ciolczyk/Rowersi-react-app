@@ -18,14 +18,14 @@ function getElevation(coordinates, wayPoint, setRouteData) {
 
       console.log(highestElevetion);
 
-      if(wayPoint === "origin"){
+      if (wayPoint === "origin") {
         setRouteData((previoueState) => {
           return {
             ...previoueState,
             originElevation: highestElevetion,
           };
         });
-      } else if (wayPoint === "destination"){
+      } else if (wayPoint === "destination") {
         setRouteData((previoueState) => {
           return {
             ...previoueState,
@@ -74,7 +74,11 @@ export default function Mapbox(props) {
       zoom: zoom,
     });
     map.current.addControl(directions, "top-left");
-
+    map.current.on("idle", () => {
+      // console.log(directions, directions.getWaypoints());
+      console.log("idled");
+      const img = map.current.getCanvas().toDataURL();
+    });
     directions.on("route", (object) => {
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates =
@@ -103,21 +107,19 @@ export default function Mapbox(props) {
     });
   });
 
-  
   // console.log("routeData");
 
-
   return (
-     <Paper
-        elevation={5}
-        style={{
-          width: "auto",
-          height: "auto",
-          margin: "auto",
-          marginTop: "100px",
-        }}
-      >
-        <div ref={mapContainer} className={classes["map-container"]} />
-      </Paper>
+    <Paper
+      elevation={5}
+      style={{
+        width: "auto",
+        height: "auto",
+        margin: "auto",
+        marginTop: "100px",
+      }}
+    >
+      <div ref={mapContainer} className={classes["map-container"]} />
+    </Paper>
   );
 }
