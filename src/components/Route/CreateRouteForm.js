@@ -68,7 +68,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateRouteForm(props) {
   const classes = useStyles();
-  const [routeDescription, setRouteDescription] = useState({region: ""});
+  const [routeDescription, setRouteDescription] = useState({region: "", routeTitle:"", routeDescription: "",});
+  const { distance, duration, originElevation, destinationElevation } =
+    props.routeData;
 
   const handleChange = (event) => {
     setRouteDescription((previousState) => {
@@ -79,12 +81,13 @@ export default function CreateRouteForm(props) {
     });
   };
 
-  console.log(routeDescription)
+  const onSubmitHandler = (event)=>{
+    event.preventDefault();
+    const allRouteData = {...routeDescription, ...props.routeData}
 
+    console.log(allRouteData);
+  }
 
-
-  const { distance, duration, originElevation, destinationElevation } =
-    props.routeData;
 
   return (
     <Container maxWidth="sm" className={classes.container}>
@@ -100,7 +103,12 @@ export default function CreateRouteForm(props) {
             Create New Route
           </Typography>
 
-          <form className={classes.root} noValidate autoComplete="off">
+          <form
+            onSubmit={onSubmitHandler}
+            className={classes.root}
+            noValidate
+            autoComplete="off"
+          >
             <div>
               <TextField
                 name="routeTitle"
