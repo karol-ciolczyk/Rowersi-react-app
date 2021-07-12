@@ -7,12 +7,17 @@ import style from "./CreateNewRoute.module.css"
 
 const CreateNewRoute = ()=>{
   const [routeData, setRouteData] = useState({});
-  console.log(routeData);
+  console.log(routeData)
 
   return (
     <div className={style.container}>
-      <MapRouting isInteractive={true} isInput={true} setRouteData={setRouteData}/>
-      <CreateRouteForm routeData={routeData}/>
+      <MapRouting
+        routeId={routeData.routeId}
+        isInteractive={true}
+        isInput={true}
+        setRouteData={setRouteData}
+      />
+      <CreateRouteForm routeData={routeData} />
     </div>
   );
 };

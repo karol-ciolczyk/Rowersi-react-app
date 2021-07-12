@@ -18,14 +18,14 @@ function getElevation(coordinates, wayPoint, setRouteData) {
 
       console.log(highestElevetion);
 
-      if(wayPoint === "origin"){
+      if (wayPoint === "origin") {
         setRouteData((previoueState) => {
           return {
             ...previoueState,
             originElevation: highestElevetion,
           };
         });
-      } else if (wayPoint === "destination"){
+      } else if (wayPoint === "destination") {
         setRouteData((previoueState) => {
           return {
             ...previoueState,
@@ -82,14 +82,25 @@ export default function Mapbox(props) {
       // console.log(
       //   object.route[0].legs[0].steps.map((object) => object.maneuver.location)
       // );
+      console.log(directions, object);
 
       const bbox = [originCoordinates, destinationCoordinates];
       map.current.fitBounds(bbox, {
-        padding: 100,
+        padding: 200,
       });
 
       getElevation(originCoordinates, "origin", props.setRouteData);
       getElevation(destinationCoordinates, "destination", props.setRouteData);
+
+      map.current.once("idle", () => {
+        //  console.log(map.current.getCanvas().toDataURL())
+        props.setRouteData((previousState) => {
+          return {
+            ...previousState,
+            img: map.current.getCanvas().toDataURL(),
+          };
+        });
+      });
 
       props.setRouteData((previousState) => {
         return {
@@ -101,23 +112,21 @@ export default function Mapbox(props) {
         };
       });
     });
+
+
   });
 
-  
-  // console.log("routeData");
-
-
   return (
-     <Paper
-        elevation={5}
-        style={{
-          width: "auto",
-          height: "auto",
-          margin: "auto",
-          marginTop: "100px",
-        }}
-      >
-        <div ref={mapContainer} className={classes["map-container"]} />
-      </Paper>
+    <Paper
+      elevation={5}
+      style={{
+        width: "auto",
+        height: "auto",
+        margin: "auto",
+        marginTop: "100px",
+      }}
+    >
+      <div ref={mapContainer} className={classes["map-container"]} />
+    </Paper>
   );
 }
