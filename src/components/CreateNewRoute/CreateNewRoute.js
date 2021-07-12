@@ -12,7 +12,7 @@ const CreateNewRoute = ()=>{
   return (
     <div className={style.container}>
       <MapRouting isInteractive={true} isInput={true} setRouteData={setRouteData}/>
-      <CreateRouteForm />
+      <CreateRouteForm routeData={routeData}/>
     </div>
   );
 };
