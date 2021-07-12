@@ -137,6 +137,7 @@ export default function SignUpForm(props) {
             autoComplete="current-password"
           />
           <TextField
+            disabled
             onChange={userDataChangeHandler}
             value={nickname}
             variant="outlined"
