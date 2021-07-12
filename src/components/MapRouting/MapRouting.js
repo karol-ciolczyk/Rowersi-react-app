@@ -4,6 +4,22 @@ import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
 import classes from "./MapRouting.module.css";
 
+// Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
+function getElevation(coordinates) {
+  fetch(
+    `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+  )
+    .then((body) => body.json())
+    .then((data) => {
+      const allFeatures = data.features;
+      const elevations = allFeatures.map((object) => object.properties.ele);
+      const highestElevetion = Math.max(...elevations);
+
+      console.log(highestElevetion);
+    })
+    .catch(console.log);
+}
+
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA";
 
