@@ -78,7 +78,6 @@ export default function Mapbox(props) {
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates =
         directions.getDestination().geometry.coordinates;
-      // console.log(object);
       // console.log(
       //   object.route[0].legs[0].steps.map((object) => object.maneuver.location)
       // );

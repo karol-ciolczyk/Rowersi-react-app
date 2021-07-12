@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -68,15 +68,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateRouteForm(props) {
   const classes = useStyles();
-  const [region, setRegion] = React.useState("");
+  const [routeDescription, setRouteDescription] = useState({region: ""});
 
   const handleChange = (event) => {
-    setRegion(event.target.value);
+    setRouteDescription((previousState) => {
+      return {
+        ...previousState,
+        [event.target.name]: event.target.value,
+      };
+    });
   };
+
+  console.log(routeDescription)
+
+
 
   const { distance, duration, originElevation, destinationElevation } =
     props.routeData;
-  console.log(distance, duration, originElevation, destinationElevation);
 
   return (
     <Container maxWidth="sm" className={classes.container}>
@@ -95,18 +103,20 @@ export default function CreateRouteForm(props) {
           <form className={classes.root} noValidate autoComplete="off">
             <div>
               <TextField
+                name="routeTitle"
                 className={classes.formFullWidth}
-                id="routeTitle"
                 label="Enter a title for your route"
                 variant="outlined"
+                onChange={handleChange}
               />
               <TextField
+                name="routeDescription"
                 className={classes.formFullWidth}
-                id="description"
                 label="Description"
                 multiline
                 rows={3}
                 variant="outlined"
+                onChange={handleChange}
               />
               <div className={classes.routeDetails}>
                 <Paper
@@ -128,30 +138,32 @@ export default function CreateRouteForm(props) {
                   elevation={0}
                   className={classes.routeDetaislItem}
                 >
-                  {originElevation ? `A:${originElevation}` : "Origin"}
-                   / 
-                  {destinationElevation ? `B:${destinationElevation}` : "Destination"}
+                  {originElevation ? `A:${originElevation}` : "Origin"}/
+                  {destinationElevation
+                    ? `B:${destinationElevation}`
+                    : "Destination"}
                 </Paper>
               </div>
 
               <FormControl variant="outlined" className={classes.formFullWidth}>
                 <InputLabel id="select-region">Region</InputLabel>
                 <Select
+                  name="region"
                   labelId="select-region"
                   id="select-region"
-                  value={region}
+                  value={routeDescription.region}
                   onChange={handleChange}
                   label="Region"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={1}>Greater Poland</MenuItem>
-                  <MenuItem value={2}>Kuyavia</MenuItem>
-                  <MenuItem value={3}>Mazury</MenuItem>
-                  <MenuItem value={4}>Podhale</MenuItem>
-                  <MenuItem value={5}>Pomerania</MenuItem>
-                  <MenuItem value={6}>Silesia</MenuItem>
+                  <MenuItem value={"Greater Poland"}>Greater Poland</MenuItem>
+                  <MenuItem value={"Kuyavia"}>Kuyavia</MenuItem>
+                  <MenuItem value={"Mazury"}>Mazury</MenuItem>
+                  <MenuItem value={"Podhale"}>Podhale</MenuItem>
+                  <MenuItem value={"Pomerania"}>Pomerania</MenuItem>
+                  <MenuItem value={"Silesia"}>Silesia</MenuItem>
                 </Select>
               </FormControl>
             </div>
