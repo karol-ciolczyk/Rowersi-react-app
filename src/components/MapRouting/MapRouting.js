@@ -13,7 +13,7 @@ export default function Mapbox(props) {
   const [lng, setLng] = useState(19.52);
   const [lat, setLat] = useState(50.1);
   const [zoom, setZoom] = useState(11);
-  const [routeData, setRouteData] = useState({ distance: "", duration: "" });
+  // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
@@ -46,7 +46,7 @@ export default function Mapbox(props) {
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates = directions.getOrigin().geometry.coordinates;
 
-      setRouteData((previousState) => {
+      props.setRouteData((previousState) => {
         return {
           distance: object.route[0].distance,
           duration: object.route[0].duration,
@@ -58,7 +58,7 @@ export default function Mapbox(props) {
   });
 
   
-  console.log(routeData);
+  console.log("loded");
 
 
   return (
