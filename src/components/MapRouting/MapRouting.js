@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import { Paper } from "@material-ui/core";
 
 import classes from "./MapRouting.module.css";
 
@@ -112,7 +113,17 @@ export default function Mapbox(props) {
         <div className={classes.sidebar}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>
-        <div ref={mapContainer} className={classes["map-container"]} />
+        <Paper
+          elevation={5}
+          style={{
+            width: "auto",
+            height: "auto",
+            margin: "auto",
+            marginTop: "100px",
+          }}
+        >
+          <div ref={mapContainer} className={classes["map-container"]} />
+        </Paper>
       </div>
     </>
   );
