@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
@@ -67,7 +67,7 @@ export default function LoginForm() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-
+    props.onSubmitButton();
     signInWithEmailAndPassword(email, password).then(console.log)
 
     setUserData({
