@@ -4,8 +4,8 @@ import { AccountCircle } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import Modal from './Modal/Modal';
-import LoginForm from './LoginForm/LoginForm'
 import SignUpModal from './SignUpModal/SignUpModal';
+import LoginModal from './LoginModal/LoginModal';
 import {Link} from "react-router-dom";
 
 
@@ -101,9 +101,7 @@ export default function Navbar() {
             </div>
             <Flexbox>
               <div>
-                <Modal buttonName="Log In">
-                  <LoginForm />
-                </Modal>
+                <LoginModal />
                 <SignUpModal />
                 <Link to="/profile">
                   <IconButton aria-label="account">
