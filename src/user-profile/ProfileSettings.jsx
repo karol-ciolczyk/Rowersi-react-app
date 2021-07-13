@@ -3,6 +3,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from "firebase";
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -14,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
+  const user = firebase.auth().currentUser;
+  
+  if (user) {
+  console.log(user);
+  };
+
 const addUserBackgroundToFirebase = function (file, uid) {
     firebase
       .storage()
