@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import signInWithEmailAndPassword from "../../firebase/signInWithEmailAndPassword";
+import { LinearProgress } from "@material-ui/core";
 
 function Copyright() {
   return (
@@ -29,6 +30,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+    position: "relative",
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
@@ -45,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  progress: {
+    width: "300px",
+    position: "absolute",
+    top: "300px",
+  },
 }));
 
 export default function LoginForm(props) {
@@ -54,6 +61,7 @@ export default function LoginForm(props) {
     password: "",
     uid: undefined,
   });
+  const [progress, setProgress] = useState(false)
 
   const { email, password } = userData;
 
@@ -68,6 +76,7 @@ export default function LoginForm(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setProgress(true);
     signInWithEmailAndPassword(email, password).then((object) => {
       if(!object) return
       setUserData((previousState) => {
@@ -88,7 +97,8 @@ export default function LoginForm(props) {
   useEffect(() => {
     console.log("checking useEffect")
     if(userData.uid){
-      props.onSubmitButton();
+      alert("success :) :)")
+      props.onSubmitButton(); // to close modal after submit
       props.onLoggedInData(userData.uid);
     }
   }, [userData.uid]);
@@ -98,6 +108,11 @@ export default function LoginForm(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        {progress ? (
+          <LinearProgress className={classes.progress} />
+        ) : (
+          ""
+        )}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
