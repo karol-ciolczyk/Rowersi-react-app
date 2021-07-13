@@ -1,6 +1,7 @@
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,8 +14,19 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-  
-    
+const addUserBackgroundToFirebase = function (file, uid) {
+    firebase
+      .storage()
+      .ref("usersTest/" + uid + "/wallpaper/background.jpg")
+      .put(file);
+  }
+
+const addUserAvatarToFirebase = function (file, uid) {
+    firebase
+      .storage()
+      .ref("usersTest/" + uid + "/avatar/avatar.jpg")
+      .put(file);
+  }  
 
 export function ProfileSettings() {
     const classes = useStyles();
