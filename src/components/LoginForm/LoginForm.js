@@ -80,7 +80,6 @@ export default function LoginForm(props) {
     signInWithEmailAndPassword(email, password).then((object) => {
       if(!object) return
       setUserData((previousState) => {
-        console.log(object)
         return {
           ...previousState,
           uid: object.uid,
@@ -95,7 +94,6 @@ export default function LoginForm(props) {
   };
 
   useEffect(() => {
-    console.log("checking useEffect")
     if(userData.uid){
       alert("success :) :)")
       props.onSubmitButton(); // to close modal after submit
