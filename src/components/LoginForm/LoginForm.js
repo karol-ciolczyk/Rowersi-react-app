@@ -12,8 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import signInWithEmailAndPassword from '../../firebase/signInWithEmailAndPassword'
-import UserSessionContext from "../context/userSession-context";
+import signInWithEmailAndPassword from "../../firebase/signInWithEmailAndPassword";
 
 function Copyright() {
   return (
@@ -53,10 +52,10 @@ export default function LoginForm(props) {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
-    uid: "",
+    uid: undefined,
   });
 
-  const {email, password} = userData;
+  const { email, password } = userData;
 
   const userDataChangeHandler = (event) => {
     setUserData((lastState) => {
@@ -69,15 +68,16 @@ export default function LoginForm(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    signInWithEmailAndPassword(email, password).then((object) =>
-      setUserData((previouseState) => {
+    signInWithEmailAndPassword(email, password).then((object) => {
+      if(!object) return
+      setUserData((previousState) => {
+        console.log(object)
         return {
-          ...previouseState,
+          ...previousState,
           uid: object.uid,
         };
-      })
-    );
+      });
+    });
 
     setUserData({
       email: "",
@@ -86,78 +86,81 @@ export default function LoginForm(props) {
   };
 
   useEffect(() => {
-    props.onLoggedInData(userData.uid);
+    console.log("checking useEffect")
+    if(userData.uid){
+      props.onSubmitButton();
+      props.onLoggedInData(userData.uid);
+    }
   }, [userData.uid]);
-  
+
 
   return (
-    
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Log In
+        </Typography>
+        <form onSubmit={submitHandler} className={classes.form} noValidate>
+          <TextField
+            onChange={userDataChangeHandler}
+            value={email}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            onChange={userDataChangeHandler}
+            value={password}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
             Log In
-          </Typography>
-          <form onSubmit={submitHandler} className={classes.form} noValidate>
-            <TextField
-              onChange={userDataChangeHandler}
-              value={email}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              onChange={userDataChangeHandler}
-              value={password}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Log In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </form>
-        </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
-      </Container>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
   );
 }

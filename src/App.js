@@ -11,6 +11,7 @@ function App() {
   const [userUid, setUserUid] = useState();
 
   const loggedInDataHandler = (uid) => {
+    console.log(uid)
     setUserUid(uid);
   };
 

@@ -3,9 +3,10 @@ import { AppBar, Toolbar, IconButton, Typography, Button, InputBase, fade, makeS
 import { AccountCircle } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
-import Modal from './Modal/Modal';
-import LoginForm from './LoginForm/LoginForm'
+
 import SignUpModal from './SignUpModal/SignUpModal';
+import LoginModal from './LoginModal/LoginModal';
+
 import {Link} from "react-router-dom";
 
 
@@ -105,9 +106,7 @@ export default function Navbar(props) {
             </div>
             <Flexbox>
               <div>
-                <Modal buttonName="Log In">
-                  <LoginForm onLoggedInData={loggedInDataHandler}/>
-                </Modal>
+                <LoginModal onLoggedInData={loggedInDataHandler}/>
                 <SignUpModal />
                 <Link to="/profile">
                   <IconButton aria-label="account">
