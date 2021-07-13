@@ -70,10 +70,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar(props) {
     const classes = useStyles();
 
-    const loggedInDataHandler = (uid) =>{
-      props.onLoggedInData(uid);
-    };
-
     return (
       <div className={classes.root}>
         <AppBar color="default">
@@ -85,10 +81,8 @@ export default function Navbar(props) {
               className={classes.title}
               variant="h4"
               noWrap
-              style={{ textDecoration: 'none' }}
-              >
-              
-            
+              style={{ textDecoration: "none" }}
+            >
               Rowersi
             </Typography>
             <div className={classes.search}>
@@ -106,7 +100,7 @@ export default function Navbar(props) {
             </div>
             <Flexbox>
               <div>
-                <LoginModal onLoggedInData={loggedInDataHandler}/>
+                <LoginModal onLoggedInData={props.onLoggedInData} />
                 <SignUpModal />
                 <Link to="/profile">
                   <IconButton aria-label="account">
