@@ -78,8 +78,8 @@ export default function Mapbox(props) {
       center: [lng, lat],
       zoom: zoom,
     });
-    map.current.addControl(new mapboxgl.FullscreenControl());
-    map.current.addControl(nav, "top-right");
+    map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
+    map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
     directions.on("route", (object) => {
