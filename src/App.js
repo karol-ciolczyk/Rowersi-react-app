@@ -25,7 +25,6 @@ function App() {
     });
   }, []);
 
-  console.log("appp appp app");
   return (
     <UserSessionContext.Provider
       value={{
