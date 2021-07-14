@@ -3,6 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper } from "@material-ui/core";
 
+import style from "./directions-styles";
 import classes from "./MapRouting.module.css";
 
 // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
@@ -52,6 +53,7 @@ export default function Mapbox(props) {
     accessToken: mapboxgl.accessToken,
     profile: "mapbox/cycling",
     unit: "metric",
+    styles: style,
     interactive: props.isInteractive,
     alternatives: false,
     language: "pl",
@@ -65,6 +67,9 @@ export default function Mapbox(props) {
     zoom: 10,
   });
 
+  const nav = new mapboxgl.NavigationControl();
+  
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -73,6 +78,8 @@ export default function Mapbox(props) {
       center: [lng, lat],
       zoom: zoom,
     });
+    map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
+    map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
     directions.on("route", (object) => {

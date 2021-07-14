@@ -72,7 +72,10 @@ export default function LoginModal(props) {
         <Fade in={open}>
           <div className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
-              <LoginForm onSubmitButton={onSubmitButtonHandler} />
+              <LoginForm
+                onLoggedInData={props.onLoggedInData}
+                onSubmitButton={onSubmitButtonHandler}
+              />
             </Paper>
           </div>
         </Fade>
