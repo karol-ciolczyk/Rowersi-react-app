@@ -7,6 +7,7 @@ import Modal from './Modal/Modal';
 import SignUpModal from './SignUpModal/SignUpModal';
 import LoginModal from './LoginModal/LoginModal';
 import {Link} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
     const classes = useStyles();
+    const history = useHistory();
+
+    function newRouteButtonClickHandler() {
+      history.push("/newRoute");
+    }
 
     return (
       <div className={classes.root}>
@@ -80,10 +86,8 @@ export default function Navbar() {
               className={classes.title}
               variant="h4"
               noWrap
-              style={{ textDecoration: 'none' }}
-              >
-              
-            
+              style={{ textDecoration: "none" }}
+            >
               Rowersi
             </Typography>
             <div className={classes.search}>
@@ -101,6 +105,14 @@ export default function Navbar() {
             </div>
             <Flexbox>
               <div>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={newRouteButtonClickHandler}
+                    style={{marginRight: "7px"}}
+                  >
+                    New Route
+                  </Button>
                 <LoginModal />
                 <SignUpModal />
                 <Link to="/profile">
