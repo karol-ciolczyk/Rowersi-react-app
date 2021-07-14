@@ -71,7 +71,7 @@ export default function Navbar() {
     const classes = useStyles();
     const history = useHistory();
 
-    function handleClick() {
+    function newRouteButtonClickHandler() {
       history.push("/newRoute");
     }
 
@@ -108,7 +108,7 @@ export default function Navbar() {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={handleClick}
+                    onClick={newRouteButtonClickHandler}
                     style={{marginRight: "7px"}}
                   >
                     New Route
