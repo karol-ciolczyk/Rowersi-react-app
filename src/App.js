@@ -16,7 +16,7 @@ function App() {
             <Navbar />
           </header>
           <Switch>
-            <Route exact path="/" component={CreateNewRoute}/>
+            <Route exact path="/newRoute" component={CreateNewRoute}/>
             <Route path="/profile" component={Profile}/>
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
