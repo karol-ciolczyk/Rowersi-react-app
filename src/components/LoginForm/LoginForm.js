@@ -12,7 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import signInWithEmailAndPassword from '../../firebase/signInWithEmailAndPassword'
+import signInWithEmailAndPassword from "../../firebase/signInWithEmailAndPassword";
+import { LinearProgress } from "@material-ui/core";
 
 function Copyright() {
   return (
@@ -29,6 +30,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+    position: "relative",
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
@@ -45,16 +47,23 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  progress: {
+    width: "300px",
+    position: "absolute",
+    top: "300px",
+  },
 }));
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
     password: "",
+    uid: undefined,
   });
+  const [progress, setProgress] = useState(false)
 
-  const {email, password} = userData;
+  const { email, password } = userData;
 
   const userDataChangeHandler = (event) => {
     setUserData((lastState) => {
@@ -67,8 +76,16 @@ export default function LoginForm() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    signInWithEmailAndPassword(email, password).then(console.log)
+    setProgress(true);
+    signInWithEmailAndPassword(email, password).then((object) => {
+      if(!object) return
+      setUserData((previousState) => {
+        return {
+          ...previousState,
+          uid: object.uid,
+        };
+      });
+    });
 
     setUserData({
       email: "",
@@ -76,12 +93,24 @@ export default function LoginForm() {
     });
   };
 
-  console.log(userData);
+  useEffect(() => {
+    if(userData.uid){
+      alert("success :) :)")
+      props.onSubmitButton(); // to close modal after submit
+      props.onLoggedInData(userData.uid);
+    }
+  }, [userData.uid]);
+
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        {progress ? (
+          <LinearProgress className={classes.progress} />
+        ) : (
+          ""
+        )}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>

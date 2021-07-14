@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUpForm() {
+export default function SignUpForm(props) {
   const classes = useStyles();
   const [userData, setUserData] = useState({
     email: "",
@@ -59,9 +59,9 @@ export default function SignUpForm() {
   const { email, password, repeatPassword, nickname } = userData;
 
   const userDataChangeHandler = (event) => {
-    setUserData((lastState) => {
+    setUserData((previousState) => {
       return {
-        ...lastState,
+        ...previousState,
         [event.target.name]: event.target.value,
       };
     });
@@ -69,9 +69,12 @@ export default function SignUpForm() {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    
 
-    if(password.trim() === repeatPassword.trim()){
-      createUserWithEmailAndPassword(email, password)
+    if (password.trim() === repeatPassword.trim() && password.trim().length > 0) {
+      createUserWithEmailAndPassword(email, password);
+      props.onSubmitButton();
+      alert("successfully registered");
     } else alert("incorrect password");
 
 
@@ -134,6 +137,7 @@ export default function SignUpForm() {
             autoComplete="current-password"
           />
           <TextField
+            disabled
             onChange={userDataChangeHandler}
             value={nickname}
             variant="outlined"

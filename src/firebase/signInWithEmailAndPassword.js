@@ -6,14 +6,14 @@ const signInWithEmailAndPassword = (email, password) => {
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Signed in
-      var user = userCredential.user;
+      const user = userCredential.user;
       return user;
       // ...
     })
     .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode, errorMessage);
     });
 };
 

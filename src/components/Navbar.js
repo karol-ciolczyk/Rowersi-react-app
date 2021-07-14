@@ -3,10 +3,12 @@ import { AppBar, Toolbar, IconButton, Typography, Button, InputBase, fade, makeS
 import { AccountCircle } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
-import Modal from './Modal/Modal';
-import LoginForm from './LoginForm/LoginForm'
-import SignUpForm from './SignUpForm/SignUpForm'
+
+import SignUpModal from './SignUpModal/SignUpModal';
+import LoginModal from './LoginModal/LoginModal';
+
 import {Link} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,18 +68,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Navbar() {
+export default function Navbar(props) {
     const classes = useStyles();
+    const history = useHistory();
+
+    function newRouteButtonClickHandler() {
+      history.push("/newRoute");
+    }
 
     return (
       <div className={classes.root}>
         <AppBar color="default">
           <Toolbar>
             <Typography
+              component={Link}
+              to={"/"}
               color="secondary"
               className={classes.title}
               variant="h4"
               noWrap
+              style={{ textDecoration: "none" }}
             >
               Rowersi
             </Typography>
@@ -96,12 +106,16 @@ export default function Navbar() {
             </div>
             <Flexbox>
               <div>
-                <Modal buttonName="Log In">
-                  <LoginForm />
-                </Modal>
-                <Modal buttonName="Sign Up">
-                  <SignUpForm />
-                </Modal>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={newRouteButtonClickHandler}
+                    style={{marginRight: "7px"}}
+                  >
+                    New Route
+                  </Button>
+                <LoginModal onLoggedInData={props.onLoggedInData} />
+                <SignUpModal />
                 <Link to="/profile">
                   <IconButton aria-label="account">
                     <AccountCircle />

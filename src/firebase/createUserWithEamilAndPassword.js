@@ -8,15 +8,14 @@ const createUserWithEmailAndPassword = (email, password) => {
       // Signed in
       var user = userCredential.user;
 
-      firebase.signOut();
+      firebase.auth().signOut();
 
       return user;
       // ...
     })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ..
+    .catch((reason) => {
+      console.log(reason);
+      alert(reason.message);
     });
 };
 
