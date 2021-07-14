@@ -2,6 +2,7 @@ import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from "firebase";
+import { useEffect } from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,11 +16,8 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-  const user = firebase.auth().currentUser;
   
-  if (user) {
-  console.log(user);
-  };
+  
 
 const addUserBackgroundToFirebase = function (file, uid) {
     firebase
@@ -37,7 +35,11 @@ const addUserAvatarToFirebase = function (file, uid) {
 
 export function ProfileSettings() {
     const classes = useStyles();
-
+    
+    useEffect(()=>{
+      console.log(firebase.auth().currentUser);
+    },[])
+    
   return (
     <>
       <div className={classes.root}>
