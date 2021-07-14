@@ -59,9 +59,9 @@ export default function SignUpForm(props) {
   const { email, password, repeatPassword, nickname } = userData;
 
   const userDataChangeHandler = (event) => {
-    setUserData((lastState) => {
+    setUserData((previousState) => {
       return {
-        ...lastState,
+        ...previousState,
         [event.target.name]: event.target.value,
       };
     });
