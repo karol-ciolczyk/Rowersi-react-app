@@ -37,8 +37,8 @@ function App() {
             <Navbar onLoggedInData={onLoggedInDataHandler} />
           </header>
           <Switch>
-            <Route exact path="/" component={CreateNewRoute} />
-            <Route path="/profile" component={Profile} />
+            <Route exact path="/newRoute" component={CreateNewRoute}/>
+            <Route path="/profile" component={Profile}/>
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
         </div>

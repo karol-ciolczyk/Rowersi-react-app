@@ -96,7 +96,7 @@ export default function CreateRouteForm(props) {
 
   return (
     <Container maxWidth="sm" className={classes.container}>
-      <Paper className={classes.paper}>
+      <Paper elevation={7} className={classes.paper}>
         <CssBaseline />
         <div>
           <Typography
