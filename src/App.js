@@ -11,7 +11,7 @@ import firebase from "firebase";
 function App() {
   const [userUid, setUserUid] = useState();
 
-  const loggedInDataHandler = (uid) => {
+  const onLoggedInDataHandler = (uid) => {
     console.log(uid);
     setUserUid(uid);
   };
@@ -34,7 +34,7 @@ function App() {
       <Router>
         <div className="App">
           <header className="App-header">
-            <Navbar onLoggedInData={loggedInDataHandler} />
+            <Navbar onLoggedInData={onLoggedInDataHandler} />
           </header>
           <Switch>
             <Route exact path="/" component={CreateNewRoute} />
