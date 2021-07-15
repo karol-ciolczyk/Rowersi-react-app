@@ -28,7 +28,9 @@ export function Profile() {
       .getDownloadURL()
       .then( url => {
         setWallpaperUrl(url)})
-      .catch(()=>"https://picsum.photos/950/300");
+      .catch(()=>{
+        setAvatarUrl("https://picsum.photos/950/300");
+      });
   }
 
   function handleUserAvatar(uid) {
@@ -38,7 +40,9 @@ export function Profile() {
       .getDownloadURL()
       .then( url => {
         setAvatarUrl(url)})
-      .catch(()=>"https://picsum.photos/150/150");
+      .catch(()=>{
+        setAvatarUrl("https://picsum.photos/150/150");
+      });
   }
 
   function renderUserName(uid) {
