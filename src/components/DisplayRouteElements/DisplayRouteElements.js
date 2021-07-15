@@ -40,7 +40,7 @@ const DisplayRouteElements = () => {
   const ctx = useContext(UserSessionContext);
   const classes = useStyles();
 
-  console.log(ctx);
+  // console.log(ctx);
 
   const progressElement = routesData.length > 0 ? "" : <CircularProgress />;
 
