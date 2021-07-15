@@ -65,6 +65,7 @@ const DisplayRouteElements = () => {
         setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
       });
 
+    //////////////////////////////////////////////////////////////////////////////////////
     // const users = firebase.firestore().collection("users");
     // const userRef = firebase.firestore().doc(`users/${ctx.userUid}`);
     // console.log(users);
@@ -100,6 +101,7 @@ const DisplayRouteElements = () => {
     //       })
     //     );
     // });
+    //////////////////////////////////////////////////////////////////////////////////////
   }, [ctx.userUid]);
 
   return (
