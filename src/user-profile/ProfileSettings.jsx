@@ -31,6 +31,7 @@ const addUserAvatarToFirebase = function (file, uid) {
       .put(file);
   }  
 
+
 export function ProfileSettings() {
     const classes = useStyles();
 
@@ -38,10 +39,16 @@ export function ProfileSettings() {
     const { userUid } = userSessionContext;
 
   console.log("#48 uid: " + userUid);
+
+  const submitAvatar = function (target) {
+    addUserAvatarToFirebase(target.target.files[0], userUid);
+    console.log(target);
+  };
+
   return (
     <>
       <div className={classes.root}>
-        <input accept="image/*" type="file" id="uploadAvatarPicture" className={classes.input} />
+        <input accept="image/*" type="file" id="uploadAvatarPicture" className={classes.input}  onChange={submitAvatar}/>
         <label htmlFor="uploadAvatarPicture">
           <Button
             variant="contained"
