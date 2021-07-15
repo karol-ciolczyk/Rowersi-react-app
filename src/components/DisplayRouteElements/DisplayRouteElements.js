@@ -45,67 +45,67 @@ const DisplayRouteElements = () => {
   const progressElement = routesData.length > 0 ? "" : <CircularProgress />;
 
   useEffect(() => {
-    // firebase
-    //   .firestore()
-    //   .collection("routes")
-    //   .get()
-    //   .then((response) => {
-    //     const doscsArray = response.docs;
-    //     const routeDataObjects = doscsArray.map((object) => {
-    //       const seconds = object.data().duration;
-    //       const time = new Date(seconds * 1000).toISOString().substr(11, 8);
-    //       const distanceInKm = (object.data().distance / 1000).toFixed(3);
-    //       return {
-    //         ...object.data(),
-    //         routeId: object.id,
-    //         duration: time,
-    //         distance: distanceInKm,
-    //       };
-    //     });
-    //     setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
-    //   });
-
-    //////////////////////////////////////////////////////////////////////////////////////
-    const users = firebase.firestore().collection("users");
-    const userRef = firebase.firestore().doc(`users/${ctx.userUid}`);
-    console.log(users);
-
-    users.get().then((object) => {
-      const usersIdArray = object.docs.map((obj) => obj.id);
-      let routeObjectFinished = [];
-      usersIdArray.map((id, index) => {
-        firebase
-          .firestore()
-          .doc(`users/${id}`)
-          .collection("routes")
-          .get()
-          .then((response) => {
-            // console.log(response.docs);
-            const routeDocs = response.docs;
-            const rotesData = routeDocs.map((obj) => {
-              return { ...obj.data(), id: obj.id };
-            });
-            const routeDataObjects = rotesData.map((object) => {
-              const seconds = object.duration;
-              const time = new Date(seconds * 1000).toISOString().substr(11, 8);
-              const distanceInKm = (object.distance / 1000).toFixed(3);
-              return {
-                ...object,
-                routeId: object.id,
-                duration: time,
-                distance: distanceInKm,
-              };
-            });
-            // console.log(routeDataObjects);
-            routeObjectFinished = routeObjectFinished.concat(routeDataObjects);
-            if (index === usersIdArray.length - 1) {
-              console.log(routeObjectFinished);
-              setRoutesData(routeObjectFinished);
-            }
-          });
+    firebase
+      .firestore()
+      .collection("routes")
+      .get()
+      .then((response) => {
+        const doscsArray = response.docs;
+        const routeDataObjects = doscsArray.map((object) => {
+          const seconds = object.data().duration;
+          const time = new Date(seconds * 1000).toISOString().substr(11, 8);
+          const distanceInKm = (object.data().distance / 1000).toFixed(3);
+          return {
+            ...object.data(),
+            routeId: object.id,
+            duration: time,
+            distance: distanceInKm,
+          };
+        });
+        setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
       });
-    });
-    //////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // const users = firebase.firestore().collection("users");
+    // const userRef = firebase.firestore().doc(`users/${ctx.userUid}`);
+    // console.log(users);
+
+    // users.get().then((object) => {
+    //   const usersIdArray = object.docs.map((obj) => obj.id);
+    //   let routeObjectFinished = [];
+    //   usersIdArray.map((id, index) => {
+    //     firebase
+    //       .firestore()
+    //       .doc(`users/${id}`)
+    //       .collection("routes")
+    //       .get()
+    //       .then((response) => {
+    //         // console.log(response.docs);
+    //         const routeDocs = response.docs;
+    //         const rotesData = routeDocs.map((obj) => {
+    //           return { ...obj.data(), id: obj.id };
+    //         });
+    //         const routeDataObjects = rotesData.map((object) => {
+    //           const seconds = object.duration;
+    //           const time = new Date(seconds * 1000).toISOString().substr(11, 8);
+    //           const distanceInKm = (object.distance / 1000).toFixed(3);
+    //           return {
+    //             ...object,
+    //             routeId: object.id,
+    //             duration: time,
+    //             distance: distanceInKm,
+    //           };
+    //         });
+    //         // console.log(routeDataObjects);
+    //         routeObjectFinished = routeObjectFinished.concat(routeDataObjects);
+    //         if (index === usersIdArray.length - 1) {
+    //           console.log(routeObjectFinished);
+    //           setRoutesData(routeObjectFinished.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
+    //         }
+    //       });
+    //   });
+    // });
+    ////////////////////////////////////////////////////////////////////////////////////
   }, [ctx.userUid]);
 
   return (
