@@ -73,7 +73,7 @@ const DisplayRouteElements = () => {
     users.get().then((object) => {
       const usersIdArray = object.docs.map((obj) => obj.id);
       let routeObjectFinished = [];
-      const obj = usersIdArray.map((id, index) => {
+      usersIdArray.map((id, index) => {
         firebase
           .firestore()
           .doc(`users/${id}`)
@@ -82,7 +82,9 @@ const DisplayRouteElements = () => {
           .then((response) => {
             // console.log(response.docs);
             const routeDocs = response.docs;
-            const rotesData = routeDocs.map((obj) => { return {...obj.data(), id: obj.id} });
+            const rotesData = routeDocs.map((obj) => {
+              return { ...obj.data(), id: obj.id };
+            });
             const routeDataObjects = rotesData.map((object) => {
               const seconds = object.duration;
               const time = new Date(seconds * 1000).toISOString().substr(11, 8);
@@ -96,9 +98,9 @@ const DisplayRouteElements = () => {
             });
             // console.log(routeDataObjects);
             routeObjectFinished = routeObjectFinished.concat(routeDataObjects);
-            if(index === usersIdArray.length-1){
+            if (index === usersIdArray.length - 1) {
               console.log(routeObjectFinished);
-              setRoutesData(routeObjectFinished)
+              setRoutesData(routeObjectFinished);
             }
           });
       });
