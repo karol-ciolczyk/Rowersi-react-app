@@ -17,7 +17,7 @@ function App() {
     setUserUid(uid);
   };
 
-  useEffect(() => {  // this one needed to setUserUid after refreshing browser
+  useEffect(() => {  // this is needed to setUserUid after refreshing browser
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         console.log(user);
