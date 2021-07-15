@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { Paper } from "@material-ui/core";
 import firebase from "firebase";
 import { Link } from "react-router-dom";
 
@@ -9,9 +8,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-// import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +38,8 @@ const DisplayRouteElements = () => {
   const [routesData, setRoutesData] = useState([]);
   const classes = useStyles();
 
+  const progressElement = routesData.length > 0 ? '' : <CircularProgress />;
+
   useEffect(() => {
     firebase
       .firestore()
@@ -58,13 +58,13 @@ const DisplayRouteElements = () => {
             distance: distanceInKm,
           };
         });
-        console.log(routeDataObjects);
         setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
       });
   }, []);
 
   return (
     <div className={classes.gridRoot}>
+      {progressElement}
       <Grid container spacing={0}>
         {routesData.map((object) => (
           <Grid key={object.routeId} item xs={3}>
