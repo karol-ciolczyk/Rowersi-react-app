@@ -40,10 +40,14 @@ export function ProfileSettings() {
 
   console.log("#48 uid: " + userUid);
 
-  const submitAvatar = function (target) {
-    addUserAvatarToFirebase(target.target.files[0], userUid);
-    console.log(target);
+  const submitAvatar = function (event) {
+    addUserAvatarToFirebase(event.target.files[0], userUid);
   };
+  
+  const submitWallpaper = function (event) {
+    addUserBackgroundToFirebase(event.target.files[0], userUid);
+  };
+
 
   return (
     <>
@@ -59,7 +63,7 @@ export function ProfileSettings() {
             Upload avatar picture
           </Button>
         </label>
-        <input accept="image/*" type="file" id="uploadProfileWallpaper" className={classes.input} />
+        <input accept="image/*" type="file" id="uploadProfileWallpaper" className={classes.input} onChange={submitWallpaper}/>
         <label htmlFor="uploadProfileWallpaper">
           <Button
             variant="contained"
