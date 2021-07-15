@@ -71,18 +71,19 @@ const DisplayRouteElements = () => {
     // console.log(users);
 
     // users.get().then((object) => {
-    //   const usersId = object.docs.map((obj) => obj.id);
-    //   const obj = usersId.map((id) =>
+    //   const usersIdArray = object.docs.map((obj) => obj.id);
+    //   let routeObjectFinished = [];
+    //   const obj = usersIdArray.map((id, index) => {
     //     firebase
     //       .firestore()
     //       .doc(`users/${id}`)
     //       .collection("routes")
     //       .get()
     //       .then((response) => {
-    //         console.log(response.docs);
+    //         // console.log(response.docs);
     //         const routeDocs = response.docs;
     //         const rotesData = routeDocs.map((obj) => obj.data());
-    //         console.log(rotesData);
+    //         // console.log(rotesData);
     //         const routeDataObjects = rotesData.map((object) => {
     //           const seconds = object.duration;
     //           const time = new Date(seconds * 1000).toISOString().substr(11, 8);
@@ -95,11 +96,12 @@ const DisplayRouteElements = () => {
     //           };
     //         });
     //         // console.log(routeDataObjects);
-    //         setRoutesData((previousState)=>{
-    //           return [...routeDataObjects];
-    //         })
-    //       })
-    //     );
+    //         routeObjectFinished = routeObjectFinished.concat(routeDataObjects);
+    //         if(index === usersIdArray.length-1){
+    //           console.log(routeObjectFinished);
+    //         }
+    //       });
+    //   });
     // });
     //////////////////////////////////////////////////////////////////////////////////////
   }, [ctx.userUid]);
