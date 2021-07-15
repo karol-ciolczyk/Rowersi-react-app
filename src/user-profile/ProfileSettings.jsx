@@ -1,58 +1,59 @@
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import firebase from "firebase";
 import { useContext } from "react";
-import UserSessionContext from '../components/context/userSession-context.js';
-
+import UserSessionContext from "../components/context/userSession-context.js";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
     },
-    input: {
-      display: 'none',
-    },
-  }));
-  
+  },
+  input: {
+    display: "none",
+  },
+}));
+
 const addUserBackgroundToFirebase = function (file, uid) {
-    firebase
-      .storage()
-      .ref("usersTest/" + uid + "/wallpaper/background.jpg")
-      .put(file);
-  }
+  firebase
+    .storage()
+    .ref("usersTest/" + uid + "/wallpaper/background.jpg")
+    .put(file);
+};
 
 const addUserAvatarToFirebase = function (file, uid) {
-    firebase
-      .storage()
-      .ref("usersTest/" + uid + "/avatar/avatar.jpg")
-      .put(file);
-  }  
-
+  firebase
+    .storage()
+    .ref("usersTest/" + uid + "/avatar/avatar.jpg")
+    .put(file);
+};
 
 export function ProfileSettings() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const userSessionContext = useContext(UserSessionContext);
-    const { userUid } = userSessionContext;
-
-  console.log("#48 uid: " + userUid);
+  const userSessionContext = useContext(UserSessionContext);
+  const { userUid } = userSessionContext;
 
   const submitAvatar = function (event) {
     addUserAvatarToFirebase(event.target.files[0], userUid);
   };
-  
+
   const submitWallpaper = function (event) {
     addUserBackgroundToFirebase(event.target.files[0], userUid);
   };
 
-
   return (
     <>
       <div className={classes.root}>
-        <input accept="image/*" type="file" id="uploadAvatarPicture" className={classes.input}  onChange={submitAvatar}/>
+        <input
+          accept="image/*"
+          type="file"
+          id="uploadAvatarPicture"
+          className={classes.input}
+          onChange={submitAvatar}
+        />
         <label htmlFor="uploadAvatarPicture">
           <Button
             variant="contained"
@@ -63,7 +64,13 @@ export function ProfileSettings() {
             Upload avatar picture
           </Button>
         </label>
-        <input accept="image/*" type="file" id="uploadProfileWallpaper" className={classes.input} onChange={submitWallpaper}/>
+        <input
+          accept="image/*"
+          type="file"
+          id="uploadProfileWallpaper"
+          className={classes.input}
+          onChange={submitWallpaper}
+        />
         <label htmlFor="uploadProfileWallpaper">
           <Button
             variant="contained"

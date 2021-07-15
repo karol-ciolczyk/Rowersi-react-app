@@ -6,28 +6,50 @@ import { Switch, Route } from "react-router-dom";
 import { FriendsList } from "./FriendsList";
 import { Dashboard } from "./Dashboard";
 import { ProfileSettings } from "./ProfileSettings";
+import UserSessionContext from '../components/context/userSession-context.js';
+import { useContext, useState } from "react";
+import firebase from "firebase";
 
 export function Profile() {
-  function handleUserWallpaper() {
-    //if user has uploaded wallpaper use it or get default wallpaper
-    return "https://picsum.photos/950/300";
+
+  const userSessionContext = useContext(UserSessionContext);
+  const { userUid } = userSessionContext;
+
+  const [ avatarUrl, setAvatarUrl ] = useState("https://picsum.photos/950/300")
+
+  handleUserWallpaper(userUid)
+
+  function handleUserWallpaper(uid) {
+    // console.log('#20 uid: '+ uid);
+    // console.log(firebase
+    //   .storage()
+    //   .ref("usersTest/" + uid + "/wallpaper/background.jpg")
+    //   .getDownloadURL()
+    //   .catch(()=>"https://picsum.photos/950/300"));
+      firebase
+      .storage()
+      .ref("usersTest/" + uid + "/wallpaper/background.jpg")
+      .getDownloadURL()
+      .then( url => {
+        setAvatarUrl(url)})
+      .catch(()=>"https://picsum.photos/950/300");
   }
 
-  function handleUserAvatar() {
+  function handleUserAvatar(uid) {
     //if user has uploaded avatar picture use it or get default avatar
     return "https://picsum.photos/150/150";
   }
 
-  function renderUserName() {
+  function renderUserName(uid) {
     // render user name along avatar pic, if there is no name use placeholder
     return "Anonymus";
   }
   return (
     <>
-      <UserWallpaper url={handleUserWallpaper()} />
+      <UserWallpaper url={avatarUrl} />
       <div className="userProfile_navBar">
-        <UserAvatar url={handleUserAvatar()} />
-        <span>{renderUserName()}</span>
+        <UserAvatar url={handleUserAvatar(userUid)} />
+        <span>{renderUserName(userUid)}</span>
       </div>
       <UserProfileTabs />
       <div>

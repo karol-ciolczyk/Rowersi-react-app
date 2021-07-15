@@ -1,6 +1,7 @@
 .profile-userWallpaper {
     width: 100%;
     height: 300px;
+    object-fit: cover;
     /* margin-top: 64px; to compensate fixed navbar */
 }
 
