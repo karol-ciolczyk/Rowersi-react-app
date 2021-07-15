@@ -15,29 +15,30 @@ export function Profile() {
   const userSessionContext = useContext(UserSessionContext);
   const { userUid } = userSessionContext;
 
-  const [ avatarUrl, setAvatarUrl ] = useState("https://picsum.photos/950/300")
+  const [ wallpaperUrl, setWallpaperUrl ] = useState("https://picsum.photos/950/300");
+  const [ avatarUrl, setAvatarUrl ] = useState("https://picsum.photos/150/150");
 
-  handleUserWallpaper(userUid)
+  handleUserWallpaper(userUid);
+  handleUserAvatar(userUid);
 
   function handleUserWallpaper(uid) {
-    // console.log('#20 uid: '+ uid);
-    // console.log(firebase
-    //   .storage()
-    //   .ref("usersTest/" + uid + "/wallpaper/background.jpg")
-    //   .getDownloadURL()
-    //   .catch(()=>"https://picsum.photos/950/300"));
       firebase
       .storage()
       .ref("usersTest/" + uid + "/wallpaper/background.jpg")
       .getDownloadURL()
       .then( url => {
-        setAvatarUrl(url)})
+        setWallpaperUrl(url)})
       .catch(()=>"https://picsum.photos/950/300");
   }
 
   function handleUserAvatar(uid) {
-    //if user has uploaded avatar picture use it or get default avatar
-    return "https://picsum.photos/150/150";
+    firebase
+      .storage()
+      .ref("usersTest/" + uid + "/avatar/avatar.jpg")
+      .getDownloadURL()
+      .then( url => {
+        setAvatarUrl(url)})
+      .catch(()=>"https://picsum.photos/150/150");
   }
 
   function renderUserName(uid) {
@@ -46,9 +47,9 @@ export function Profile() {
   }
   return (
     <>
-      <UserWallpaper url={avatarUrl} />
+      <UserWallpaper url={wallpaperUrl} />
       <div className="userProfile_navBar">
-        <UserAvatar url={handleUserAvatar(userUid)} />
+        <UserAvatar url={avatarUrl} />
         <span>{renderUserName(userUid)}</span>
       </div>
       <UserProfileTabs />
