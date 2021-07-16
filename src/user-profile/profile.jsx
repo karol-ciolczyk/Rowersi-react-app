@@ -44,6 +44,7 @@ export function Profile() {
         setAvatarUrl("https://picsum.photos/150/150");
       });
   }
+  
 
   function renderUserName(uid) {
     // render user name along avatar pic, if there is no name use placeholder
