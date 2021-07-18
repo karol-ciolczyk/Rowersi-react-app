@@ -12,20 +12,17 @@ export function FriendsList() {
   //   firebase.firestore().collection('usersTest').doc(userUid).get().then(doc => console.log(doc.data().following));
 
   useEffect(() => {
-    async function fetchData() {
-     const resoult = await firebase
+    return firebase
       .firestore()
       .collection("usersTest")
       .doc(userUid)
-      .get();
-    //   .then(doc => setFriendsList(doc.data().following));
-    setFriendsList(resoult.data().following);
-    fetchData();
-      console.log(friendsList)
-    };
-  }, []);
+      .get()
+      .then(doc => setFriendsList(doc.data().following))
+      .catch( error => console.log(error));
+    // setFriendsList(resoult);
+  }, [userUid]);
   ;
-
+  
   //   const renderFriends = friendsList.map((item) => (
   //     <li>{item}</li>
   //   ));
