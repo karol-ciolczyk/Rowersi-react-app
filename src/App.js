@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
 import firebase from "firebase";
 import DisplayRouteElements from "./components/DisplayRouteElements/DisplayRouteElements";
+import HomePage from "./components/HomePage/HomePage";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -37,6 +38,9 @@ function App() {
           <header className="App-header">
             <Navbar onLoggedInData={onLoggedInDataHandler} />
           </header>
+          <main>
+            <HomePage />
+          </main>
           <Switch>
             <Route exact path="/newRoute" component={CreateNewRoute} />
             <Route path="/profile" component={Profile} />
