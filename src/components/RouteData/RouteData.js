@@ -8,14 +8,17 @@ import Rating from "@material-ui/lab/Rating";
 import { useParams } from "react-router-dom";
 
 import classes from "./RouteData.module.css";
-import style from "./directions-styles";
+import style from "../mapStyle/directions-styles";
+
+// 0: 19.433605529438495
+// 1: 52.09458858099802
 
 const RouteData = (props) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(19.52);
-  const [lat, setLat] = useState(50.1);
-  const [zoom, setZoom] = useState(11);
+  const [lng, setLng] = useState(19.433605529438495);
+  const [lat, setLat] = useState(52.09458858099802);
+  const [zoom, setZoom] = useState(6);
   const [routeData, setRouteData] = useState({});
   const { routeId } = useParams();
 
@@ -133,10 +136,10 @@ const RouteData = (props) => {
           </div>
           <div>
             <Box component="fieldset" mb={3} borderColor="transparent">
-              <Typography component="legend">Custom empty icon</Typography>
+              <Typography component="legend">Rate this route</Typography>
               <Rating
                 name="customized-empty"
-                defaultValue={2}
+                defaultValue={4}
                 precision={0.5}
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}
                 size="large"

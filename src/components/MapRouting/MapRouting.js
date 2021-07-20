@@ -3,7 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper } from "@material-ui/core";
 
-import style from "./directions-styles";
+import style from "../mapStyle/directions-styles";
 import classes from "./MapRouting.module.css";
 
 // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
