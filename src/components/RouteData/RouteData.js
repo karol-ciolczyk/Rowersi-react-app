@@ -2,6 +2,10 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
+import classes from "./RouteData.module.css"
+import style from "./directions-styles";
+
+
 const RouteData = (props) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -81,7 +85,9 @@ const RouteData = (props) => {
   return (
     <div>
       <div></div>
-      <div></div>
+      <div>
+        <div ref={mapContainer} className={classes["map-container"]} />
+      </div>
     </div>
   );
 };
