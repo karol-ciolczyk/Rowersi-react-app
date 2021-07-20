@@ -8,7 +8,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
 } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
 import firebase from "firebase";
@@ -34,6 +33,10 @@ function App() {
     });
   }, []);
 
+  useState(()=>{
+   
+  }, routeId)
+
   return (
     <UserSessionContext.Provider
       value={{
@@ -49,10 +52,10 @@ function App() {
             <Route exact path="/newRoute" component={CreateNewRoute} />
             <Route path="/profile" component={Profile} />
             <Route path="/" component={DisplayRouteElements} />
-            <Route path={`route/${routeId}`}>
-              <RouteData routeId={routeId} />
-            </Route>
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
+          </Switch>
+          <Switch>
+            <Route path="/route/:routeId" component={RouteData} />
           </Switch>
         </div>
       </Router>

@@ -5,6 +5,7 @@ import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Avatar, Paper, Typography, Box } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
+import { useParams } from "react-router-dom";
 
 import classes from "./RouteData.module.css";
 import style from "./directions-styles";
@@ -16,15 +17,18 @@ const RouteData = (props) => {
   const [lng, setLng] = useState(19.52);
   const [lat, setLat] = useState(50.1);
   const [zoom, setZoom] = useState(11);
-  const [routeData, setRouteData] = useState({});
+  // const [routeData, setRouteData] = useState(undefined);
   // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
+
+  const { routeId } = useParams();
+  console.log(routeId);
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
     profile: "mapbox/cycling",
     unit: "metric",
     styles: style,
-    interactive: props.isInteractive,
+    interactive: false,
     alternatives: false,
     language: "pl",
     congestion: true,
@@ -50,58 +54,24 @@ const RouteData = (props) => {
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
-
-    // directions.on("route", (object) => {
-    //   const originCoordinates = directions.getOrigin().geometry.coordinates;
-    //   const destinationCoordinates =
-    //     directions.getDestination().geometry.coordinates;
-    //   // console.log(
-    //   //   object.route[0].legs[0].steps.map((object) => object.maneuver.location)
-    //   // );
-    //   console.log(directions, object);
-
-    //   const bbox = [originCoordinates, destinationCoordinates];
-    //   map.current.fitBounds(bbox, {
-    //     padding: 200,
-    //   });
-
-    //   map.current.once("idle", () => {
-    //     //  console.log(map.current.getCanvas().toDataURL())
-    //     props.setRouteData((previousState) => {
-    //       return {
-    //         ...previousState,
-    //         img: map.current.getCanvas().toDataURL(),
-    //       };
-    //     });
-    //   });
-
-    //   props.setRouteData((previousState) => {
-    //     return {
-    //       ...previousState,
-    //       distance: object.route[0].distance,
-    //       duration: object.route[0].duration,
-    //       origin: originCoordinates,
-    //       destination: destinationCoordinates,
-    //     };
-    //   });
-    // });
+    map.current.once("idle", () => {
+      firebase
+        .firestore()
+        .collection("routes")
+        .doc(`${routeId}`)
+        .get()
+        .then((response) => {
+          const routeData = response.data();
+          // setRouteData(routeData);
+          directions.setOrigin(routeData.origin);
+          directions.setDestination(routeData.destination);
+           const bbox = [routeData.origin, routeData.destination];
+           map.current.fitBounds(bbox, {
+             padding: 100,
+           });
+        })
+    });
   });
-
-  useEffect(() => {
-    firebase
-      .firestore()
-      .collection("routes")
-      .doc("X1bY5KGa8oxBwrc1JOVW")
-      .get()
-      .then((response) => {
-        const routeData = response.data();
-        setRouteData(routeData);
-        directions.setOrigin(routeData.origin);
-        directions.setDestination(routeData.destination);
-      });
-  }, []);
-
-  console.log(routeData);
 
   return (
     <div className={classes.flexContainer}>
