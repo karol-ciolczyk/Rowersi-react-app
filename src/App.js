@@ -51,7 +51,7 @@ function App() {
           <Switch>
             <Route exact path="/newRoute" component={CreateNewRoute} />
             <Route path="/profile" component={Profile} />
-            <Route path="/" component={DisplayRouteElements} />
+            <Route exact path="/" component={DisplayRouteElements} />
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
           <Switch>

@@ -16,11 +16,8 @@ const RouteData = (props) => {
   const [lng, setLng] = useState(19.52);
   const [lat, setLat] = useState(50.1);
   const [zoom, setZoom] = useState(11);
-  // const [routeData, setRouteData] = useState(undefined);
-  // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
-
+  const [routeData, setRouteData] = useState({});
   const { routeId } = useParams();
-  console.log(routeId);
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
@@ -61,7 +58,17 @@ const RouteData = (props) => {
         .get()
         .then((response) => {
           const routeData = response.data();
-          // setRouteData(routeData);
+          const seconds = routeData.duration;
+          const time = new Date(seconds * 1000).toISOString().substr(11, 8);
+          const distanceInKm = (routeData.distance / 1000).toFixed(3);
+          setRouteData((previousState)=>{
+            return {
+              ...previousState,
+              ...routeData,
+              duration: time,
+              distance: distanceInKm,
+            };
+          });
           directions.setOrigin(routeData.origin);
           directions.setDestination(routeData.destination);
            const bbox = [routeData.origin, routeData.destination];
@@ -71,6 +78,8 @@ const RouteData = (props) => {
         })
     });
   });
+
+  console.log(routeData)
 
   return (
     <div className={classes.flexContainer}>
@@ -83,27 +92,27 @@ const RouteData = (props) => {
               style={{ height: "100px", width: "100px" }}
             />
             <div>
-              <h2>User Name</h2>
+              <h2>Stefek Stafański</h2>
             </div>
           </div>
           <div className={classes.routeData}>
             <div>
-              <h1>Route Title: Kraków - Młoszowa-Trzebnia-Chrzanów</h1>
+              <h1>{routeData.routeTitle}</h1>
             </div>
             <div className={classes.routeNumberDataContainer}>
               <Paper>
                 <Typography variant="h6" style={{ padding: "20px" }}>
-                  Distance: 100km
+                  Distance: {routeData.distance}KM
                 </Typography>
               </Paper>
               <Paper>
                 <Typography variant="h6" style={{ padding: "20px" }}>
-                  Time: 12:45:44
+                  Time: {routeData.duration}
                 </Typography>
               </Paper>
               <Paper>
                 <Typography variant="h6" style={{ padding: "20px" }}>
-                  Heighest Point: 350m npm
+                  Dest. elevation: {routeData.destinationElevation}m
                 </Typography>
               </Paper>
             </div>
@@ -112,9 +121,7 @@ const RouteData = (props) => {
         <div className={classes.routeDescriptionContainer}>
           <Paper>
             <Typography variant="body1" style={{ padding: "20px" }}>
-              Route description: Aboute route
-              Trasa fajna pełan wrażeń
-              Na maksa odlotowa polecam każdemu kto chce pojeździć ostro na rowerze
+              Route description: {routeData.routeDescription}
             </Typography>
           </Paper>
         </div>
