@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 
 import classes from "./RouteData.module.css";
 import style from "./directions-styles";
-import { CompassCalibrationOutlined } from "@material-ui/icons";
 
 const RouteData = (props) => {
   const mapContainer = useRef(null);
