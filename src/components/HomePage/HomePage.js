@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
+import PopularRegions from './PopularRegions';
 
 const useStyle = makeStyles((theme) => ({
     heroImage: {
@@ -30,7 +31,7 @@ const useStyle = makeStyles((theme) => ({
             marginLeft: '3rem',
             fontSize: '3rem',
         },
-    }
+    },
 }));
 
 export default function HomePage() {
@@ -40,13 +41,16 @@ export default function HomePage() {
         setChecked(true);
     }, [])
     return (
-        <div className={classes.heroImage}>
-            <CssBaseline />
-            <Collapse in={checked} {...(true ? { timeout: 1000 } : {})} collapsedHeight={50}>
-                <div>
-                    <h1 className={classes.title}>Biking... <br />Feel Good</h1>
-                </div>
-            </Collapse>
+        <div className={classes.root} id="heroImage">
+            <div className={classes.heroImage}>
+                <CssBaseline />
+                <Collapse in={checked} {...(true ? { timeout: 1000 } : {})} collapsedHeight={50}>
+                    <div>
+                        <h1 className={classes.title}>Biking... <br />Feel Good</h1>
+                    </div>
+                </Collapse>
+            </div>
+            <PopularRegions />
         </div>
     )
 }
