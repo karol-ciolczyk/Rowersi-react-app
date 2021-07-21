@@ -18,39 +18,7 @@ import {
 
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
-
-// const fetchDirectionData = () => {
-//   fetch(
-//     "https://api.mapbox.com/directions/v5/mapbox/cycling/19.526008,50.137423;19.288943,50.202954?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA"
-//   )
-//     .then((body) => {
-//       return body.json();
-//     })
-//     .then((response) => {
-//       console.log(response);
-//       const allCoordinates = response.routes[0].geometry.coordinates;
-//       let chartData = []
-//       allCoordinates.forEach((coordinate) => {
-//         const stringCoordinate = coordinate.join();
-//         fetch(
-//           `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-//         )
-//           .then((body) => body.json())
-//           .then((data) => {
-//             const allFeatures = data.features;
-//             const elevations = allFeatures.map(
-//               (object) => object.properties.ele
-//             );
-//             const highestElevetion = Math.max(...elevations);
-//             console.log(chartData);
-//             chartData = [...chartData, {coordinates:coordinate, elevation:highestElevetion}]
-//           })
-//           .catch(console.log);
-//       });
-//       // return chartData;
-//     })
-//     .then(console.log)
-// };
+import "./MapPopup.css";
 
 const RouteData = (props) => {
   const mapContainer = useRef(null);
@@ -67,7 +35,7 @@ const RouteData = (props) => {
     profile: "mapbox/cycling",
     unit: "metric",
     styles: style,
-    interactive: true,
+    interactive: false,
     alternatives: false,
     language: "pl",
     congestion: true,
@@ -130,55 +98,91 @@ const RouteData = (props) => {
   async function fetchDirectionData() {
     const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;
     console.log(coordinatesString);
-    let response = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-    );
-    let data = await response.json();
-    console.log(data);
-    const allCoordinates = data.routes[0].geometry.coordinates;
-    let step = (Number(routeData.distance) / allCoordinates.length).toFixed(3);
-    console.log(step);
-    const allResponses = await Promise.all(
-      allCoordinates.map((coordinates, index) => {
-        const stringCoordinate = coordinates.join();
-        return (async () => {
-          const response = await fetch(
-            `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-          );
-          const data = await response.json();
-          const allFeatures = data.features;
-          const elevations = allFeatures.map((object) => object.properties.ele);
-          const highestElevetion = Math.max(...elevations);
-          const distance = (step * (index + 1)).toFixed(2);
-          const chartObject = {
-            distance: distance,
-            coordinates: coordinates,
-            elevation: highestElevetion,
-          };
-          return chartObject;
-        })();
-      })
-    );
-    setChartData(allResponses);
+    try {
+      let response = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+      );
+      let data = await response.json();
+      console.log(data);
+      const allCoordinates = data.routes[0].geometry.coordinates;
+      let step = (Number(routeData.distance) / allCoordinates.length).toFixed(
+        3
+      );
+      console.log(step);
+      const allResponses = await Promise.all(
+        allCoordinates.map((coordinates, index) => {
+          const stringCoordinate = coordinates.join();
+          return (async () => {
+            try {
+              const response = await fetch(
+                `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+              );
+              const data = await response.json();
+              const allFeatures = data.features;
+              const elevations = allFeatures.map(
+                (object) => object.properties.ele
+              );
+              const highestElevetion = Math.max(...elevations);
+              const distance = (step * (index + 1)).toFixed(2);
+              const chartObject = {
+                distance: distance,
+                coordinates: coordinates,
+                elevation: highestElevetion,
+              };
+              return chartObject;
+            } catch (err) {
+              alert(err);
+            }
+          })();
+        })
+      );
+      setChartData(allResponses);
+    } catch (err) {
+      alert(err);
+    }
   }
 
-  useEffect(()=>{
-    if(routeData.origin && routeData.destination){
-      console.log("async function started")
-      fetchDirectionData()
+  useEffect(() => {
+    if (routeData.origin && routeData.destination) {
+      console.log("async function started");
+      fetchDirectionData();
     }
-  },[routeData])
+  }, [routeData.origin, routeData.destination]);
 
-  // const fetchDirectionData = () => {
-  //   console.log(map.current);
-  //   console.log(map.current.getLayer("directions-route-line-casing"));
-  //   var sourceObject = map.current.getLayer("directions-route-line-alt");
-  //   console.log(sourceObject);
-  // };
+  const manageMarker = (object) => {
+    if (!object.isTooltipActive) return;
+    if (map.current._markers[0]) map.current._markers[0].remove();
+    if (object.activePayload[0]) {
+      const elevation = object.activePayload[0].payload.elevation;
+      const coordinates = object.activePayload[0].payload.coordinates;
+      const marker = new mapboxgl.Marker({
+        color: "black",
+        draggable: false,
+        scale: 0.7,
+      })
+        .setLngLat(coordinates)
+        .setPopup(
+          new mapboxgl.Popup({ closeOnClick: false }).setHTML(
+            `<h4>Elevation: ${elevation}<h4/>`
+          )
+        )
+        .addTo(map.current);
+
+      marker.togglePopup();
+    }
+  };
+
+  const removeMarker = (event)=>{
+    if (map.current._markers[0]) map.current._markers[0].remove();
+  }
 
   const chart = (
     <ResponsiveContainer width="100%" height={200}>
-      <AreaChart data={chartData}>
+      <AreaChart
+        data={chartData}
+        onMouseMove={manageMarker}
+        onMouseLeave={removeMarker}
+      >
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#2451B7" stopOpacity={0.6} />
@@ -211,12 +215,11 @@ const RouteData = (props) => {
     </ResponsiveContainer>
   );
 
-  console.log(routeData);
-  console.log(chartData);
+  // console.log(routeData);
+  // console.log(chartData);
 
   return (
     <div className={classes.flexContainer}>
-      <button onClick={fetchDirectionData}>fetch diretion data</button>
       <div className={classes.flexchild1}>
         <header className={classes.header}>
           <div>
