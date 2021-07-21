@@ -19,17 +19,39 @@ import {
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
 
-const fetchDirectionData = ()=>{
-  fetch(
-    "https://api.mapbox.com/directions/v5/mapbox/cycling/19.526008,50.137423;19.288943,50.202954?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA"
-  )
-    .then((body) => {
-      return body.json();
-    })
-    .then((response) => {
-      console.log(response);
-    });
-}
+// const fetchDirectionData = () => {
+//   fetch(
+//     "https://api.mapbox.com/directions/v5/mapbox/cycling/19.526008,50.137423;19.288943,50.202954?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA"
+//   )
+//     .then((body) => {
+//       return body.json();
+//     })
+//     .then((response) => {
+//       console.log(response);
+//       const allCoordinates = response.routes[0].geometry.coordinates;
+//       let chartData = []
+//       allCoordinates.forEach((coordinate) => {
+//         const stringCoordinate = coordinate.join();
+//         fetch(
+//           `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+//         )
+//           .then((body) => body.json())
+//           .then((data) => {
+//             const allFeatures = data.features;
+//             const elevations = allFeatures.map(
+//               (object) => object.properties.ele
+//             );
+//             const highestElevetion = Math.max(...elevations);
+//             console.log(chartData);
+//             chartData = [...chartData, {coordinates:coordinate, elevation:highestElevetion}]
+//           })
+//           .catch(console.log);
+//       });
+//       // return chartData;
+//     })
+//     .then(console.log)
+// };
+
 
 const RouteData = (props) => {
   const mapContainer = useRef(null);
@@ -38,6 +60,7 @@ const RouteData = (props) => {
   const [lat, setLat] = useState(52.09458858099802);
   const [zoom, setZoom] = useState(6);
   const [routeData, setRouteData] = useState({});
+  const [chartData, setChartData] = useState([]);
   const { routeId } = useParams();
 
   const directions = new Directions({
@@ -87,7 +110,7 @@ const RouteData = (props) => {
           const seconds = routeData.duration;
           const time = new Date(seconds * 1000).toISOString().substr(11, 8);
           const distanceInKm = (routeData.distance / 1000).toFixed(3);
-          setRouteData((previousState)=>{
+          setRouteData((previousState) => {
             return {
               ...previousState,
               ...routeData,
@@ -97,13 +120,42 @@ const RouteData = (props) => {
           });
           directions.setOrigin(routeData.origin);
           directions.setDestination(routeData.destination);
-           const bbox = [routeData.origin, routeData.destination];
-           map.current.fitBounds(bbox, {
-             padding: 100,
-           });
-        })
+          const bbox = [routeData.origin, routeData.destination];
+          map.current.fitBounds(bbox, {
+            padding: 100,
+          });
+        });
     });
   });
+
+  async function fetchDirectionData() {
+    let response = await fetch(
+      "https://api.mapbox.com/directions/v5/mapbox/cycling/19.526008,50.137423;19.288943,50.202954?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA"
+    );
+    let data = await response.json();
+    console.log(data);
+    const allCoordinates = data.routes[0].geometry.coordinates;
+    const allResponses = await Promise.all(
+      allCoordinates.map((coordinates) => {
+        const stringCoordinate = coordinates.join();
+        return (async () => {
+          const response = await fetch(
+            `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+          );
+          const data = await response.json();
+          const allFeatures = data.features;
+          const elevations = allFeatures.map((object) => object.properties.ele);
+          const highestElevetion = Math.max(...elevations);
+          const chartObject = {
+            coordinates: coordinates,
+            elevation: highestElevetion,
+          };
+          return chartObject;
+        })();
+      })
+    );
+    setChartData(allResponses);
+  }
 
   // const fetchDirectionData = () => {
   //   console.log(map.current);
@@ -112,7 +164,8 @@ const RouteData = (props) => {
   //   console.log(sourceObject);
   // };
 
-  console.log(routeData)
+  console.log(routeData);
+  console.log(chartData);
 
   return (
     <div className={classes.flexContainer}>
@@ -159,9 +212,7 @@ const RouteData = (props) => {
             </Typography>
           </Paper>
         </div>
-        <div className={classes.chart}>
-
-        </div>
+        <div className={classes.chart}></div>
         <div className={classes.rateRouteContainer}>
           <div>
             <Typography variant="h3" style={{ padding: "20px" }}>
