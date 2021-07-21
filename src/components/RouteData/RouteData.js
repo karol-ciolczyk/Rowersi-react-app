@@ -135,8 +135,10 @@ const RouteData = (props) => {
     let data = await response.json();
     console.log(data);
     const allCoordinates = data.routes[0].geometry.coordinates;
+    let step = (Number(routeData.distance) / allCoordinates.length).toFixed(3);
+    console.log(step);
     const allResponses = await Promise.all(
-      allCoordinates.map((coordinates) => {
+      allCoordinates.map((coordinates, index) => {
         const stringCoordinate = coordinates.join();
         return (async () => {
           const response = await fetch(
@@ -146,7 +148,9 @@ const RouteData = (props) => {
           const allFeatures = data.features;
           const elevations = allFeatures.map((object) => object.properties.ele);
           const highestElevetion = Math.max(...elevations);
+          const distance = (step * (index + 1)).toFixed(2);
           const chartObject = {
+            distance: distance,
             coordinates: coordinates,
             elevation: highestElevetion,
           };
