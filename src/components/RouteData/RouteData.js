@@ -52,7 +52,6 @@ import style from "../mapStyle/directions-styles";
 //     .then(console.log)
 // };
 
-
 const RouteData = (props) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -173,18 +172,28 @@ const RouteData = (props) => {
       <AreaChart data={chartData}>
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
-            <stop offset="75%" stopColor="#2451B7" stopOpacity={0.05} />
+            <stop offset="0%" stopColor="#2451B7" stopOpacity={0.6} />
+            <stop offset="100%" stopColor="#2451B7" stopOpacity={0.1} />
           </linearGradient>
         </defs>
-        <Area dataKey="elevation" stroke="#2451B7" fill="url(#color)" />
-        <XAxis dataKey="distance" axisLine={false} tickLine={false} />
+        <Area
+          type="monotone"
+          dataKey="elevation"
+          stroke="#2451B7"
+          fill="url(#color)"
+        />
+        <XAxis
+          dataKey="distance"
+          axisLine={false}
+          tickLine={false}
+          // tickFormatter={(number) => `${number} m`}
+        />
         <YAxis
           dataKey="elevation"
           axisLine={false}
           tickLine={false}
           tickCount={10}
-          // tickFormatter={(number) => `$${number.toFixed(2)}`}
+          // tickFormatter={(number) => `${number} m`}
         />
         {/* <Tooltip content={<CustomTooltip />} /> */}
         <Tooltip />
