@@ -128,8 +128,10 @@ const RouteData = (props) => {
   });
 
   async function fetchDirectionData() {
+    const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;
+    console.log(coordinatesString);
     let response = await fetch(
-      "https://api.mapbox.com/directions/v5/mapbox/cycling/19.526008,50.137423;19.288943,50.202954?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA"
+      `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
     );
     let data = await response.json();
     console.log(data);
@@ -159,6 +161,13 @@ const RouteData = (props) => {
     );
     setChartData(allResponses);
   }
+
+  useEffect(()=>{
+    if(routeData.origin && routeData.destination){
+      console.log("async function started")
+      fetchDirectionData()
+    }
+  },[routeData])
 
   // const fetchDirectionData = () => {
   //   console.log(map.current);
