@@ -6,6 +6,15 @@ import { Avatar, Paper, Typography, Box } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import { useParams } from "react-router-dom";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  XAxis,
+  YAxis,
+  Area,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
