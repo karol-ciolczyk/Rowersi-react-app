@@ -168,6 +168,31 @@ const RouteData = (props) => {
   //   console.log(sourceObject);
   // };
 
+  const chart = (
+    <ResponsiveContainer width="100%" height={200}>
+      <AreaChart data={chartData}>
+        <defs>
+          <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2451B7" stopOpacity={0.4} />
+            <stop offset="75%" stopColor="#2451B7" stopOpacity={0.05} />
+          </linearGradient>
+        </defs>
+        <Area dataKey="elevation" stroke="#2451B7" fill="url(#color)" />
+        <XAxis dataKey="distance" axisLine={false} tickLine={false} />
+        <YAxis
+          dataKey="elevation"
+          axisLine={false}
+          tickLine={false}
+          tickCount={10}
+          // tickFormatter={(number) => `$${number.toFixed(2)}`}
+        />
+        {/* <Tooltip content={<CustomTooltip />} /> */}
+        <Tooltip />
+        <CartesianGrid opacity={0.2} vertical={false} />
+      </AreaChart>
+    </ResponsiveContainer>
+  );
+
   console.log(routeData);
   console.log(chartData);
 
@@ -236,6 +261,7 @@ const RouteData = (props) => {
             </Box>
           </div>
         </div>
+        <div className={classes.chart}>{chart}</div>
       </div>
       <div className={classes.flexchild2}>
         <div ref={mapContainer} className={classes.mapContainer} />
