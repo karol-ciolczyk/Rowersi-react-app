@@ -74,7 +74,7 @@ export default function Mapbox(props) {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
       center: [lng, lat],
       zoom: zoom,
     });
