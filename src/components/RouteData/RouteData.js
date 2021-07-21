@@ -156,7 +156,7 @@ const RouteData = (props) => {
       const elevation = object.activePayload[0].payload.elevation;
       const coordinates = object.activePayload[0].payload.coordinates;
       const marker = new mapboxgl.Marker({
-        color: "black",
+        color: "orange",
         draggable: false,
         scale: 0.7,
       })
