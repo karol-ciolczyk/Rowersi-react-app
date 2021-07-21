@@ -20,7 +20,7 @@ import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
 import "./MapPopup.css";
 
-const RouteData = (props) => {
+const RouteData = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(19.433605529438495);
