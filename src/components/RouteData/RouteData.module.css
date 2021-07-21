@@ -9,7 +9,7 @@
 .flexchild1 {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 50%;
   padding: 60px;
 }
 
@@ -46,7 +46,7 @@
 
 
 .flexchild2 {
-  width: 40%;
+  width: 50%;
 }
 
 .mapContainer {

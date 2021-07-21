@@ -16,7 +16,6 @@ import RouteData from "./components/RouteData/RouteData";
 
 function App() {
   const [userUid, setUserUid] = useState();
-  const [routeId, setRouteId] = useState('')
 
   const onLoggedInDataHandler = (uid) => {
     console.log(uid);
@@ -32,10 +31,6 @@ function App() {
       }
     });
   }, []);
-
-  useState(()=>{
-   
-  }, routeId)
 
   return (
     <UserSessionContext.Provider

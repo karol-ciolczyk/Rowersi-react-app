@@ -10,8 +10,17 @@ import { useParams } from "react-router-dom";
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
 
-// 0: 19.433605529438495
-// 1: 52.09458858099802
+const fetchDirectionData = ()=>{
+  fetch(
+    "https://api.mapbox.com/directions/v5/mapbox/cycling/19.526008,50.137423;19.288943,50.202954?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA"
+  )
+    .then((body) => {
+      return body.json();
+    })
+    .then((response) => {
+      console.log(response);
+    });
+}
 
 const RouteData = (props) => {
   const mapContainer = useRef(null);
@@ -27,7 +36,7 @@ const RouteData = (props) => {
     profile: "mapbox/cycling",
     unit: "metric",
     styles: style,
-    interactive: false,
+    interactive: true,
     alternatives: false,
     language: "pl",
     congestion: true,
@@ -53,6 +62,11 @@ const RouteData = (props) => {
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
+    map.current.on("mouseover", "LineString", function () {
+      console.log(
+        "A mouseover event has occurred on a visible portion of the poi-label layer."
+      );
+    });
     map.current.once("idle", () => {
       firebase
         .firestore()
@@ -82,10 +96,18 @@ const RouteData = (props) => {
     });
   });
 
+  // const fetchDirectionData = () => {
+  //   console.log(map.current);
+  //   console.log(map.current.getLayer("directions-route-line-casing"));
+  //   var sourceObject = map.current.getLayer("directions-route-line-alt");
+  //   console.log(sourceObject);
+  // };
+
   console.log(routeData)
 
   return (
     <div className={classes.flexContainer}>
+      <button onClick={fetchDirectionData}>fetch diretion data</button>
       <div className={classes.flexchild1}>
         <header className={classes.header}>
           <div>
@@ -127,6 +149,9 @@ const RouteData = (props) => {
               Route description: {routeData.routeDescription}
             </Typography>
           </Paper>
+        </div>
+        <div className={classes.chart}>
+
         </div>
         <div className={classes.rateRouteContainer}>
           <div>
