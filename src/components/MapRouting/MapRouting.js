@@ -50,6 +50,23 @@ export default function Mapbox(props) {
       .catch(console.log);
   }
 
+  // async function getElev(coordinates, wayPoint, setRouteData) {
+  //   try {
+  //     const body = await Promise.all([
+  //       fetch(
+  //       `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+  //     ),
+  //     fetch(
+  //       `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+  //     )
+  //     ])
+  //     const data = await body.json()
+
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // }
+
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
     profile: "mapbox/cycling",
@@ -82,7 +99,6 @@ export default function Mapbox(props) {
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
-
     // console.log("before", directions);
     // console.log("before", directions.actions.eventSubscribe().events.route);
     // console.log("before", directions.actions.eventEmit().events.route);
@@ -103,9 +119,13 @@ export default function Mapbox(props) {
       map.current.fitBounds(bbox, {
         padding: 200,
       });
+      // const coordinates = {
+      //   originCoordinates,
+      //   destinationCoordinates,
+      // };
 
-      // getElevation(originCoordinates, "origin", props.setRouteData);
-      // getElevation(destinationCoordinates, "destination", props.setRouteData);
+      getElevation(originCoordinates, "origin", props.setRouteData);
+      getElevation(destinationCoordinates, "destination", props.setRouteData);
 
       map.current.once("idle", () => {
         //  console.log(map.current.getCanvas().toDataURL())
