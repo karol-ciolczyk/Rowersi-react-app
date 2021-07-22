@@ -30,7 +30,7 @@ const RouteData = () => {
   const [chartData, setChartData] = useState([]);
   const { routeId } = useParams();
 
-  const directions = new Directions({
+  const directions1 = new Directions({
     accessToken: mapboxgl.accessToken,
     profile: "mapbox/cycling",
     unit: "metric",
@@ -60,7 +60,7 @@ const RouteData = () => {
     });
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
-    map.current.addControl(directions, "top-left");
+    map.current.addControl(directions1, "top-left");
     map.current.on("mouseover", "LineString", function () {
       console.log(
         "A mouseover event has occurred on a visible portion of the poi-label layer."
@@ -85,8 +85,8 @@ const RouteData = () => {
               distance: distanceInKm,
             };
           });
-          directions.setOrigin(routeData.origin);
-          directions.setDestination(routeData.destination);
+          directions1.setOrigin(routeData.origin);
+          directions1.setDestination(routeData.destination);
           const bbox = [routeData.origin, routeData.destination];
           map.current.fitBounds(bbox, {
             padding: 100,
@@ -152,6 +152,7 @@ const RouteData = () => {
 
   const manageMarker = (object) => {
     if (!object.isTooltipActive) return;
+    if (!object.activePayload) return; // before render chart with data
     if (map.current._markers[0]) map.current._markers[0].remove();
     if (object.activePayload[0]) {
       const elevation = object.activePayload[0].payload.elevation;
@@ -222,69 +223,75 @@ const RouteData = () => {
   return (
     <div className={classes.flexContainer}>
       <div className={classes.flexchild1}>
-        <header className={classes.header}>
-          <div>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://picsum.photos/150/150"
-              style={{ height: "100px", width: "100px" }}
-            />
+        <div className={classes.flexchild__routeData}>
+          <header className={classes.header}>
             <div>
-              <h2>Stefek Stafański</h2>
-            </div>
-          </div>
-          <div className={classes.routeData}>
-            <div>
-              <h1>{routeData.routeTitle}</h1>
-            </div>
-            <div className={classes.routeNumberDataContainer}>
-              <Paper>
-                <Typography variant="h6" style={{ padding: "20px" }}>
-                  Distance: {routeData.distance}KM
-                </Typography>
-              </Paper>
-              <Paper>
-                <Typography variant="h6" style={{ padding: "20px" }}>
-                  Time: {routeData.duration}
-                </Typography>
-              </Paper>
-              <Paper>
-                <Typography variant="h6" style={{ padding: "20px" }}>
-                  Dest. elevation: {routeData.destinationElevation}m
-                </Typography>
-              </Paper>
-            </div>
-          </div>
-        </header>
-        <div className={classes.routeDescriptionContainer}>
-          <Paper>
-            <Typography variant="body1" style={{ padding: "20px" }}>
-              Route description: {routeData.routeDescription}
-            </Typography>
-          </Paper>
-        </div>
-        <div className={classes.chart}></div>
-        <div className={classes.rateRouteContainer}>
-          <div>
-            <Typography variant="h3" style={{ padding: "20px" }}>
-              4.6
-            </Typography>
-          </div>
-          <div>
-            <Box component="fieldset" mb={3} borderColor="transparent">
-              <Typography component="legend">Rate this route</Typography>
-              <Rating
-                name="customized-empty"
-                defaultValue={4}
-                precision={0.5}
-                emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                size="large"
+              <Avatar
+                alt="Remy Sharp"
+                src="https://picsum.photos/150/150"
+                style={{ height: "100px", width: "100px" }}
               />
-            </Box>
+              <div>
+                <h2>Stefek Stafański</h2>
+              </div>
+            </div>
+            <div className={classes.routeData}>
+              <div>
+                <h1>{routeData.routeTitle}</h1>
+              </div>
+              <div className={classes.routeNumberDataContainer}>
+                <Paper style={{ padding: "10px", margin: "3px"}}>
+                  <Typography variant="button">
+                    Distance: {routeData.distance}KM
+                  </Typography>
+                </Paper>
+                <Paper style={{ padding: "10px", margin: "3px"}}>
+                  <Typography variant="button">
+                    Time: {routeData.duration}
+                  </Typography>
+                </Paper>
+                <Paper style={{ padding: "10px", margin: "3px"}}>
+                  <Typography variant="button">
+                    Dest. elevation: {routeData.destinationElevation}m
+                  </Typography>
+                </Paper>
+              </div>
+            </div>
+          </header>
+          <div className={classes.routeDescriptionContainer}>
+            <div>
+              <Typography variant="h6" style={{ padding: "20px" }}>
+                Route description:
+              </Typography>
+              <Typography variant="subtitle1" style={{ padding: "20px" }}>
+                Route description: {routeData.routeDescription}
+              </Typography>
+            </div>
           </div>
+          <div className={classes.chart}></div>
+          <div className={classes.rateRouteContainer}>
+            <div>
+              <Typography variant="h3" style={{ padding: "20px" }}>
+                4.6
+              </Typography>
+            </div>
+            <div>
+              <Box component="fieldset" mb={3} borderColor="transparent">
+                <Typography component="legend">Rate this route</Typography>
+                <Rating
+                  name="customized-empty"
+                  defaultValue={4}
+                  precision={0.5}
+                  emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                  size="large"
+                />
+              </Box>
+            </div>
+          </div>
+          <div className={classes.chart}>{chart}</div>
         </div>
-        <div className={classes.chart}>{chart}</div>
       </div>
+
       <div className={classes.flexchild2}>
         <div ref={mapContainer} className={classes.mapContainer} />
       </div>

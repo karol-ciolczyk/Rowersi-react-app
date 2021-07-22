@@ -7,10 +7,18 @@
 }
 
 .flexchild1 {
+  width: 50%;
+}
+
+.flexchild__routeData {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: auto;
+  height: auto;
   padding: 60px;
+  margin: 30px 30px;
+  box-shadow: 5px 5px 21px -6px rgba(0, 0, 0, 0.73);
+  border-radius: 1%;
 }
 
 .header {
@@ -33,7 +41,7 @@
 
 .routeDescriptionContainer {
   padding: 10px;
-
+  text-align: start;
 }
 
 .rateRouteContainer {
@@ -47,15 +55,13 @@
   height: 100%;
 }
 
-
 .flexchild2 {
   width: 50%;
 }
 
 .mapContainer {
-height: 100%; 
-width: 100%;
-/* margin: auto;
+  height: 100%;
+  width: 100%;
+  /* margin: auto;
 margin-bottom: 50px; */
 }
-

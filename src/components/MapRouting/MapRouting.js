@@ -82,6 +82,7 @@ export default function Mapbox(props) {
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
+
     console.log("before", directions);
     console.log("before", directions.actions.eventSubscribe().events.route);
     // console.log("before", directions.actions.eventEmit().events.route);
@@ -125,9 +126,7 @@ export default function Mapbox(props) {
         };
       });
     });
-    return (()=>{
-      map.current.remove()
-    })
+    console.log("-----------", Directions);
   });
 
   return (
