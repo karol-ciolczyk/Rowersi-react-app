@@ -230,7 +230,7 @@ const RouteData = () => {
               <Avatar
                 alt="Remy Sharp"
                 src="https://picsum.photos/150/150"
-                style={{ height: "100px", width: "100px" }}
+                style={{ height: "100px", width: "100px", margin: "auto"}}
               />
               <div>
                 <h2>Stefek Stafański</h2>
