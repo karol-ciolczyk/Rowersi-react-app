@@ -19,7 +19,7 @@ export default function Mapbox(props) {
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
 
-  async function getElev(coordinates, setRouteData) {
+  async function getElevation(coordinates, setRouteData) {
     try {
       const elevationArray = await Promise.all(
         coordinates.map((coordinates) => {
@@ -107,10 +107,7 @@ export default function Mapbox(props) {
         padding: 200,
       });
       const coordinates = [originCoordinates, destinationCoordinates];
-      getElev(coordinates, props.setRouteData);
-
-      // getElevation(originCoordinates, "origin", props.setRouteData);
-      // getElevation(destinationCoordinates, "destination", props.setRouteData);
+      getElevation(coordinates, props.setRouteData);
 
       map.current.once("idle", () => {
         //  console.log(map.current.getCanvas().toDataURL())
