@@ -240,17 +240,17 @@ const RouteData = () => {
                 <h1>{routeData.routeTitle}</h1>
               </div>
               <div className={classes.routeNumberDataContainer}>
-                <Paper style={{ padding: "10px", margin: "3px"}}>
+                <Paper style={{ padding: "10px", margin: "3px" }}>
                   <Typography variant="button">
                     Distance: {routeData.distance}KM
                   </Typography>
                 </Paper>
-                <Paper style={{ padding: "10px", margin: "3px"}}>
+                <Paper style={{ padding: "10px", margin: "3px" }}>
                   <Typography variant="button">
                     Time: {routeData.duration}
                   </Typography>
                 </Paper>
-                <Paper style={{ padding: "10px", margin: "3px"}}>
+                <Paper style={{ padding: "10px", margin: "3px" }}>
                   <Typography variant="button">
                     Dest. elevation: {routeData.destinationElevation}m
                   </Typography>
@@ -259,14 +259,12 @@ const RouteData = () => {
             </div>
           </header>
           <div className={classes.routeDescriptionContainer}>
-            <div>
-              <Typography variant="h6" style={{ padding: "20px" }}>
-                Route description:
-              </Typography>
-              <Typography variant="subtitle1" style={{ padding: "20px" }}>
-                Route description: {routeData.routeDescription}
-              </Typography>
-            </div>
+            <Typography variant="h6" style={{ padding: "10px" }}>
+              Route description:
+            </Typography>
+            <Typography variant="subtitle1" style={{ padding: "10px" }}>
+              Route description: {routeData.routeDescription}
+            </Typography>
           </div>
           <div className={classes.chart}></div>
           <div className={classes.rateRouteContainer}>
@@ -277,7 +275,9 @@ const RouteData = () => {
             </div>
             <div>
               <Box component="fieldset" mb={3} borderColor="transparent">
-                <Typography component="legend">Rate this route</Typography>
+                <Typography variant="body2" component="legend">
+                  Rate this route
+                </Typography>
                 <Rating
                   name="customized-empty"
                   defaultValue={4}

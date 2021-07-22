@@ -42,6 +42,8 @@
 .routeDescriptionContainer {
   padding: 10px;
   text-align: start;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  border-top: 1px solid rgb(204, 204, 204);
 }
 
 .rateRouteContainer {
