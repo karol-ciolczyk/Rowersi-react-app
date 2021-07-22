@@ -18,37 +18,6 @@ export default function Mapbox(props) {
   // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
-  // function getElevation(coordinates, wayPoint, setRouteData) {
-  //   fetch(
-  //     `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-  //   )
-  //     .then((body) => body.json())
-  //     .then((data) => {
-  //       const allFeatures = data.features;
-  //       const elevations = allFeatures.map((object) => object.properties.ele);
-  //       const highestElevetion = Math.max(...elevations);
-
-  //       // console.log(highestElevetion);
-  //       console.log("fetching data");
-
-  //       if (wayPoint === "origin") {
-  //         setRouteData((previoueState) => {
-  //           return {
-  //             ...previoueState,
-  //             originElevation: highestElevetion,
-  //           };
-  //         });
-  //       } else if (wayPoint === "destination") {
-  //         setRouteData((previoueState) => {
-  //           return {
-  //             ...previoueState,
-  //             destinationElevation: highestElevetion,
-  //           };
-  //         });
-  //       }
-  //     })
-  //     .catch(console.log);
-  // }
 
   async function getElev(coordinates, setRouteData) {
     try {
