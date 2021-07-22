@@ -83,12 +83,13 @@ export default function Mapbox(props) {
     map.current.addControl(directions, "top-left");
 
 
-    console.log("before", directions);
-    console.log("before", directions.actions.eventSubscribe().events.route);
+    // console.log("before", directions);
+    // console.log("before", directions.actions.eventSubscribe().events.route);
     // console.log("before", directions.actions.eventEmit().events.route);
 
     if (directions.actions.eventSubscribe().events.route) return;
     directions.on("route", (object) => {
+      console.log("route event fired", directions);
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates =
         directions.getDestination().geometry.coordinates;

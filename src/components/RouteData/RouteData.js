@@ -30,7 +30,7 @@ const RouteData = () => {
   const [chartData, setChartData] = useState([]);
   const { routeId } = useParams();
 
-  const directions1 = new Directions({
+  const directions = new Directions({
     accessToken: mapboxgl.accessToken,
     profile: "mapbox/cycling",
     unit: "metric",
@@ -60,7 +60,7 @@ const RouteData = () => {
     });
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
-    map.current.addControl(directions1, "top-left");
+    map.current.addControl(directions, "top-left");
     map.current.on("mouseover", "LineString", function () {
       console.log(
         "A mouseover event has occurred on a visible portion of the poi-label layer."
@@ -85,8 +85,8 @@ const RouteData = () => {
               distance: distanceInKm,
             };
           });
-          directions1.setOrigin(routeData.origin);
-          directions1.setDestination(routeData.destination);
+          directions.setOrigin(routeData.origin);
+          directions.setDestination(routeData.destination);
           const bbox = [routeData.origin, routeData.destination];
           map.current.fitBounds(bbox, {
             padding: 100,
@@ -219,6 +219,7 @@ const RouteData = () => {
 
   // console.log(routeData);
   // console.log(chartData);
+  console.log(directions)
 
   return (
     <div className={classes.flexContainer}>
@@ -239,20 +240,23 @@ const RouteData = () => {
               <div>
                 <h1>{routeData.routeTitle}</h1>
               </div>
-              <div className={classes.routeNumberDataContainer}>
-                <Paper style={{ padding: "10px", margin: "3px" }}>
-                  <Typography variant="button">
-                    Distance: {routeData.distance}KM
+              <div className={classes.routeNumbersDataContainer}>
+                <Paper style={{ padding: "10px", margin: "5px" }}>
+                  <Typography variant="overline">Distance: </Typography>
+                  <Typography variant="subtitle2">
+                    {routeData.distance} KM
                   </Typography>
                 </Paper>
-                <Paper style={{ padding: "10px", margin: "3px" }}>
-                  <Typography variant="button">
-                    Time: {routeData.duration}
+                <Paper style={{ padding: "10px", margin: "5px" }}>
+                  <Typography variant="overline">Time: </Typography>
+                  <Typography variant="subtitle2">
+                    {routeData.duration}
                   </Typography>
                 </Paper>
-                <Paper style={{ padding: "10px", margin: "3px" }}>
-                  <Typography variant="button">
-                    Dest. elevation: {routeData.destinationElevation}m
+                <Paper style={{ padding: "10px", margin: "5px" }}>
+                  <Typography variant="overline">Elevation1: </Typography>
+                  <Typography variant="subtitle2">
+                    {routeData.destinationElevation} m
                   </Typography>
                 </Paper>
               </div>

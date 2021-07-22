@@ -32,11 +32,17 @@
   height: 100px;
 } */
 
-.routeNumberDataContainer {
+.routeNumbersDataContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   padding: 10px;
+}
+
+@media only screen and (max-width: 1230px) {
+  .routeNumbersDataContainer {
+    flex-direction: column;
+  }
 }
 
 .routeDescriptionContainer {
