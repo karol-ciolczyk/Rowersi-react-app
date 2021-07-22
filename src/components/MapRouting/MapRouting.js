@@ -18,54 +18,72 @@ export default function Mapbox(props) {
   // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
-  function getElevation(coordinates, wayPoint, setRouteData) {
-    fetch(
-      `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-    )
-      .then((body) => body.json())
-      .then((data) => {
-        const allFeatures = data.features;
-        const elevations = allFeatures.map((object) => object.properties.ele);
-        const highestElevetion = Math.max(...elevations);
+  // function getElevation(coordinates, wayPoint, setRouteData) {
+  //   fetch(
+  //     `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+  //   )
+  //     .then((body) => body.json())
+  //     .then((data) => {
+  //       const allFeatures = data.features;
+  //       const elevations = allFeatures.map((object) => object.properties.ele);
+  //       const highestElevetion = Math.max(...elevations);
 
-        // console.log(highestElevetion);
-        console.log("fetching data");
+  //       // console.log(highestElevetion);
+  //       console.log("fetching data");
 
-        if (wayPoint === "origin") {
-          setRouteData((previoueState) => {
-            return {
-              ...previoueState,
-              originElevation: highestElevetion,
-            };
-          });
-        } else if (wayPoint === "destination") {
-          setRouteData((previoueState) => {
-            return {
-              ...previoueState,
-              destinationElevation: highestElevetion,
-            };
-          });
-        }
-      })
-      .catch(console.log);
-  }
-
-  // async function getElev(coordinates, wayPoint, setRouteData) {
-  //   try {
-  //     const body = await Promise.all([
-  //       fetch(
-  //       `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-  //     ),
-  //     fetch(
-  //       `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-  //     )
-  //     ])
-  //     const data = await body.json()
-
-  //   } catch (err) {
-  //     alert(err);
-  //   }
+  //       if (wayPoint === "origin") {
+  //         setRouteData((previoueState) => {
+  //           return {
+  //             ...previoueState,
+  //             originElevation: highestElevetion,
+  //           };
+  //         });
+  //       } else if (wayPoint === "destination") {
+  //         setRouteData((previoueState) => {
+  //           return {
+  //             ...previoueState,
+  //             destinationElevation: highestElevetion,
+  //           };
+  //         });
+  //       }
+  //     })
+  //     .catch(console.log);
   // }
+
+  async function getElev(coordinates, setRouteData) {
+    try {
+      const elevationArray = await Promise.all(
+        coordinates.map((coordinates) => {
+          return (async () => {
+            try {
+              const body = await fetch(
+                `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+              );
+              const data = await body.json();
+              const allFeatures = data.features;
+              const elevations = allFeatures.map(
+                (object) => object.properties.ele
+              );
+              const highestElevetion = Math.max(...elevations);
+              return highestElevetion;
+            } catch (err) {
+              alert(err);
+            }
+          })();
+        })
+      );
+      console.log(elevationArray);
+      setRouteData((previoueState) => {
+        return {
+          ...previoueState,
+          originElevation: elevationArray[0],
+          destinationElevation: elevationArray[1],
+        };
+      });
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
@@ -119,13 +137,11 @@ export default function Mapbox(props) {
       map.current.fitBounds(bbox, {
         padding: 200,
       });
-      // const coordinates = {
-      //   originCoordinates,
-      //   destinationCoordinates,
-      // };
+      const coordinates = [originCoordinates, destinationCoordinates];
+      getElev(coordinates, props.setRouteData);
 
-      getElevation(originCoordinates, "origin", props.setRouteData);
-      getElevation(destinationCoordinates, "destination", props.setRouteData);
+      // getElevation(originCoordinates, "origin", props.setRouteData);
+      // getElevation(destinationCoordinates, "destination", props.setRouteData);
 
       map.current.once("idle", () => {
         //  console.log(map.current.getCanvas().toDataURL())
@@ -147,7 +163,11 @@ export default function Mapbox(props) {
         };
       });
     });
-    console.log("-----------", Directions);
+    // console.log("-----------", Directions);
+    // return () => {
+    //   console.log(directions.storeUnsubscribe());
+    //   directions.storeUnsubscribe();
+    // }
   });
 
   return (
