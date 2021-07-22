@@ -69,7 +69,7 @@ export default function SignUpForm(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    
+
 
     if (password.trim() === repeatPassword.trim() && password.trim().length > 0) {
       createUserWithEmailAndPassword(email, password);

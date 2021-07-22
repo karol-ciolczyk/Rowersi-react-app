@@ -41,15 +41,15 @@ export default function HomePage() {
         setChecked(true);
     }, [])
     return (
-        <div className={classes.root} id="heroImage">
-            <div className={classes.heroImage}>
+        <div className={classes.root} >
+            <section className={classes.heroImage} id="heroImage">
                 <CssBaseline />
                 <Collapse in={checked} {...(true ? { timeout: 1000 } : {})} collapsedHeight={50}>
                     <div>
                         <h1 className={classes.title}>Biking... <br />Feel Good</h1>
                     </div>
                 </Collapse>
-            </div>
+            </section>
             <PopularRegions />
         </div>
     )

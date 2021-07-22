@@ -40,14 +40,14 @@ export default function PopularRegions() {
                 Riding Is A Way To Explore... <br />
                 A Way To Explore Nature And The World.
             </Typography>
-            <div className={classes.regionCards}>
+            <section className={classes.regionCards}>
                 <ImageCard region={regions[0]} checked={checked} />
                 <ImageCard region={regions[1]} checked={checked} />
                 <ImageCard region={regions[2]} checked={checked} />
                 <ImageCard region={regions[3]} checked={checked} />
                 <ImageCard region={regions[4]} checked={checked} />
                 <ImageCard region={regions[5]} checked={checked} />
-            </div>
+            </section>
         </Container>
     );
 }

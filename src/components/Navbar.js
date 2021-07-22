@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     borderRight: '1px solid #ccc',
     paddingRight: '25px',
     display: 'block',
+    color: '#3bb2d0',
     [theme.breakpoints.down('sm')]: {
       fontSize: '20px',
       borderRight: 'none',
@@ -88,7 +89,6 @@ export default function Navbar(props) {
           <Typography
             component={Link}
             to={"/"}
-            color="secondary"
             className={classes.title}
             variant="h4"
             noWrap
