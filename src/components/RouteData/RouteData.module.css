@@ -15,7 +15,7 @@
   flex-direction: column;
   width: auto;
   height: auto;
-  padding: 60px;
+  padding: 40px;
   margin: 30px 30px;
   box-shadow: 5px 5px 21px -6px rgba(0, 0, 0, 0.73);
   border-radius: 1%;
@@ -37,10 +37,14 @@
   flex-direction: row;
   justify-content: space-around;
   padding: 10px;
+  border-top: 1px solid rgb(226, 226, 226);
 }
 
 @media only screen and (max-width: 1230px) {
   .routeNumbersDataContainer {
+    flex-direction: column;
+  }
+  .header {
     flex-direction: column;
   }
 }
@@ -48,8 +52,8 @@
 .routeDescriptionContainer {
   padding: 10px;
   text-align: start;
-  border-bottom: 1px solid rgb(204, 204, 204);
-  border-top: 1px solid rgb(204, 204, 204);
+  border-bottom: 1px solid rgb(226, 226, 226);
+  border-top: 1px solid rgb(226, 226, 226);
 }
 
 .rateRouteContainer {
