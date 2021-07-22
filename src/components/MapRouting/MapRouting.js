@@ -6,38 +6,6 @@ import { Paper } from "@material-ui/core";
 import style from "../mapStyle/directions-styles";
 import classes from "./MapRouting.module.css";
 
-// Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
-function getElevation(coordinates, wayPoint, setRouteData) {
-  fetch(
-    `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-  )
-    .then((body) => body.json())
-    .then((data) => {
-      const allFeatures = data.features;
-      const elevations = allFeatures.map((object) => object.properties.ele);
-      const highestElevetion = Math.max(...elevations);
-
-      console.log(highestElevetion);
-
-      if (wayPoint === "origin") {
-        setRouteData((previoueState) => {
-          return {
-            ...previoueState,
-            originElevation: highestElevetion,
-          };
-        });
-      } else if (wayPoint === "destination") {
-        setRouteData((previoueState) => {
-          return {
-            ...previoueState,
-            destinationElevation: highestElevetion,
-          };
-        });
-      }
-    })
-    .catch(console.log);
-}
-
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA";
 
@@ -48,6 +16,39 @@ export default function Mapbox(props) {
   const [lat, setLat] = useState(50.1);
   const [zoom, setZoom] = useState(11);
   // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
+
+  // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
+  function getElevation(coordinates, wayPoint, setRouteData) {
+    fetch(
+      `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+    )
+      .then((body) => body.json())
+      .then((data) => {
+        const allFeatures = data.features;
+        const elevations = allFeatures.map((object) => object.properties.ele);
+        const highestElevetion = Math.max(...elevations);
+
+        // console.log(highestElevetion);
+        console.log("fetching data");
+
+        if (wayPoint === "origin") {
+          setRouteData((previoueState) => {
+            return {
+              ...previoueState,
+              originElevation: highestElevetion,
+            };
+          });
+        } else if (wayPoint === "destination") {
+          setRouteData((previoueState) => {
+            return {
+              ...previoueState,
+              destinationElevation: highestElevetion,
+            };
+          });
+        }
+      })
+      .catch(console.log);
+  }
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
@@ -68,7 +69,6 @@ export default function Mapbox(props) {
   });
 
   const nav = new mapboxgl.NavigationControl();
-  
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -82,6 +82,11 @@ export default function Mapbox(props) {
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
+    console.log("before", directions);
+    console.log("before", directions.actions.eventSubscribe().events.route);
+    // console.log("before", directions.actions.eventEmit().events.route);
+
+    if (directions.actions.eventSubscribe().events.route) return;
     directions.on("route", (object) => {
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates =
@@ -89,7 +94,8 @@ export default function Mapbox(props) {
       // console.log(
       //   object.route[0].legs[0].steps.map((object) => object.maneuver.location)
       // );
-      console.log(directions, object);
+      // console.log(object);
+      console.log("onRoute event occured", directions.actions.eventSubscribe());
 
       const bbox = [originCoordinates, destinationCoordinates];
       map.current.fitBounds(bbox, {
@@ -119,8 +125,9 @@ export default function Mapbox(props) {
         };
       });
     });
-
-
+    return (()=>{
+      map.current.remove()
+    })
   });
 
   return (

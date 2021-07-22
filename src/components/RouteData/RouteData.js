@@ -93,6 +93,9 @@ const RouteData = () => {
           });
         });
     });
+    // directions.on("route", ()=>{
+    //   console.log(directions.actions.eventSubscribe().events.route);
+    // })
   });
 
   async function fetchDirectionData() {
