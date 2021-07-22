@@ -108,10 +108,8 @@ const RouteData = () => {
       let data = await response.json();
       console.log(data);
       const allCoordinates = data.routes[0].geometry.coordinates;
-      let step = (Number(routeData.distance) / allCoordinates.length).toFixed(
-        3
-      );
-      console.log(step);
+      let step = (Number(routeData.distance) / allCoordinates.length).toFixed(3);
+      // return;
       const allResponses = await Promise.all(
         allCoordinates.map((coordinates, index) => {
           const stringCoordinate = coordinates.join();

@@ -102,8 +102,8 @@ export default function Mapbox(props) {
         padding: 200,
       });
 
-      getElevation(originCoordinates, "origin", props.setRouteData);
-      getElevation(destinationCoordinates, "destination", props.setRouteData);
+      // getElevation(originCoordinates, "origin", props.setRouteData);
+      // getElevation(destinationCoordinates, "destination", props.setRouteData);
 
       map.current.once("idle", () => {
         //  console.log(map.current.getCanvas().toDataURL())
