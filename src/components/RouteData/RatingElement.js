@@ -33,7 +33,7 @@ const RatingElement = (props)=>{
       <Rating
         name="customized-empty"
         value={votesAverage}
-        precision={0.5}
+        precision={0.1}
         emptyIcon={<StarBorderIcon fontSize="inherit" />}
         size="large"
         onChange={(event, newValue) => {

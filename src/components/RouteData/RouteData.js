@@ -90,11 +90,11 @@ const RouteData = () => {
           const seconds = routeData.duration;
           const time = new Date(seconds * 1000).toISOString().substr(11, 8);
           const distanceInKm = (routeData.distance / 1000).toFixed(3);
-          const votesAverage = (
+          const votesAverage = (routeData.votes ?
             routeData.votes
               .map((object) => +object.rate)
-              .reduce((acc, number) => acc + number) / routeData.votes.length
-          ).toFixed(2);
+              .reduce((acc, number) => acc + number) / routeData.votes.length : 0
+          ).toFixed(1);
           setRouteData((previousState) => {
             return {
               ...previousState,
@@ -173,7 +173,7 @@ const RouteData = () => {
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
       console.log("async function started");
-      // fetchDirectionData();
+      fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 
