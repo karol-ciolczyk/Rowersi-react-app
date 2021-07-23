@@ -37,6 +37,7 @@ const RatingElement = (props)=>{
         emptyIcon={<StarBorderIcon fontSize="inherit" />}
         size="large"
         onChange={(event, newValue) => {
+          console.log(newValue)
           setIsVoted(true);
           props.setRateValue(newValue);
         }}
