@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
+import UserSessionContext from "../context/userSession-context";
 import firebase from "firebase";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
@@ -30,6 +31,9 @@ const RouteData = () => {
   const [chartData, setChartData] = useState([]);
   const [rateValue, setRateValue] = useState(undefined);
   const { routeId } = useParams();
+  const ctx = useContext(UserSessionContext);
+
+  console.log(ctx);
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
@@ -52,11 +56,11 @@ const RouteData = () => {
   const nav = new mapboxgl.NavigationControl();
 
   useEffect(() => {
-    if(rateValue) {
+    if (rateValue) {
       const routeRef = firebase.firestore().collection("routes").doc(routeId);
       routeRef.update({
         votes: firebase.firestore.FieldValue.arrayUnion({
-          user: "aaaAAAbbbBBB111222333aaa", // finally here will be userUID
+          user: ctx.userUid ? ctx.userUid : "nie ma user uid", // finally here will be userUID
           rate: rateValue,
         }),
       });
@@ -96,6 +100,7 @@ const RouteData = () => {
               ...routeData,
               duration: time,
               distance: distanceInKm,
+              votes: routeData.votes,
             };
           });
           directions.setOrigin(routeData.origin);
@@ -109,12 +114,12 @@ const RouteData = () => {
     });
   });
 
-  useEffect(()=>{
-    return ()=>{
+  useEffect(() => {
+    return () => {
       directions.removeRoutes();
-      map.current.remove()
-    }
-  },[])
+      map.current.remove();
+    };
+  }, []);
 
   async function fetchDirectionData() {
     const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;
@@ -126,7 +131,9 @@ const RouteData = () => {
       let data = await response.json();
       console.log(data);
       const allCoordinates = data.routes[0].geometry.coordinates;
-      let step = (Number(routeData.distance) / allCoordinates.length).toFixed(3);
+      let step = (Number(routeData.distance) / allCoordinates.length).toFixed(
+        3
+      );
       // return;
       const allResponses = await Promise.all(
         allCoordinates.map((coordinates, index) => {
@@ -164,7 +171,7 @@ const RouteData = () => {
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
       console.log("async function started");
-      fetchDirectionData();
+      // fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 
@@ -192,9 +199,9 @@ const RouteData = () => {
     }
   };
 
-  const removeMarker = (event)=>{
+  const removeMarker = (event) => {
     if (map.current._markers[0]) map.current._markers[0].remove();
-  }
+  };
 
   const chart = (
     <ResponsiveContainer width="100%" height={200}>
@@ -234,6 +241,8 @@ const RouteData = () => {
       </AreaChart>
     </ResponsiveContainer>
   );
+
+  console.log(routeData);
 
   return (
     <div className={classes.flexContainer}>
@@ -303,6 +312,9 @@ const RouteData = () => {
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   size="large"
                   onChange={(event, newValue) => setRateValue(newValue)}
+                  readOnly={routeData.votes ? routeData.votes.find(
+                    (object) => object.user === ctx.userUid ? true : false
+                  ) : true}
                 />
               </Box>
             </div>
