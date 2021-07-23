@@ -16,6 +16,7 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import RatingElement from "./RatingElement";
 
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
@@ -94,6 +95,11 @@ const RouteData = () => {
           const seconds = routeData.duration;
           const time = new Date(seconds * 1000).toISOString().substr(11, 8);
           const distanceInKm = (routeData.distance / 1000).toFixed(3);
+          const votesAverage = (
+            routeData.votes
+              .map((object) => +object.rate)
+              .reduce((acc, number) => acc + number) / routeData.votes.length
+          ).toFixed(2);
           setRouteData((previousState) => {
             return {
               ...previousState,
@@ -101,6 +107,7 @@ const RouteData = () => {
               duration: time,
               distance: distanceInKm,
               votes: routeData.votes,
+              votesAverage,
             };
           });
           directions.setOrigin(routeData.origin);
@@ -297,26 +304,14 @@ const RouteData = () => {
           <div className={classes.rateRouteContainer}>
             <div>
               <Typography variant="h3" style={{ padding: "20px" }}>
-                4.6
+                {routeData.votesAverage}
               </Typography>
             </div>
             <div>
-              <Box component="fieldset" mb={3} borderColor="transparent">
-                <Typography variant="body2" component="legend">
-                  Rate this route
-                </Typography>
-                <Rating
-                  name="customized-empty"
-                  defaultValue={4.5}
-                  precision={0.5}
-                  emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                  size="large"
-                  onChange={(event, newValue) => setRateValue(newValue)}
-                  readOnly={routeData.votes ? routeData.votes.find(
-                    (object) => object.user === ctx.userUid ? true : false
-                  ) : true}
-                />
-              </Box>
+              <RatingElement
+                routeData={routeData}
+                setRateValue={setRateValue}
+              />
             </div>
           </div>
           <div className={classes.chart}>{chart}</div>

@@ -1,0 +1,49 @@
+import React, {useContext, useEffect, useState} from "react"
+import UserSessionContext from "../context/userSession-context";
+import Rating from "@material-ui/lab/Rating";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import { Box, Typography } from "@material-ui/core";
+
+const RatingElement = (props)=>{
+  const [votesAverage, setVotesAverage] = useState(5)
+  const [isVoted, setIsVoted] = useState(false)
+  const ctx = useContext(UserSessionContext)
+  console.log(isVoted)
+
+  useEffect(() => {
+    if (!props.routeData.votesAverage) return;
+    console.log(props.routeData.votesAverage);
+    setVotesAverage(props.routeData.votesAverage);
+  }, [props.routeData.votesAverage]);
+
+  useEffect(() => {
+    if (isVoted) return;
+      if (props.routeData.votes) {
+        const vote = props.routeData.votes.find((object) =>
+          object.user === ctx.userUid ? true : false
+        );
+        setIsVoted(vote);
+      }
+  }, [props.routeData.votes, isVoted]);
+
+  return (
+    <Box component="fieldset" mb={3} borderColor="transparent">
+      <Typography variant="body2" component="legend">
+        Rate this route
+      </Typography>
+      <Rating
+        name="customized-empty"
+        value={votesAverage}
+        precision={0.5}
+        emptyIcon={<StarBorderIcon fontSize="inherit" />}
+        size="large"
+        onChange={(event, newValue) => {
+          setIsVoted(true);
+          props.setRateValue(newValue);
+        }}
+        readOnly={isVoted}
+      />
+    </Box>
+  );}
+
+export default RatingElement;
