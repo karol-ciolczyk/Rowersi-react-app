@@ -13,16 +13,15 @@ const RatingElement = (props)=>{
   useEffect(() => {
     if (!props.routeData.votesAverage) return;
     console.log(props.routeData.votesAverage);
-    setVotesAverage(props.routeData.votesAverage);
+    setVotesAverage(+props.routeData.votesAverage); // + represents changing of string to number
   }, [props.routeData.votesAverage]);
 
   useEffect(() => {
     if (isVoted) return;
       if (props.routeData.votes) {
-        const vote = props.routeData.votes.find((object) =>
-          object.user === ctx.userUid ? true : false
+        props.routeData.votes.find((object) =>
+          object.user === ctx.userUid ? setIsVoted(true) : setIsVoted(false)
         );
-        setIsVoted(vote);
       }
   }, [props.routeData.votes, isVoted]);
 
