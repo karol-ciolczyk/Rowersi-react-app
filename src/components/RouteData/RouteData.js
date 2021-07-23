@@ -28,6 +28,7 @@ const RouteData = () => {
   const [zoom, setZoom] = useState(6);
   const [routeData, setRouteData] = useState({});
   const [chartData, setChartData] = useState([]);
+  const [rateValue, setRateValue] = useState(undefined);
   const { routeId } = useParams();
 
   const directions = new Directions({
@@ -49,6 +50,18 @@ const RouteData = () => {
   });
 
   const nav = new mapboxgl.NavigationControl();
+
+  useEffect(() => {
+    if(rateValue) {
+      const routeRef = firebase.firestore().collection("routes").doc(routeId);
+      routeRef.update({
+        votes: firebase.firestore.FieldValue.arrayUnion({
+          user: "aaaAAAbbbBBB111222333aaa", // finally here will be userUID
+          rate: rateValue,
+        }),
+      });
+    }
+  }, [rateValue]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -222,10 +235,6 @@ const RouteData = () => {
     </ResponsiveContainer>
   );
 
-  // console.log(routeData);
-  // console.log(chartData);
-  console.log(directions)
-
   return (
     <div className={classes.flexContainer}>
       <div className={classes.flexchild1}>
@@ -235,7 +244,7 @@ const RouteData = () => {
               <Avatar
                 alt="Remy Sharp"
                 src="https://picsum.photos/150/150"
-                style={{ height: "100px", width: "100px", margin: "auto"}}
+                style={{ height: "100px", width: "100px", margin: "auto" }}
               />
               <div>
                 <h2>Stefek Stafański</h2>
@@ -289,10 +298,11 @@ const RouteData = () => {
                 </Typography>
                 <Rating
                   name="customized-empty"
-                  defaultValue={4}
+                  defaultValue={4.5}
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   size="large"
+                  onChange={(event, newValue) => setRateValue(newValue)}
                 />
               </Box>
             </div>
