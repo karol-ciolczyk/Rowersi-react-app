@@ -15,10 +15,7 @@ import LocalFloristIcon from '@material-ui/icons/LocalFlorist';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        marginTop: '4rem',
-        backgroundColor: '#fff',
-        paddingTop: '1rem',
-        paddingBottom: '2rem',
+        paddingTop: '2rem',
     },
     iconBox: {
         display: 'flex',

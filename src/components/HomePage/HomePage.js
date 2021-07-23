@@ -4,6 +4,7 @@ import { CssBaseline } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import PopularRegions from './PopularRegions';
 import ExploreIcons from './ExploreIcons';
+import PopularCycles from './PopularCycles';
 
 const useStyle = makeStyles((theme) => ({
     heroImage: {
@@ -54,6 +55,7 @@ export default function HomePage() {
             </section>
             <ExploreIcons />
             <PopularRegions />
+            <PopularCycles />
         </div>
     )
 }

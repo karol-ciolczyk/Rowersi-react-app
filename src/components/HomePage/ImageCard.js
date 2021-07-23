@@ -9,10 +9,12 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
-        width: 400,
+        width: 380,
+        boxShadow: '0 3px 5px 2px #adadad;',
+        marginBottom: '1.3rem',
     },
     media: {
-        height: 413,
+        height: 392,
     },
     title: {
         fontWeight: 'bold',

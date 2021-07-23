@@ -9,6 +9,14 @@ import regions from './regions';
 import useWindowPosition from './useWindowPosition';
 
 const useStyle = makeStyles((theme) => ({
+    root: {
+        backgroundColor: '#fff',
+        paddingBottom: '4rem',
+        paddingTop: '2rem',
+        marginTop: '4rem',
+        borderTop: '1px solid #ccc6',
+        borderBottom: '1px solid #ccc6',
+    },
     regionCards: {
         display: 'flex',
         justifyContent: 'space-around',
@@ -25,7 +33,7 @@ const useStyle = makeStyles((theme) => ({
         fontSize: '2rem',
         textTransform: 'uppercase',
         color: '#3bb2d0',
-        marginTop: '4rem',
+        marginTop: '2rem',
     },
     button: {
         color: 'white',

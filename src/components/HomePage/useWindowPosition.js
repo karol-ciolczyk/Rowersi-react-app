@@ -6,7 +6,7 @@ export default function useWindowPosition(id) {
     useLayoutEffect(() => {
         function updatePosition() {
             const offetSetHeight = window.document.getElementById(id).offsetHeight;
-            if (window.pageYOffset > offetSetHeight * 0.3) {
+            if (window.pageYOffset > offetSetHeight * 0.4) {
                 setAnimation(true);
             }
         }
