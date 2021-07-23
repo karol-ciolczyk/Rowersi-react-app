@@ -57,9 +57,17 @@
 }
 
 .rateRouteContainer {
+  position: relative;
   padding: 10px;
   display: flex;
   justify-content: space-around;
+}
+
+.rating {
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  color: grey;
 }
 
 .chart {

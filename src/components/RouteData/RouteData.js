@@ -185,9 +185,9 @@ const RouteData = () => {
       const elevation = object.activePayload[0].payload.elevation;
       const coordinates = object.activePayload[0].payload.coordinates;
       const marker = new mapboxgl.Marker({
-        color: "orange",
+        color: "#f36046",
         draggable: false,
-        scale: 0.7,
+        scale: 0.8,
       })
         .setLngLat(coordinates)
         .setPopup(
@@ -269,7 +269,7 @@ const RouteData = () => {
                 <Paper style={{ padding: "10px", margin: "5px" }}>
                   <Typography variant="overline">Distance: </Typography>
                   <Typography variant="subtitle2">
-                    {routeData.distance} KM
+                    {routeData.distance} km
                   </Typography>
                 </Paper>
                 <Paper style={{ padding: "10px", margin: "5px" }}>
@@ -297,6 +297,11 @@ const RouteData = () => {
           </div>
           <div className={classes.chart}></div>
           <div className={classes.rateRouteContainer}>
+            <div className={classes.rating}>
+              <Typography variant="subtitle1" style={{ padding: "5px" }}>
+                Rating
+              </Typography>
+            </div>
             <div>
               <Typography variant="h3" style={{ padding: "20px" }}>
                 {routeData.votesAverage}
