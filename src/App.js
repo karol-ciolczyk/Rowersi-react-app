@@ -12,6 +12,7 @@ import {
 import { Profile } from "./user-profile/profile.jsx";
 import firebase from "firebase";
 import HomePage from "./components/HomePage/HomePage";
+import RouteData from "./components/RouteData/RouteData";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -45,7 +46,7 @@ function App() {
           <Switch>
             <Route exact path="/newRoute" component={CreateNewRoute} />
             <Route path="/profile" component={Profile} />
-            <Route path="/" component={HomePage} />
+            <Route exact path="/" component={HomePage} />
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
           <Switch>
