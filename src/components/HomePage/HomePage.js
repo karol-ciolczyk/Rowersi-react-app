@@ -47,10 +47,7 @@ export default function HomePage() {
             <section className={classes.heroImage} id="heroImage">
                 <CssBaseline />
                 <Collapse in={checked} {...(true ? { timeout: 2000 } : {})} collapsedHeight={50}>
-                    <div>
-                        <h1 className={classes.title}>Check out the best <br />cycling routes and<br />places in Poland
-                        </h1>
-                    </div>
+                    <h1 className={classes.title}>Check out the best <br />cycling routes and<br />places in Poland</h1>
                 </Collapse>
             </section>
             <ExploreIcons />
