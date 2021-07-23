@@ -3,9 +3,7 @@ import UserSessionContext from "../context/userSession-context";
 import firebase from "firebase";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { Avatar, Paper, Typography, Box } from "@material-ui/core";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import Rating from "@material-ui/lab/Rating";
+import { Avatar, Paper, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import {
   ResponsiveContainer,
@@ -25,9 +23,6 @@ import "./MapPopup.css";
 const RouteData = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(19.433605529438495);
-  const [lat, setLat] = useState(52.09458858099802);
-  const [zoom, setZoom] = useState(6);
   const [routeData, setRouteData] = useState({});
   const [chartData, setChartData] = useState([]);
   const [rateValue, setRateValue] = useState(undefined);
@@ -73,8 +68,8 @@ const RouteData = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
-      center: [lng, lat],
-      zoom: zoom,
+      center: [19.433605529438495, 52.09458858099802],
+      zoom: 6,
     });
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
@@ -84,7 +79,7 @@ const RouteData = () => {
         "A mouseover event has occurred on a visible portion of the poi-label layer."
       );
     });
-    map.current.once("idle", () => {
+    map.current.once("load", () => {
       firebase
         .firestore()
         .collection("routes")
