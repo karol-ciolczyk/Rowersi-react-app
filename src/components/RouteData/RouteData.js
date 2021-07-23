@@ -90,13 +90,18 @@ const RouteData = () => {
           const bbox = [routeData.origin, routeData.destination];
           map.current.fitBounds(bbox, {
             padding: 100,
+            // duration: 2000,
           });
         });
     });
-    // directions.on("route", ()=>{
-    //   console.log(directions.actions.eventSubscribe().events.route);
-    // })
   });
+
+  useEffect(()=>{
+    return ()=>{
+      directions.removeRoutes();
+      map.current.remove()
+    }
+  },[])
 
   async function fetchDirectionData() {
     const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;

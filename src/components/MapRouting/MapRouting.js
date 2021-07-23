@@ -74,6 +74,42 @@ export default function Mapbox(props) {
 
   const nav = new mapboxgl.NavigationControl();
 
+  const getOnRouteData = (object) => {
+    const originCoordinates = directions.getOrigin().geometry.coordinates;
+    const destinationCoordinates =
+      directions.getDestination().geometry.coordinates;
+
+    const bbox = [originCoordinates, destinationCoordinates];
+    map.current.fitBounds(bbox, {
+      padding: 200,
+      // duration: 2000,
+    });
+
+    const coordinates = [originCoordinates, destinationCoordinates];
+    getElevation(coordinates, props.setRouteData);
+
+    map.current.once("idle", () => {
+      //  console.log(map.current.getCanvas().toDataURL())
+      props.setRouteData((previousState) => {
+        return {
+          ...previousState,
+          img: map.current.getCanvas().toDataURL(),
+        };
+      });
+    });
+
+    props.setRouteData((previousState) => {
+      return {
+        ...previousState,
+        distance: object.route[0].distance,
+        duration: object.route[0].duration,
+        origin: originCoordinates,
+        destination: destinationCoordinates,
+      };
+    });
+    console.log(directions.actions.eventSubscribe().events);
+  };
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -86,55 +122,22 @@ export default function Mapbox(props) {
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
-    // console.log("before", directions);
-    // console.log("before", directions.actions.eventSubscribe().events.route);
-    // console.log("before", directions.actions.eventEmit().events.route);
+    // console.log("before", directions.actions.eventSubscribe().events);
+    // console.log("before", directions.actions.eventEmit().events);
+    return () => map.current.remove();
+  },[]);
 
+  useEffect(() => {
     if (directions.actions.eventSubscribe().events.route) return;
-    directions.on("route", (object) => {
-      console.log("route event fired", directions);
-      const originCoordinates = directions.getOrigin().geometry.coordinates;
-      const destinationCoordinates =
-        directions.getDestination().geometry.coordinates;
-      // console.log(
-      //   object.route[0].legs[0].steps.map((object) => object.maneuver.location)
-      // );
-      // console.log(object);
-      console.log("onRoute event occured", directions.actions.eventSubscribe());
+    directions.on("route", getOnRouteData);
 
-      const bbox = [originCoordinates, destinationCoordinates];
-      map.current.fitBounds(bbox, {
-        padding: 200,
-      });
-      const coordinates = [originCoordinates, destinationCoordinates];
-      getElevation(coordinates, props.setRouteData);
-
-      map.current.once("idle", () => {
-        //  console.log(map.current.getCanvas().toDataURL())
-        props.setRouteData((previousState) => {
-          return {
-            ...previousState,
-            img: map.current.getCanvas().toDataURL(),
-          };
-        });
-      });
-
-      props.setRouteData((previousState) => {
-        return {
-          ...previousState,
-          distance: object.route[0].distance,
-          duration: object.route[0].duration,
-          origin: originCoordinates,
-          destination: destinationCoordinates,
-        };
-      });
-    });
-    // console.log("-----------", Directions);
-    // return () => {
-    //   console.log(directions.storeUnsubscribe());
-    //   directions.storeUnsubscribe();
-    // }
-  });
+    return () => {
+      console.log("cleaning function")
+      delete directions.actions.eventSubscribe().events.route;
+      delete directions.actions.eventSubscribe().events.undefined;
+      directions.removeRoutes();
+    };
+  }, []);
 
   return (
     <Paper
