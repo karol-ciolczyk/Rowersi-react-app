@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: "0px 5px",
+    backgroundColor: '#3bb2d0',
+    color: '#fff',
+    "&:hover, &:focus": {
+      backgroundColor: '#3bb2d0',
+    }
   },
 }));
 
@@ -51,7 +56,6 @@ export default function SignUpModal(props) {
       <Button
         className={classes.button}
         variant="contained"
-        color="secondary"
         href="#contained-buttons"
         onClick={handleOpen}
       >
@@ -72,7 +76,7 @@ export default function SignUpModal(props) {
         <Fade in={open}>
           <div className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
-              <SignUpForm onSubmitButton={onSubmitButtonHandler}/>
+              <SignUpForm onSubmitButton={onSubmitButtonHandler} />
             </Paper>
           </div>
         </Fade>

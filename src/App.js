@@ -7,7 +7,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
 import firebase from "firebase";
-import DisplayRouteElements from "./components/DisplayRouteElements/DisplayRouteElements";
+import HomePage from "./components/HomePage/HomePage";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -40,7 +40,7 @@ function App() {
           <Switch>
             <Route exact path="/newRoute" component={CreateNewRoute} />
             <Route path="/profile" component={Profile} />
-            <Route path="/" component={DisplayRouteElements} />
+            <Route path="/" component={HomePage} />
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
           </Switch>
         </div>
