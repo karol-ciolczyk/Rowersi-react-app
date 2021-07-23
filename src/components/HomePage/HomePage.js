@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import PopularRegions from './PopularRegions';
+import ExploreIcons from './ExploreIcons';
 
 const useStyle = makeStyles((theme) => ({
     heroImage: {
@@ -23,13 +24,13 @@ const useStyle = makeStyles((theme) => ({
     },
     title: {
         color: '#fff',
-        fontSize: '4rem',
+        fontSize: '3rem',
         textTransform: 'uppercase',
         textAlign: 'left',
-        marginLeft: '15rem',
+        marginLeft: '12rem',
         [theme.breakpoints.down('sm')]: {
             marginLeft: '3rem',
-            fontSize: '3rem',
+            fontSize: '2rem',
         },
     },
 }));
@@ -44,12 +45,14 @@ export default function HomePage() {
         <div className={classes.root} >
             <section className={classes.heroImage} id="heroImage">
                 <CssBaseline />
-                <Collapse in={checked} {...(true ? { timeout: 1000 } : {})} collapsedHeight={50}>
+                <Collapse in={checked} {...(true ? { timeout: 2000 } : {})} collapsedHeight={50}>
                     <div>
-                        <h1 className={classes.title}>Biking... <br />Feel Good</h1>
+                        <h1 className={classes.title}>Check out the best <br />cycling routes and<br />places in Poland
+                        </h1>
                     </div>
                 </Collapse>
             </section>
+            <ExploreIcons />
             <PopularRegions />
         </div>
     )

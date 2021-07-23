@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Collapse } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
         fontSize: '1.5rem',
         textTransform: 'uppercase',
         color: '#242424',
-    }
+    },
 });
 
 export default function ImageCard({ region, checked }) {
@@ -26,18 +27,20 @@ export default function ImageCard({ region, checked }) {
 
     return (
         <Collapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
-            <Card className={classes.root}>
-                <CardMedia
-                    className={classes.media}
-                    image={region.imageUrl}
-                    title="Popular Region"
-                />
-                <CardContent>
-                    <Typography gutterBottom component="h3" className={classes.title}>
-                        {region.title}
-                    </Typography>
-                </CardContent>
-            </Card>
+            <Link to={region.linkPath} style={{ textDecoration: 'none' }}>
+                <Card className={classes.root}>
+                    <CardMedia
+                        className={classes.media}
+                        image={region.imageUrl}
+                        title="Popular Region"
+                    />
+                    <CardContent>
+                        <Typography gutterBottom component="h3" className={classes.title}>
+                            {region.title}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Link>
         </Collapse>
     );
 }
