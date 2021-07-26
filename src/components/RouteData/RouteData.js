@@ -58,6 +58,7 @@ const RouteData = () => {
       );
 
       setRouteData((previousState) => {
+        console.log("setRouteUURLRURLRU", urls);
         return {
           ...previousState,
           urls,
@@ -69,7 +70,7 @@ const RouteData = () => {
   };
 
   useEffect(() => {
-    // getFilesUrlFromStorage();
+    getFilesUrlFromStorage();
   }, []);
 
   const directions = new Directions({
@@ -390,9 +391,9 @@ const RouteData = () => {
             )}
           </div>
         </div>
-      </div>
-      <div>
-        <Slider urls={routeData.urls} />
+        <div>
+          <Slider urls={routeData.urls} />
+        </div>
       </div>
 
       <div className={classes.flexchild2}>
