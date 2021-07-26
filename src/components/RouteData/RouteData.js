@@ -20,6 +20,7 @@ import RatingElement from "./RatingElement";
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
 import "./MapPopup.css";
+import { Slider } from "./Slider";
 
 const RouteData = () => {
   const mapContainer = useRef(null);
@@ -33,7 +34,7 @@ const RouteData = () => {
 
   console.log(ctx);
 
-  const getFilesFromStorage = async function () {
+  const getFilesUrlFromStorage = async function () {
     try {
       const storageRef = await firebase.storage().ref();
 
@@ -42,16 +43,33 @@ const RouteData = () => {
           `usersTest/2YXmYS5Ey5Pc3wu0xn5M8WM0lzF2/routes/tw4aoXw51MxkRkeLreTK`
         )
         .listAll();
-      listAll.items.forEach(console.log);
 
-      console.log("------------------tutututut", listAll.items);
+      const urls = await Promise.all(
+        listAll.items.map((item) => {
+          return (async () => {
+            try {
+              const src = await item.getDownloadURL();
+              return src;
+            } catch (error) {
+              alert(error);
+            }
+          })();
+        })
+      );
+
+      setRouteData((previousState) => {
+        return {
+          ...previousState,
+          urls,
+        };
+      });
     } catch (error) {
       alert(error);
     }
   };
 
   useEffect(() => {
-    getFilesFromStorage();
+    // getFilesUrlFromStorage();
   }, []);
 
   const directions = new Directions({
@@ -372,6 +390,9 @@ const RouteData = () => {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        <Slider urls={routeData.urls} />
       </div>
 
       <div className={classes.flexchild2}>
