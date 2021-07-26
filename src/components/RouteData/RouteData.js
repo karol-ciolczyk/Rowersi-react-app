@@ -5,6 +5,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Avatar, Paper, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import { Skeleton } from "@material-ui/lab";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -90,10 +91,13 @@ const RouteData = () => {
           const seconds = routeData.duration;
           const time = new Date(seconds * 1000).toISOString().substr(11, 8);
           const distanceInKm = (routeData.distance / 1000).toFixed(3);
-          const votesAverage = (routeData.votes ?
+          const votesAverage = (
             routeData.votes
-              .map((object) => +object.rate)
-              .reduce((acc, number) => acc + number) / routeData.votes.length : 0
+              ? routeData.votes
+                  .map((object) => +object.rate)
+                  .reduce((acc, number) => acc + number) /
+                routeData.votes.length
+              : 0
           ).toFixed(1);
           setRouteData((previousState) => {
             return {
@@ -103,6 +107,7 @@ const RouteData = () => {
               distance: distanceInKm,
               votes: routeData.votes,
               votesAverage,
+              isDataLoaded: true,
             };
           });
           directions.setOrigin(routeData.origin);
@@ -156,6 +161,7 @@ const RouteData = () => {
                 distance: distance,
                 coordinates: coordinates,
                 elevation: highestElevetion,
+                isDataLoaded: true,
               };
               return chartObject;
             } catch (err) {
@@ -263,27 +269,47 @@ const RouteData = () => {
             </div>
             <div className={classes.routeData}>
               <div>
-                <h1>{routeData.routeTitle}</h1>
+                <Typography variant="h4" component="div" gutterBottom>
+                  {routeData.isDataLoaded ? routeData.routeTitle : <Skeleton />}
+                </Typography>
               </div>
               <div className={classes.routeNumbersDataContainer}>
-                <Paper style={{ padding: "10px", margin: "5px" }}>
-                  <Typography variant="overline">Distance: </Typography>
-                  <Typography variant="subtitle2">
-                    {routeData.distance} km
-                  </Typography>
-                </Paper>
-                <Paper style={{ padding: "10px", margin: "5px" }}>
-                  <Typography variant="overline">Time: </Typography>
-                  <Typography variant="subtitle2">
-                    {routeData.duration}
-                  </Typography>
-                </Paper>
-                <Paper style={{ padding: "10px", margin: "5px" }}>
-                  <Typography variant="overline">Elevation1: </Typography>
-                  <Typography variant="subtitle2">
-                    {routeData.destinationElevation} m
-                  </Typography>
-                </Paper>
+                {routeData.isDataLoaded ? (
+                  <Paper style={{ padding: "10px", margin: "5px" }}>
+                    <Typography variant="overline">Distance: </Typography>
+                    <Typography variant="subtitle2">
+                      {routeData.distance} km
+                    </Typography>
+                  </Paper>
+                ) : (
+                  <div style={{ margin: "5px" }}>
+                    <Skeleton variant="rect" width={80} height={70} />
+                  </div>
+                )}
+                {routeData.isDataLoaded ? (
+                  <Paper style={{ padding: "10px", margin: "5px" }}>
+                    <Typography variant="overline">Time: </Typography>
+                    <Typography variant="subtitle2">
+                      {routeData.duration}
+                    </Typography>
+                  </Paper>
+                ) : (
+                  <div style={{ margin: "5px" }}>
+                    <Skeleton variant="rect" width={80} height={70} />
+                  </div>
+                )}
+                {routeData.isDataLoaded ? (
+                  <Paper style={{ padding: "10px", margin: "5px" }}>
+                    <Typography variant="overline">Elevation1: </Typography>
+                    <Typography variant="subtitle2">
+                      {routeData.destinationElevation} m
+                    </Typography>
+                  </Paper>
+                ) : (
+                  <div style={{ margin: "5px" }}>
+                    <Skeleton variant="rect" width={80} height={70} />
+                  </div>
+                )}
               </div>
             </div>
           </header>
