@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -13,6 +13,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import UploadImages from "../ImageUpload/UploadImages";
 import UserSessionContext from "../context/userSession-context";
 import addRouteDataToFirebase from "../../firebase/addRouteDataToFirebase";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import DirectionsIcon from "@material-ui/icons/Directions";
+import HeightIcon from "@material-ui/icons/Height";
+import MouseOverPopover from "./MouseOverPopover";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "20px",
   },
   title: {
+    color: "#3bb2d0",
     textTransform: "uppercase",
     fontWeight: "bold",
     paddingTop: "20px",
@@ -43,14 +48,37 @@ const useStyles = makeStyles((theme) => ({
   formFullWidth: {
     margin: theme.spacing(2),
     width: "55ch",
+    "& label.Mui-focused": {
+      color: "#3bb2d0",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "green",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "grey",
+      },
+      "&:hover fieldset": {
+        borderColor: "#8fdef2",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#3bb2d0",
+      },
+    },
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
   submit: {
+    color: "white",
+    backgroundColor: "tomato",
     width: "55ch",
     margin: "10px auto",
     padding: "10px",
+  },
+  routeDetailsContainer: {
+    display: "flex",
+    flexDirection: "column",
   },
   routeDetails: {
     width: "55ch",
@@ -59,22 +87,26 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
   },
-  routeDetaislItem: {
+  routeDetailsItem: {
     width: theme.spacing(16),
     flexGrow: "1",
     height: "100px",
     margin: "1px",
-    padding: "20px 3px",
+    padding: "5px 3px",
   },
 }));
 
 export default function CreateRouteForm(props) {
   const classes = useStyles();
-  const [routeDescription, setRouteDescription] = useState({region: "", routeTitle:"", routeDescription: "",});
+  const [routeDescription, setRouteDescription] = useState({
+    region: "",
+    routeTitle: "",
+    routeDescription: "",
+  });
   const { distance, duration, originElevation, destinationElevation } =
     props.routeData;
   const ctx = useContext(UserSessionContext);
-  console.log(ctx)
+  console.log(ctx);
 
   const handleChange = (event) => {
     setRouteDescription((previousState) => {
@@ -85,26 +117,20 @@ export default function CreateRouteForm(props) {
     });
   };
 
-  const onSubmitHandler = (event)=>{
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    const allRouteData = {...routeDescription, ...props.routeData, ...ctx}
+    const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
 
     console.log(allRouteData);
     addRouteDataToFirebase(allRouteData);
-  }
-
+  };
 
   return (
     <Container maxWidth="sm" className={classes.container}>
       <Paper elevation={7} className={classes.paper}>
         <CssBaseline />
         <div>
-          <Typography
-            color="primary"
-            className={classes.title}
-            variant="h5"
-            noWrap
-          >
+          <Typography className={classes.title} variant="h5" noWrap>
             Create New Route
           </Typography>
 
@@ -135,26 +161,38 @@ export default function CreateRouteForm(props) {
                 <Paper
                   variant="outlined"
                   elevation={0}
-                  className={classes.routeDetaislItem}
+                  className={classes.routeDetailsItem}
                 >
-                  {duration ? duration : "Time:"}
+                  <div className={classes.routeDetailsContainer}>
+                    <div>
+                      <MouseOverPopover data="duration" />
+                    </div>
+                    <div>{duration}</div>
+                  </div>
                 </Paper>
                 <Paper
                   variant="outlined"
                   elevation={0}
-                  className={classes.routeDetaislItem}
+                  className={classes.routeDetailsItem}
                 >
-                  {distance ? distance : "Distance"}
+                  <div className={classes.routeDetailsContainer}>
+                    <div>
+                      <MouseOverPopover data="distance" />
+                    </div>
+                    <div>{distance} km</div>
+                  </div>
                 </Paper>
                 <Paper
                   variant="outlined"
                   elevation={0}
-                  className={classes.routeDetaislItem}
+                  className={classes.routeDetailsItem}
                 >
-                  {originElevation ? `A:${originElevation}` : "Origin"}/
-                  {destinationElevation
-                    ? `B:${destinationElevation}`
-                    : "Destination"}
+                  <div className={classes.routeDetailsContainer}>
+                    <div>
+                      <MouseOverPopover data="elevation" />
+                    </div>
+                    <div>{originElevation} m</div>
+                  </div>
                 </Paper>
               </div>
 
@@ -184,7 +222,6 @@ export default function CreateRouteForm(props) {
             <Button
               type="submit"
               variant="contained"
-              color="primary"
               className={classes.submit}
             >
               Submit
