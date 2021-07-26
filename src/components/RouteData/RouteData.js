@@ -33,6 +33,27 @@ const RouteData = () => {
 
   console.log(ctx);
 
+  const getFilesFromStorage = async function () {
+    try {
+      const storageRef = await firebase.storage().ref();
+
+      const listAll = await storageRef
+        .child(
+          `usersTest/2YXmYS5Ey5Pc3wu0xn5M8WM0lzF2/routes/tw4aoXw51MxkRkeLreTK`
+        )
+        .listAll();
+      listAll.items.forEach(console.log);
+
+      console.log("------------------tutututut", listAll.items);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    getFilesFromStorage();
+  }, []);
+
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
     profile: "mapbox/cycling",
@@ -89,9 +110,8 @@ const RouteData = () => {
         .get()
         .then((response) => {
           const routeData = response.data();
-          const seconds = routeData.duration;
-          const time = new Date(seconds * 1000).toISOString().substr(11, 8);
-          const distanceInKm = (routeData.distance / 1000).toFixed(3);
+          const time = routeData.duration;
+          const distanceInKm = routeData.distance;
           const votesAverage = (
             routeData.votes
               ? routeData.votes
@@ -179,7 +199,7 @@ const RouteData = () => {
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
       console.log("async function started");
-      fetchDirectionData();
+      // fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 
