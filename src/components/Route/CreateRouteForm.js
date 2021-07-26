@@ -13,10 +13,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import UploadImages from "../ImageUpload/UploadImages";
 import UserSessionContext from "../context/userSession-context";
 import addRouteDataToFirebase from "../../firebase/addRouteDataToFirebase";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import DirectionsIcon from "@material-ui/icons/Directions";
-import HeightIcon from "@material-ui/icons/Height";
 import MouseOverPopover from "./MouseOverPopover";
+import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: "1",
     height: "100px",
     margin: "1px",
-    padding: "5px 3px",
+    padding: "10px 3px",
   },
 }));
 
@@ -102,11 +100,12 @@ export default function CreateRouteForm(props) {
     region: "",
     routeTitle: "",
     routeDescription: "",
+    files: [],
   });
+  const [routeFiles, setRouteFiles] = useState([]);
   const { distance, duration, originElevation, destinationElevation } =
     props.routeData;
   const ctx = useContext(UserSessionContext);
-  console.log(ctx);
 
   const handleChange = (event) => {
     setRouteDescription((previousState) => {
@@ -117,13 +116,34 @@ export default function CreateRouteForm(props) {
     });
   };
 
+  async function addRouteData(allRouteData, routeFiles) {
+    try {
+      const response = await addRouteDataToFirebase(allRouteData);
+      const routeAddedId = response.id;
+
+      routeFiles.files.forEach((filesObject) => {
+        const routeFileName = filesObject.name;
+        firebase
+          .storage()
+          .ref(
+            `usersTest/${ctx.userUid}/routes/${routeAddedId}/${routeFileName}`
+          )
+          .put(filesObject);
+      });
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
 
-    console.log(allRouteData);
-    addRouteDataToFirebase(allRouteData);
+    console.log(routeFiles);
+    addRouteData(allRouteData, routeFiles);
   };
+
+  console.log(routeFiles);
 
   return (
     <Container maxWidth="sm" className={classes.container}>
@@ -218,7 +238,7 @@ export default function CreateRouteForm(props) {
                 </Select>
               </FormControl>
             </div>
-            <UploadImages />
+            <UploadImages setRouteFiles={setRouteFiles} />
             <Button
               type="submit"
               variant="contained"

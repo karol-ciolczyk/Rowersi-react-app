@@ -73,6 +73,8 @@ export default function UploadImages(props) {
     },
   });
 
+  const setRouteFiles = props.setRouteFiles;
+
   const thumbs = files.map((file) => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
@@ -88,6 +90,20 @@ export default function UploadImages(props) {
     },
     [files]
   );
+
+  console.log(files);
+  console.log(props);
+
+  useEffect(() => {
+    if (files.length > 0) {
+      setRouteFiles((previousState) => {
+        return {
+          ...previousState,
+          files,
+        };
+      });
+    }
+  }, [files]);
 
   return (
     <section className={classes.container}>
