@@ -12,9 +12,6 @@ mapboxgl.accessToken =
 export default function Mapbox(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(19.52);
-  const [lat, setLat] = useState(50.1);
-  const [zoom, setZoom] = useState(11);
   // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
@@ -115,8 +112,8 @@ export default function Mapbox(props) {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
-      center: [lng, lat],
-      zoom: zoom,
+      center: [19.52, 50.1],
+      zoom: 11,
     });
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
@@ -125,14 +122,14 @@ export default function Mapbox(props) {
     // console.log("before", directions.actions.eventSubscribe().events);
     // console.log("before", directions.actions.eventEmit().events);
     return () => map.current.remove();
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (directions.actions.eventSubscribe().events.route) return;
     directions.on("route", getOnRouteData);
 
     return () => {
-      console.log("cleaning function")
+      console.log("cleaning function");
       delete directions.actions.eventSubscribe().events.route;
       delete directions.actions.eventSubscribe().events.undefined;
       directions.removeRoutes();
