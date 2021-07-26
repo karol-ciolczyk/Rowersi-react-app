@@ -33,7 +33,7 @@ export const Slider = function (props) {
     <AutoplaySlider
       play={true}
       cancelOnInteraction={false} // should stop playing on user interaction
-      interval={3000}
+      interval={5000}
     >
       {urlsArray.map((url) => (
         <div data-src={url} key={url.slice(0, 5)} />

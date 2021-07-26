@@ -25,7 +25,7 @@ import { Slider } from "./Slider";
 const RouteData = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [routeData, setRouteData] = useState({});
+  const [routeData, setRouteData] = useState({ urls: [] });
   const [chartData, setChartData] = useState([]);
   const [rateValue, setRateValue] = useState(undefined);
   const { routeId } = useParams();
@@ -39,9 +39,7 @@ const RouteData = () => {
       const storageRef = await firebase.storage().ref();
 
       const listAll = await storageRef
-        .child(
-          `usersTest/2YXmYS5Ey5Pc3wu0xn5M8WM0lzF2/routes/tw4aoXw51MxkRkeLreTK`
-        )
+        .child(`usersTest/${ctx.userUid}/routes/${routeId}`)
         .listAll();
 
       const urls = await Promise.all(
@@ -294,6 +292,9 @@ const RouteData = () => {
   return (
     <div className={classes.flexContainer}>
       <div className={classes.flexchild1}>
+        <div>
+          {routeData.urls.length > 0 ? <Slider urls={routeData.urls} /> : ""}
+        </div>
         <div className={classes.flexchild__routeData}>
           <header className={classes.header}>
             <div>
@@ -390,9 +391,6 @@ const RouteData = () => {
               </Paper>
             )}
           </div>
-        </div>
-        <div>
-          <Slider urls={routeData.urls} />
         </div>
       </div>
 

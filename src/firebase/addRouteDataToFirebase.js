@@ -10,7 +10,8 @@ const addRouteDataToFirebase = (routeDataObject) => {
         alert("your new route added");
         return response;
       }
-    });
+    })
+    .catch(console.log);
 };
 
 export default addRouteDataToFirebase;

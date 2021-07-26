@@ -100,7 +100,6 @@ export default function CreateRouteForm(props) {
     region: "",
     routeTitle: "",
     routeDescription: "",
-    files: [],
   });
   const [routeFiles, setRouteFiles] = useState([]);
   const { distance, duration, originElevation, destinationElevation } =
@@ -117,6 +116,8 @@ export default function CreateRouteForm(props) {
   };
 
   async function addRouteData(allRouteData, routeFiles) {
+    console.log(allRouteData);
+    console.log(routeFiles);
     try {
       const response = await addRouteDataToFirebase(allRouteData);
       const routeAddedId = response.id;
@@ -139,7 +140,6 @@ export default function CreateRouteForm(props) {
     event.preventDefault();
     const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
 
-    console.log(routeFiles);
     addRouteData(allRouteData, routeFiles);
   };
 
