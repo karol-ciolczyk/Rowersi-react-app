@@ -29,6 +29,7 @@ const RouteData = () => {
   const [rateValue, setRateValue] = useState(undefined);
   const { routeId } = useParams();
   const ctx = useContext(UserSessionContext);
+  const isChartDataLoaded = chartData.length > 0;
 
   console.log(ctx);
 
@@ -161,7 +162,6 @@ const RouteData = () => {
                 distance: distance,
                 coordinates: coordinates,
                 elevation: highestElevetion,
-                isDataLoaded: true,
               };
               return chartObject;
             } catch (err) {
@@ -318,7 +318,9 @@ const RouteData = () => {
               Route description:
             </Typography>
             <Typography variant="subtitle1" style={{ padding: "10px" }}>
-              Route description: {routeData.routeDescription}
+              {routeData.isDataLoaded
+                ? routeData.routeDescription
+                : [<Skeleton />, <Skeleton />]}
             </Typography>
           </div>
           <div className={classes.chart}></div>
@@ -340,7 +342,15 @@ const RouteData = () => {
               />
             </div>
           </div>
-          <div className={classes.chart}>{chart}</div>
+          <div className={classes.chart}>
+            {isChartDataLoaded ? (
+              chart
+            ) : (
+              <Paper elevation={0} component="div">
+                <Skeleton variant="rect" height={180} />
+              </Paper>
+            )}
+          </div>
         </div>
       </div>
 

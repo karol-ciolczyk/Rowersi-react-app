@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from "react"
+import React, { useContext, useEffect, useState } from "react";
 import UserSessionContext from "../context/userSession-context";
 import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Box, Typography } from "@material-ui/core";
 
-const RatingElement = (props)=>{
-  const [votesAverage, setVotesAverage] = useState(5)
-  const [isVoted, setIsVoted] = useState(false)
-  const ctx = useContext(UserSessionContext)
-  console.log(isVoted)
+const RatingElement = (props) => {
+  const [votesAverage, setVotesAverage] = useState(5);
+  const [isVoted, setIsVoted] = useState(false);
+  const ctx = useContext(UserSessionContext);
+  console.log(isVoted);
 
   useEffect(() => {
     if (!props.routeData.votesAverage) return;
@@ -18,11 +18,11 @@ const RatingElement = (props)=>{
 
   useEffect(() => {
     if (isVoted) return;
-      if (props.routeData.votes) {
-        props.routeData.votes.find((object) =>
-          object.user === ctx.userUid ? setIsVoted(true) : setIsVoted(false)
-        );
-      }
+    if (props.routeData.votes) {
+      props.routeData.votes.find((object) =>
+        object.user === ctx.userUid ? setIsVoted(true) : setIsVoted(false)
+      );
+    }
   }, [props.routeData.votes, isVoted]);
 
   return (
@@ -37,13 +37,14 @@ const RatingElement = (props)=>{
         emptyIcon={<StarBorderIcon fontSize="inherit" />}
         size="large"
         onChange={(event, newValue) => {
-          console.log(newValue)
+          console.log(newValue);
           setIsVoted(true);
           props.setRateValue(newValue);
         }}
         readOnly={isVoted}
       />
     </Box>
-  );}
+  );
+};
 
 export default RatingElement;
