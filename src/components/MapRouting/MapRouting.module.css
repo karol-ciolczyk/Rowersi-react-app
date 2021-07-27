@@ -2,6 +2,7 @@
   height: 100%;
   width: 100%;
   margin: auto;
+  margin-bottom: 50px;
 }
 
 .sidebar {
@@ -15,4 +16,21 @@
   left: 0;
   margin: 12px;
   border-radius: 4px;
+}
+
+.contentContaner {
+  display: flex;
+  flex-direction: row;
+}
+
+.directionsContainer {
+  padding: 20px 10px;
+  /* border-radius: 5px; */
+  /* position: absolute; */
+  /* top: 10px; */
+  background-color: #fff;
+}
+
+.mapContainer {
+  width: 100%;
 }

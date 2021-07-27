@@ -157,7 +157,7 @@ export default function CreateRouteForm(props) {
       isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
     };
 
-    // addRouteData(allRouteData, routeFiles);
+    addRouteData(allRouteData, routeFiles);
     setRouteDescription((previousState) => {
       return {
         ...previousState,
