@@ -91,6 +91,40 @@ const RouteData = () => {
 
   const nav = new mapboxgl.NavigationControl();
 
+  // Add listener in route collection in firebase to watch changes in route documents which have "isvote = true" field
+  // the following useEffect applies changing rating average live
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection("routes")
+      .where("isVote", "==", true)
+      .onSnapshot((querySnapshot) => {
+        // console.log(querySnapshot); it shows how many objects from collection are listenned (passed the where("isVote", "==", true) condition) and in next forEach function in first render. Then after each change shows only changed element
+        querySnapshot.docChanges().forEach((change) => {
+          console.log(change.doc.data());
+          console.log(change.type);
+          if (change.type === "modified") {
+            const votesArray = change.doc.data().votes;
+            const average =
+              votesArray
+                .map((object) => +object.rate)
+                .reduce((acc, number) => acc + number) / votesArray.length;
+
+            setRouteData((previousState) => {
+              return {
+                ...previousState,
+                votesAverage: average.toFixed(1),
+              };
+            });
+          }
+        });
+      });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  // Add new vote object to votes field in routes collection in firestoreDatabase in route with current route ID
   useEffect(() => {
     if (rateValue) {
       const routeRef = firebase.firestore().collection("routes").doc(routeId);
@@ -103,6 +137,7 @@ const RouteData = () => {
     }
   }, [rateValue]);
 
+  // the following useEffect applies add map to component, add map load listener once which invokes fetch route-data
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -114,11 +149,6 @@ const RouteData = () => {
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
-    map.current.on("mouseover", "LineString", function () {
-      console.log(
-        "A mouseover event has occurred on a visible portion of the poi-label layer."
-      );
-    });
     map.current.once("load", () => {
       console.log(firebase);
       firebase
@@ -160,6 +190,7 @@ const RouteData = () => {
     });
   });
 
+  //  The following useEffect applies to cleaning map data and direction data after unmounting a component
   useEffect(() => {
     return () => {
       directions.removeRoutes();
@@ -217,7 +248,7 @@ const RouteData = () => {
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
       console.log("async function started");
-      fetchDirectionData();
+      // fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 

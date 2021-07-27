@@ -143,7 +143,12 @@ export default function CreateRouteForm(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
+    const allRouteData = {
+      ...routeDescription,
+      ...props.routeData,
+      ...ctx,
+      isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
+    };
 
     // addRouteData(allRouteData, routeFiles);
     setRouteDescription((previousState) => {
