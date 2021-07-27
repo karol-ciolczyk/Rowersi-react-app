@@ -4,11 +4,7 @@ import UserSessionContext from "./components/context/userSession-context";
 import Navbar from "./components/Navbar";
 import CreateNewRoute from "./components/CreateNewRoute/CreateNewRoute";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
 import firebase from "firebase";
 import HomePage from "./components/HomePage/HomePage";
@@ -18,7 +14,6 @@ function App() {
   const [userUid, setUserUid] = useState();
 
   const onLoggedInDataHandler = (uid) => {
-    console.log(uid);
     setUserUid(uid);
   };
 
@@ -26,7 +21,6 @@ function App() {
     // this is needed to setUserUid after refreshing browser
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
-        console.log(user);
         setUserUid(user.uid);
       }
     });
