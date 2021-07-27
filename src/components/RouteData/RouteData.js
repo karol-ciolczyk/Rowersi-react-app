@@ -216,7 +216,7 @@ const RouteData = () => {
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
       console.log("async function started");
-      // fetchDirectionData();
+      fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 
