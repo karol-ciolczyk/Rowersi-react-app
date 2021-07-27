@@ -145,7 +145,7 @@ export default function CreateRouteForm(props) {
     event.preventDefault();
     const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
 
-    addRouteData(allRouteData, routeFiles);
+    // addRouteData(allRouteData, routeFiles);
     setRouteDescription((previousState) => {
       return {
         ...previousState,
