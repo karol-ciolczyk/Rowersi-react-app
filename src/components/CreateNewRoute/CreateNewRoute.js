@@ -1,19 +1,18 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import MapRouting from "../MapRouting/MapRouting";
 import CreateRouteForm from "../Route/CreateRouteForm";
 
-import style from "./CreateNewRoute.module.css"
+import style from "./CreateNewRoute.module.css";
 
-const CreateNewRoute = ()=>{
+const CreateNewRoute = () => {
   const [routeData, setRouteData] = useState({});
-  console.log(routeData)
+  console.log("createRouteForm element occured");
 
   return (
     <div className={style.container}>
       <MapRouting
         routeId={routeData.routeId}
-        isInteractive={true}
         isInput={true}
         setRouteData={setRouteData}
       />

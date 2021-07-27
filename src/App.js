@@ -8,19 +8,19 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
 import firebase from "firebase";
 import HomePage from "./components/HomePage/HomePage";
+import RouteData from "./components/RouteData/RouteData";
 
 function App() {
   const [userUid, setUserUid] = useState();
 
   const onLoggedInDataHandler = (uid) => {
-    console.log(uid);
     setUserUid(uid);
   };
 
-  useEffect(() => {  // this is needed to setUserUid after refreshing browser
+  useEffect(() => {
+    // this is needed to setUserUid after refreshing browser
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
-        console.log(user);
         setUserUid(user.uid);
       }
     });
@@ -40,8 +40,11 @@ function App() {
           <Switch>
             <Route exact path="/newRoute" component={CreateNewRoute} />
             <Route path="/profile" component={Profile} />
-            <Route path="/" component={HomePage} />
+            <Route exact path="/" component={HomePage} />
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
+          </Switch>
+          <Switch>
+            <Route path="/route/:routeId" component={RouteData} />
           </Switch>
         </div>
       </Router>

@@ -1,0 +1,14 @@
+.mapboxgl-popup-close-button {
+  display: none;
+}
+
+.mapboxgl-popup-content {
+  max-height: 50px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10%;
+  padding: 5px;
+}
+
+.mapboxgl-popup-content h4 {
+  margin: 13px;
+}
