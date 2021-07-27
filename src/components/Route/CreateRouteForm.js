@@ -146,9 +146,15 @@ export default function CreateRouteForm(props) {
     const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
 
     addRouteData(allRouteData, routeFiles);
+    setRouteDescription((previousState) => {
+      return {
+        ...previousState,
+        routeDescription: "",
+        routeTitle: "",
+        region: "",
+      };
+    });
   };
-
-  console.log(routeFiles);
 
   return (
     <Container maxWidth="sm" className={classes.container}>
@@ -221,6 +227,7 @@ export default function CreateRouteForm(props) {
                 <div>
                   <TextField
                     name="routeTitle"
+                    value={routeDescription.routeTitle}
                     className={classes.formFullWidth}
                     label="Enter a title for your route"
                     variant="outlined"
@@ -228,6 +235,7 @@ export default function CreateRouteForm(props) {
                   />
                   <TextField
                     name="routeDescription"
+                    value={routeDescription.routeDescription}
                     className={classes.formFullWidth}
                     label="Description"
                     multiline
