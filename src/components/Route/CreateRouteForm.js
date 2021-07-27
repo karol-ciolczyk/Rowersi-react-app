@@ -16,6 +16,11 @@ import addRouteDataToFirebase from "../../firebase/addRouteDataToFirebase";
 import MouseOverPopover from "./MouseOverPopover";
 import firebase from "firebase";
 
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -31,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: "20px",
-    paddingBottom: "20px",
+    paddingBottom: "0px",
   },
   title: {
     color: "#3bb2d0",
@@ -154,99 +159,121 @@ export default function CreateRouteForm(props) {
             Create New Route
           </Typography>
 
-          <form
-            onSubmit={onSubmitHandler}
-            className={classes.root}
-            noValidate
-            autoComplete="off"
-          >
-            <div>
-              <TextField
-                name="routeTitle"
-                className={classes.formFullWidth}
-                label="Enter a title for your route"
-                variant="outlined"
-                onChange={handleChange}
-              />
-              <TextField
-                name="routeDescription"
-                className={classes.formFullWidth}
-                label="Description"
-                multiline
-                rows={3}
-                variant="outlined"
-                onChange={handleChange}
-              />
-              <div className={classes.routeDetails}>
-                <Paper
-                  variant="outlined"
-                  elevation={0}
-                  className={classes.routeDetailsItem}
-                >
-                  <div className={classes.routeDetailsContainer}>
-                    <div>
-                      <MouseOverPopover data="duration" />
-                    </div>
-                    <div>{duration}</div>
-                  </div>
-                </Paper>
-                <Paper
-                  variant="outlined"
-                  elevation={0}
-                  className={classes.routeDetailsItem}
-                >
-                  <div className={classes.routeDetailsContainer}>
-                    <div>
-                      <MouseOverPopover data="distance" />
-                    </div>
-                    <div>{distance} km</div>
-                  </div>
-                </Paper>
-                <Paper
-                  variant="outlined"
-                  elevation={0}
-                  className={classes.routeDetailsItem}
-                >
-                  <div className={classes.routeDetailsContainer}>
-                    <div>
-                      <MouseOverPopover data="elevation" />
-                    </div>
-                    <div>{originElevation} m</div>
-                  </div>
-                </Paper>
-              </div>
-
-              <FormControl variant="outlined" className={classes.formFullWidth}>
-                <InputLabel id="select-region">Region</InputLabel>
-                <Select
-                  name="region"
-                  labelId="select-region"
-                  id="select-region"
-                  value={routeDescription.region}
-                  onChange={handleChange}
-                  label="Region"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"Greater Poland"}>Greater Poland</MenuItem>
-                  <MenuItem value={"Kuyavia"}>Kuyavia</MenuItem>
-                  <MenuItem value={"Mazury"}>Mazury</MenuItem>
-                  <MenuItem value={"Podhale"}>Podhale</MenuItem>
-                  <MenuItem value={"Pomerania"}>Pomerania</MenuItem>
-                  <MenuItem value={"Silesia"}>Silesia</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <UploadImages setRouteFiles={setRouteFiles} />
-            <Button
-              type="submit"
-              variant="contained"
-              className={classes.submit}
+          <div className={classes.routeDetails}>
+            <Paper
+              variant="outlined"
+              elevation={0}
+              className={classes.routeDetailsItem}
             >
-              Submit
-            </Button>
-          </form>
+              <div className={classes.routeDetailsContainer}>
+                <div>
+                  <MouseOverPopover data="duration" />
+                </div>
+                <div>{duration}</div>
+              </div>
+            </Paper>
+            <Paper
+              variant="outlined"
+              elevation={0}
+              className={classes.routeDetailsItem}
+            >
+              <div className={classes.routeDetailsContainer}>
+                <div>
+                  <MouseOverPopover data="distance" />
+                </div>
+                <div>{distance} km</div>
+              </div>
+            </Paper>
+            <Paper
+              variant="outlined"
+              elevation={0}
+              className={classes.routeDetailsItem}
+            >
+              <div className={classes.routeDetailsContainer}>
+                <div>
+                  <MouseOverPopover data="elevation" />
+                </div>
+                <div>{originElevation} m</div>
+              </div>
+            </Paper>
+          </div>
+
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="subtitle1" style={{ marginRight: "60px" }}>
+                Description:
+              </Typography>
+              <Typography variant="subtitle1" style={{ color: "grey" }}>
+                Add route descritpion here
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <form
+                onSubmit={onSubmitHandler}
+                className={classes.root}
+                noValidate
+                autoComplete="off"
+              >
+                <div>
+                  <TextField
+                    name="routeTitle"
+                    className={classes.formFullWidth}
+                    label="Enter a title for your route"
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    name="routeDescription"
+                    className={classes.formFullWidth}
+                    label="Description"
+                    multiline
+                    rows={3}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formFullWidth}
+                  >
+                    <InputLabel id="select-region">Region</InputLabel>
+                    <Select
+                      name="region"
+                      labelId="select-region"
+                      id="select-region"
+                      value={routeDescription.region}
+                      onChange={handleChange}
+                      label="Region"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={"Greater Poland"}>
+                        Greater Poland
+                      </MenuItem>
+                      <MenuItem value={"Kuyavia"}>Kuyavia</MenuItem>
+                      <MenuItem value={"Mazury"}>Mazury</MenuItem>
+                      <MenuItem value={"Podhale"}>Podhale</MenuItem>
+                      <MenuItem value={"Pomerania"}>Pomerania</MenuItem>
+                      <MenuItem value={"Silesia"}>Silesia</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                <UploadImages setRouteFiles={setRouteFiles} />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className={classes.submit}
+                >
+                  Submit
+                </Button>
+              </form>
+            </AccordionDetails>
+          </Accordion>
         </div>
       </Paper>
     </Container>

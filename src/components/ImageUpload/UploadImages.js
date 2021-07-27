@@ -91,9 +91,6 @@ export default function UploadImages(props) {
     [files]
   );
 
-  console.log(files);
-  console.log(props);
-
   useEffect(() => {
     if (files.length > 0) {
       setRouteFiles((previousState) => {
