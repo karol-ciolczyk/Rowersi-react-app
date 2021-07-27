@@ -32,8 +32,6 @@ const RouteData = () => {
   const ctx = useContext(UserSessionContext);
   const isChartDataLoaded = chartData.length > 0;
 
-  console.log(ctx);
-
   const getFilesUrlFromStorage = async function () {
     try {
       const storageRef = await firebase.storage().ref();
@@ -56,7 +54,6 @@ const RouteData = () => {
       );
 
       setRouteData((previousState) => {
-        console.log("setRouteUURLRURLRU", urls);
         return {
           ...previousState,
           urls,
@@ -101,8 +98,6 @@ const RouteData = () => {
       .onSnapshot((querySnapshot) => {
         // console.log(querySnapshot); it shows how many objects from collection are listenned (passed the where("isVote", "==", true) condition) and in next forEach function in first render. Then after each change shows only changed element
         querySnapshot.docChanges().forEach((change) => {
-          console.log(change.doc.data());
-          console.log(change.type);
           if (change.type === "modified") {
             const votesArray = change.doc.data().votes;
             const average =
@@ -150,7 +145,6 @@ const RouteData = () => {
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
     map.current.once("load", () => {
-      console.log(firebase);
       firebase
         .firestore()
         .collection("routes")
@@ -200,13 +194,11 @@ const RouteData = () => {
 
   async function fetchDirectionData() {
     const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;
-    console.log(coordinatesString);
     try {
       let response = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
       );
       let data = await response.json();
-      console.log(data);
       const allCoordinates = data.routes[0].geometry.coordinates;
       let step = (Number(routeData.distance) / allCoordinates.length).toFixed(
         3
@@ -247,7 +239,6 @@ const RouteData = () => {
 
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
-      console.log("async function started");
       // fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
@@ -318,8 +309,6 @@ const RouteData = () => {
       </AreaChart>
     </ResponsiveContainer>
   );
-
-  console.log(routeData);
 
   return (
     <div className={classes.flexContainer}>
