@@ -120,6 +120,7 @@ const RouteData = () => {
       );
     });
     map.current.once("load", () => {
+      console.log(firebase);
       firebase
         .firestore()
         .collection("routes")

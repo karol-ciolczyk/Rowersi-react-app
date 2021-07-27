@@ -56,7 +56,7 @@ export default function Mapbox(props) {
     profile: "mapbox/cycling",
     unit: "metric",
     styles: style,
-    interactive: props.isInteractive,
+    interactive: false,
     alternatives: false,
     language: "pl",
     congestion: true,

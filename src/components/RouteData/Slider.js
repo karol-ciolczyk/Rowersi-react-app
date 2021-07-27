@@ -27,8 +27,6 @@ const AutoplaySlider = withAutoplay(AwesomeSlider);
 export const Slider = function (props) {
   const urlsArray = props.urls ? props.urls : [];
 
-  console.log("---------------", urlsArray);
-
   return (
     <AutoplaySlider
       play={true}
