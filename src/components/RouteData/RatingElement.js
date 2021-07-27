@@ -8,11 +8,9 @@ const RatingElement = (props) => {
   const [votesAverage, setVotesAverage] = useState(5);
   const [isVoted, setIsVoted] = useState(false);
   const ctx = useContext(UserSessionContext);
-  console.log(isVoted);
 
   useEffect(() => {
     if (!props.routeData.votesAverage) return;
-    console.log(props.routeData.votesAverage);
     setVotesAverage(+props.routeData.votesAverage); // + represents changing of string to number
   }, [props.routeData.votesAverage]);
 
@@ -37,7 +35,6 @@ const RatingElement = (props) => {
         emptyIcon={<StarBorderIcon fontSize="inherit" />}
         size="large"
         onChange={(event, newValue) => {
-          console.log(newValue);
           setIsVoted(true);
           props.setRateValue(newValue);
         }}
