@@ -52,8 +52,7 @@ const DisplayRouteElements = () => {
       .then((response) => {
         const doscsArray = response.docs;
         const routeDataObjects = doscsArray.map((object) => {
-          const seconds = object.data().duration;
-          const time = new Date(seconds * 1000).toISOString().substr(11, 8);
+          const time = object.data().duration;
           const distanceInKm = (object.data().distance / 1000).toFixed(3);
           return {
             ...object.data(),
