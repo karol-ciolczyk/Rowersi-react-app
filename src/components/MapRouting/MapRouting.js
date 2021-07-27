@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper } from "@material-ui/core";
+import { OriginInput } from "./OriginInput";
 
 import style from "./directions-styles";
 import classes from "./MapRouting.module.css";
@@ -60,7 +61,7 @@ export default function Mapbox(props) {
     congestion: true,
     steps: true,
     controls: {
-      inputs: props.isInput,
+      inputs: false,
       instructions: false,
       profileSwitcher: true,
     },
@@ -68,7 +69,6 @@ export default function Mapbox(props) {
   });
 
   const nav = new mapboxgl.NavigationControl();
-  
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -119,21 +119,26 @@ export default function Mapbox(props) {
         };
       });
     });
-
-
   });
 
   return (
-    <Paper
-      elevation={5}
-      style={{
-        width: "auto",
-        height: "auto",
-        margin: "auto",
-        marginTop: "100px",
-      }}
-    >
-      <div ref={mapContainer} className={classes["map-container"]} />
-    </Paper>
+    <section className={classes.contentContaner}>
+      <div className={classes.directionsContainer}>
+        <OriginInput />
+      </div>
+      <div className={classes.mapContainer}>
+        <Paper
+          elevation={0}
+          style={{
+            width: "100%",
+            height: "900px",
+            // margin: "auto",
+            // marginTop: "100px",
+          }}
+        >
+          <div ref={mapContainer} className={classes["map-container"]} />
+        </Paper>
+      </div>
+    </section>
   );
 }

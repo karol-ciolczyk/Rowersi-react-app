@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -70,11 +70,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateRouteForm(props) {
   const classes = useStyles();
-  const [routeDescription, setRouteDescription] = useState({region: "", routeTitle:"", routeDescription: "",});
+  const [routeDescription, setRouteDescription] = useState({
+    region: "",
+    routeTitle: "",
+    routeDescription: "",
+  });
   const { distance, duration, originElevation, destinationElevation } =
     props.routeData;
   const ctx = useContext(UserSessionContext);
-  console.log(ctx)
 
   const handleChange = (event) => {
     setRouteDescription((previousState) => {
@@ -85,14 +88,13 @@ export default function CreateRouteForm(props) {
     });
   };
 
-  const onSubmitHandler = (event)=>{
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    const allRouteData = {...routeDescription, ...props.routeData, ...ctx}
+    const allRouteData = { ...routeDescription, ...props.routeData, ...ctx };
 
     console.log(allRouteData);
     addRouteDataToFirebase(allRouteData);
-  }
-
+  };
 
   return (
     <Container maxWidth="sm" className={classes.container}>
