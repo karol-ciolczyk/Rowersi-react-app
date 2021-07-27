@@ -86,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
   routeDetails: {
     width: "55ch",
     margin: "auto",
+    marginBottom: "10px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
@@ -96,6 +97,12 @@ const useStyles = makeStyles((theme) => ({
     height: "100px",
     margin: "1px",
     padding: "10px 3px",
+  },
+  accordionSummary: {
+    backgroundColor: "#3bb2d0",
+    "&:hover": {
+      backgroundColor: "#34bfe2",
+    },
   },
 }));
 
@@ -214,11 +221,13 @@ export default function CreateRouteForm(props) {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              // style={{ backgroundColor: "#3bb2d0" }}
+              className={classes.accordionSummary}
             >
               <Typography variant="subtitle1" style={{ marginRight: "60px" }}>
                 Description:
               </Typography>
-              <Typography variant="subtitle1" style={{ color: "grey" }}>
+              <Typography variant="subtitle1" style={{ color: "white" }}>
                 Add route descritpion here
               </Typography>
             </AccordionSummary>
