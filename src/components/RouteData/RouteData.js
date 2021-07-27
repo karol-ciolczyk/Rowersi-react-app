@@ -52,7 +52,6 @@ const RouteData = () => {
           })();
         })
       );
-
       setRouteData((previousState) => {
         return {
           ...previousState,
@@ -65,8 +64,8 @@ const RouteData = () => {
   };
 
   useEffect(() => {
-    getFilesUrlFromStorage();
-  }, []);
+    if (ctx.userUid) getFilesUrlFromStorage();
+  }, [ctx]);
 
   const directions = new Directions({
     accessToken: mapboxgl.accessToken,
