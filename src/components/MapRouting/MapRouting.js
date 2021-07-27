@@ -22,10 +22,10 @@ export default function Mapbox(props) {
         coordinates.map((coordinates) => {
           return (async () => {
             try {
-              const body = await fetch(
+              const response = await fetch(
                 `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordinates}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
               );
-              const data = await body.json();
+              const data = await response.json();
               const allFeatures = data.features;
               const elevations = allFeatures.map(
                 (object) => object.properties.ele
@@ -38,7 +38,6 @@ export default function Mapbox(props) {
           })();
         })
       );
-      console.log(elevationArray);
       setRouteData((previoueState) => {
         return {
           ...previoueState,
@@ -86,7 +85,6 @@ export default function Mapbox(props) {
     getElevation(coordinates, props.setRouteData);
 
     map.current.once("idle", () => {
-      //  console.log(map.current.getCanvas().toDataURL())
       props.setRouteData((previousState) => {
         return {
           ...previousState,
@@ -108,7 +106,6 @@ export default function Mapbox(props) {
         destination: destinationCoordinates,
       };
     });
-    console.log(directions.actions.eventSubscribe().events);
   };
 
   useEffect(() => {
@@ -123,8 +120,6 @@ export default function Mapbox(props) {
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
-    // console.log("before", directions.actions.eventSubscribe().events);
-    // console.log("before", directions.actions.eventEmit().events);
     return () => map.current.remove();
   }, []);
 
@@ -133,7 +128,6 @@ export default function Mapbox(props) {
     directions.on("route", getOnRouteData);
 
     return () => {
-      console.log("cleaning function");
       delete directions.actions.eventSubscribe().events.route;
       delete directions.actions.eventSubscribe().events.undefined;
       directions.removeRoutes();
