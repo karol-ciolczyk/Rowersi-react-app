@@ -34,6 +34,7 @@ export const Slider = function (props) {
       play={true}
       cancelOnInteraction={false} // should stop playing on user interaction
       interval={5000}
+      // bullets={true}
     >
       {urlsArray.map((url) => (
         <div data-src={url} key={url.slice(0, 5)} />

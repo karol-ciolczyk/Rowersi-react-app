@@ -292,9 +292,7 @@ const RouteData = () => {
   return (
     <div className={classes.flexContainer}>
       <div className={classes.flexchild1}>
-        <div>
-          {routeData.urls.length > 0 ? <Slider urls={routeData.urls} /> : ""}
-        </div>
+        {routeData.urls.length > 0 ? <Slider urls={routeData.urls} /> : ""}
         <div className={classes.flexchild__routeData}>
           <header className={classes.header}>
             <div>
