@@ -1,19 +1,18 @@
 .map-container {
-height: 1000px; 
-width: 100%;
-margin: auto;
-margin-bottom: 50px;
+  height: 100%;
+  width: 100%;
+  margin: auto;
 }
- 
+
 .sidebar {
-background-color: rgba(35, 55, 75, 0.9);
-color: #ffffff;
-padding: 6px 12px;
-font-family: monospace;
-z-index: 1;
-position: relative; /* position: absolute, place sidebar onto map*/
-top: 0;
-left: 0;
-margin: 12px;
-border-radius: 4px;
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #ffffff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: relative; /* position: absolute, place sidebar onto map*/
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
 }

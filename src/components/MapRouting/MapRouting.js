@@ -145,7 +145,7 @@ export default function Mapbox(props) {
       elevation={5}
       style={{
         width: "auto",
-        height: "auto",
+        height: "100vh",
         margin: "auto",
       }}
     >
