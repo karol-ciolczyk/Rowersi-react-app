@@ -61,7 +61,7 @@ export default function LoginForm(props) {
     password: "",
     uid: undefined,
   });
-  const [progress, setProgress] = useState(false)
+  const [progress, setProgress] = useState(false);
 
   const { email, password } = userData;
 
@@ -78,7 +78,7 @@ export default function LoginForm(props) {
     event.preventDefault();
     setProgress(true);
     signInWithEmailAndPassword(email, password).then((object) => {
-      if(!object) return
+      if (!object) return;
       setUserData((previousState) => {
         return {
           ...previousState,
@@ -94,23 +94,18 @@ export default function LoginForm(props) {
   };
 
   useEffect(() => {
-    if(userData.uid){
-      alert("success :) :)")
+    if (userData.uid) {
+      alert("success :) :)");
       props.onSubmitButton(); // to close modal after submit
       props.onLoggedInData(userData.uid);
     }
-  }, [userData.uid]);
-
+  }, [userData.uid, props]);
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        {progress ? (
-          <LinearProgress className={classes.progress} />
-        ) : (
-          ""
-        )}
+        {progress ? <LinearProgress className={classes.progress} /> : ""}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>

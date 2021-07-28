@@ -1,36 +1,36 @@
-// import firebase from "firebase";
-// import UserSessionContext from "../components/context/userSession-context.js";
-// import { useContext, useState } from "react";
-// import { useEffect } from "react";
+import firebase from "firebase";
+import UserSessionContext from "../components/context/userSession-context.js";
+import { useContext, useState } from "react";
+import { useEffect } from "react";
 
 export function FriendsList() {
-//   const userSessionContext = useContext(UserSessionContext);
-//   const { userUid } = userSessionContext;
+  const userSessionContext = useContext(UserSessionContext);
+  const { userUid } = userSessionContext;
 
-//   const [friendsList, setFriendsList] = useState();
+  const [friendsList, setFriendsList] = useState();
 
-//   //   firebase.firestore().collection('usersTest').doc(userUid).get().then(doc => console.log(doc.data().following));
+  //   firebase.firestore().collection('usersTest').doc(userUid).get().then(doc => console.log(doc.data().following));
 
-// //   useEffect(() => {
-// //     // return firebase
-// //     //   .firestore()
-// //     //   .collection("usersTest")
-// //     //   .doc(userUid)
-// //     //   .get()
-// //     //   .then(doc => setFriendsList(doc.data().following))
-// //     //   .catch( error => console.log(error));
+  useEffect(() => {
+    return firebase
+      .firestore()
+      .collection("usersTest")
+      .doc(userUid)
+      .get()
+      .then(doc => setFriendsList(doc.data().following))
+      .catch( error => console.log(error));
       
-// //   }, [userUid]);
-//   ;
+  }, [userUid]);
+  ;
   
-//     const RenderFriends = friendsList.map((item) => (
-//       <li>{item}</li>
-//     ));
+    const RenderFriends = friendsList.map((item) => (
+      <li>{item}</li>
+    ));
 
   return (
     <>
       <div className="friendsListWrapper">
-        {/* <div className="friendsWidget"><ul>{RenderFriends}</ul></div> */}
+        <div className="friendsWidget"><ul>{RenderFriends}</ul></div>
 
         <div className="TBA"></div>
       </div>

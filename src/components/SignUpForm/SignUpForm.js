@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,8 +11,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import createUserWithEmailAndPassword from '../../firebase/createUserWithEamilAndPassword'
-import { cannotHaveAUsernamePasswordPort } from "whatwg-url";
+import createUserWithEmailAndPassword from "../../firebase/createUserWithEamilAndPassword";
 
 function Copyright() {
   return (
@@ -53,7 +52,7 @@ export default function SignUpForm(props) {
     email: "",
     password: "",
     repeatPassword: "",
-    nickname: ""
+    nickname: "",
   });
 
   const { email, password, repeatPassword, nickname } = userData;
@@ -69,20 +68,21 @@ export default function SignUpForm(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    
 
-    if (password.trim() === repeatPassword.trim() && password.trim().length > 0) {
+    if (
+      password.trim() === repeatPassword.trim() &&
+      password.trim().length > 0
+    ) {
       createUserWithEmailAndPassword(email, password);
       props.onSubmitButton();
       alert("successfully registered");
     } else alert("incorrect password");
 
-
     setUserData({
       email: "",
       password: "",
       repeatPassword: "",
-      nickname: ""
+      nickname: "",
     });
   };
 

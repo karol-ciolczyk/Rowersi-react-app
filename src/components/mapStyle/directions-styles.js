@@ -27,7 +27,7 @@ const style = [
     },
     paint: {
       "line-color": "#2d5f99",
-      "line-width": 12,
+      "line-width": 6, /// changed from 12
     },
     filter: ["all", ["in", "$type", "LineString"], ["in", "route", "selected"]],
   },
@@ -52,7 +52,7 @@ const style = [
           ["severe", "#8b2342"],
         ],
       },
-      "line-width": 3, ////////////    here changed from 7
+      "line-width": 5, ////////////    here changed from 7
     },
     filter: ["all", ["in", "$type", "LineString"], ["in", "route", "selected"]],
   },

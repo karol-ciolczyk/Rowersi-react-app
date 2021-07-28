@@ -1,0 +1,90 @@
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.flexchild1 {
+  width: 50%;
+}
+
+.flexchild__routeData {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  padding: 40px;
+  margin: 30px 30px;
+  box-shadow: 5px 5px 21px -6px rgba(0, 0, 0, 0.73);
+  border-radius: 1%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+/* .avatarSize {
+  width: 100px;
+  height: 100px;
+} */
+
+.routeNumbersDataContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
+  border-top: 1px solid rgb(226, 226, 226);
+}
+
+@media only screen and (max-width: 1230px) {
+  .routeNumbersDataContainer {
+    flex-direction: column;
+  }
+  .header {
+    flex-direction: column;
+  }
+}
+
+.routeDescriptionContainer {
+  padding: 10px;
+  text-align: start;
+  border-bottom: 1px solid rgb(226, 226, 226);
+  border-top: 1px solid rgb(226, 226, 226);
+}
+
+.rateRouteContainer {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.rating {
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  color: grey;
+}
+
+.chart {
+  width: 100%;
+  height: 100%;
+}
+
+.flexchild2 {
+  width: 50%;
+  height: 880px;
+  position: sticky;
+  top: 65px;
+}
+
+.mapContainer {
+  height: 100%;
+  width: 100%;
+  /* margin: auto;
+  margin-bottom: 50px; */
+}
