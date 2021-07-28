@@ -34,3 +34,9 @@
 .mapContainer {
   width: 100%;
 }
+
+.MuiTimelineItem-missingOppositeContent:before {
+  /* flex: 1; */
+  content: "";
+  padding: 6px 16px;
+}

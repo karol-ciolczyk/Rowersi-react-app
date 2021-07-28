@@ -41,7 +41,7 @@ export const OriginInput = function (props) {
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
-        // props.onSelectOrigin(selectedPlaceData, "origin");   ///////////      !!!! to uncomment later !!!!
+        // props.onSelectOriginDestination(selectedPlaceData, "origin");   ///////////      !!!! to uncomment later !!!!
       }}
       id="combo-box-origin"
       options={placesName}

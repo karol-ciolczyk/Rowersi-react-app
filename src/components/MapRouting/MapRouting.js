@@ -7,11 +7,24 @@ import React, {
 } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { Paper } from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 import { OriginInput } from "./OriginInput";
+
+import Timeline from "@material-ui/lab/Timeline";
+import TimelineItem from "@material-ui/lab/TimelineItem";
+import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
+import TimelineConnector from "@material-ui/lab/TimelineConnector";
+import TimelineContent from "@material-ui/lab/TimelineContent";
+import TimelineDot from "@material-ui/lab/TimelineDot";
+import MyLocationIcon from "@material-ui/icons/MyLocation";
+import RoomIcon from "@material-ui/icons/Room";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { IconButton } from "@material-ui/core";
 
 import style from "../mapStyle/directions-styles";
 import classes from "./MapRouting.module.css";
+import DestinationInput from "./DestinationInput";
+import WaypointInput from "./WaypointInput";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA";
@@ -150,8 +163,38 @@ export default function Mapbox(props) {
       });
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+    setTimeLineItemContentData((previousState) => {
+      return {
+        waypointNumber: previousState.waypointNumber + 1,
+        timeLineItemContent: [
+          ...previousState.timeLineItemContent,
+          <TimelineItem key={Math.random()}>
+            <TimelineSeparator>
+              <TimelineDot color="primary">
+                <MyLocationIcon />
+              </TimelineDot>
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <WaypointInput
+                initialInputValue={routePoints.destinationName}
+                waypointNumber={previousState.waypointNumber}
+                onSelectWaypoint={selectWaypointHandler}
+              />
+            </TimelineContent>
+          </TimelineItem>,
+        ],
+      };
+    });
+  };
+
+  ////////////////////  useEffect to reset destinatioInputValueCleaner to initial state
+  useEffect(() => {
+    setDestinatioInputValueCleaner(undefined);
+  }, [destinatioInputValueCleaner]);
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
   async function getElevation(coordinates, setRouteData) {
@@ -262,7 +305,54 @@ export default function Mapbox(props) {
   return (
     <section className={classes.contentContaner}>
       <div className={classes.directionsContainer}>
-        <OriginInput />
+        <Timeline>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="primary">
+                <MyLocationIcon />
+              </TimelineDot>
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <OriginInput
+                onSelectOriginDestination={selectOriginDestinationHandler}
+              />
+            </TimelineContent>
+          </TimelineItem>
+          {timeLineItemContentData.timeLineItemContent}
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="primary">
+                <RoomIcon />
+              </TimelineDot>
+            </TimelineSeparator>
+            <TimelineContent>
+              <DestinationInput
+                onSelectOriginDestination={selectOriginDestinationHandler}
+                destinationInputValueCleaner={destinatioInputValueCleaner}
+              />
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+        <IconButton
+          // size="small"
+          disabled={isDisabled}
+          color="secondary"
+          aria-label="upload picture"
+          component="span"
+          onClick={addWaypointHandler}
+        >
+          <AddCircleOutlineIcon fontSize="default" />
+        </IconButton>
+        <Button
+          disabled={isDisabled}
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={addWaypointHandler}
+        >
+          Add new point
+        </Button>
       </div>
       <div className={classes.mapContainer}>
         <Paper

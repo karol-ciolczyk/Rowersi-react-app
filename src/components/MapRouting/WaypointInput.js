@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete } from "@material-ui/lab";
+// import InputAdornment from "@material-ui/core/InputAdornment";
+// import { Room } from "@material-ui/icons";
 
-export default function DestinationInput(props) {
-  // const [inputText, setInputText] = useState("")
-  // const [places, setPlaces] = useState([]);
-  const [inputValue, setInputValue] = useState("Polska");
+export default function WaypointInput(props) {
   const [placesObject, setPlacesObject] = useState([]);
-  const [value, setValue] = useState(null);
-
+  const [inputValue, setInputValue] = useState("");
+  const [value, setValue] = useState(props.initialInputValue);
   useEffect(() => {
     if (inputValue) {
       fetch(
@@ -28,29 +27,36 @@ export default function DestinationInput(props) {
     }
   }, [inputValue]);
 
-  ///////////////////////////////  useEffect to clean input value after add new waypoint by new waypoint button in Mapbox.js
   useEffect(() => {
-    if (props.destinationInputValueCleaner === null)
-      setValue(props.destinationInputValueCleaner);
-  }, [props.destinationInputValueCleaner]);
+    console.log(props.inputValue);
+    if (props.inputValue) {
+      setInputValue(props.inputValue);
+      // setValue(props.inputValue);
+    } // this set destinaton input value after add new point button after add new waypoint
+  }, [props.inputValue]);
 
   const placesName = placesObject.map((obj) => obj.placeName);
 
   return (
     <Autocomplete
+      inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
-        // setInputText(newInputValue);
         setInputValue(newInputValue);
       }}
       value={value}
       onChange={(event, newValue, reason) => {
         setValue(newValue);
+        // console.log(placesObject.find((obj) => obj.placeName === value));
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
-        props.onSelectOriginDestination(selectedPlaceData, "destination");
+        props.onSelectWaypoint(
+          selectedPlaceData,
+          props.waypointNumber,
+          props.waypoints
+        );
       }}
-      id="combo-box-destination"
+      id="combo-box-demo"
       options={placesName}
       getOptionLabel={(option) => option}
       renderOption={(option) => option}
@@ -59,8 +65,8 @@ export default function DestinationInput(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder="Choose destination"
-          // variant="outlined"
+          placeholder="Choose additional waypoint"
+          variant="outlined"
           // size="small"
         />
       )}
