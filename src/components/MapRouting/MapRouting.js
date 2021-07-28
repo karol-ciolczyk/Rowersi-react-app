@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+  useState,
+} from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper } from "@material-ui/core";
@@ -13,6 +19,81 @@ mapboxgl.accessToken =
 export default function Mapbox(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [routePoints, setRoutePoints] = useState({
+    origin: null,
+    destination: null,
+  });
+  const [waypoints, setWaypoints] = useState({});
+  const [timeLineItemContentData, setTimeLineItemContentData] = useState({
+    waypointNumber: 0,
+    timeLineItemContent: [],
+  });
+  const [destinatioInputValueCleaner, setDestinatioInputValueCleaner] =
+    useState(undefined);
+
+  const directions = useMemo(() => {
+    return new Directions({
+      accessToken: mapboxgl.accessToken,
+      profile: "mapbox/cycling",
+      unit: "metric",
+      styles: style,
+      interactive: true,
+      alternatives: false,
+      language: "pl",
+      congestion: true,
+      steps: true,
+      controls: {
+        inputs: false,
+        instructions: false,
+        profileSwitcher: true,
+      },
+      zoom: 10,
+    });
+  }, []);
+
+  const addRoute = (routePoints, waypoints) => {
+    directions.removeRoutes();
+    if (routePoints.origin) directions.setOrigin(routePoints.origin);
+    if (routePoints.destination)
+      directions.setDestination(routePoints.destination);
+    if (Object.keys(waypoints).length > 0) {
+      const waypointNumbers = Object.keys(waypoints);
+      waypointNumbers.forEach((number) => {
+        const coordinates = waypoints[number];
+        const figure = Number(number);
+        directions.addWaypoint(figure, coordinates);
+      });
+    }
+  };
+
+  const cleanPreviousWaypoints = (previousWaypoints) => {
+    console.log("removing", previousWaypoints);
+    const waypointNumbers = Object.keys(previousWaypoints);
+    console.log(waypointNumbers);
+    waypointNumbers.forEach(() => {
+      // const figure = Number(number);
+      // console.log("removeing");
+      directions.removeWaypoint(0);
+    });
+  };
+
+  const selectOriginDestinationHandler = (obj, whichLocation) => {
+    if (obj) {
+      const coordinates = obj.coordinates;
+      whichLocation === "origin"
+        ? setRoutePoints((previousState) => {
+            return { ...previousState, origin: coordinates };
+          })
+        : setRoutePoints((previousState) => {
+            return {
+              ...previousState,
+              destination: coordinates,
+              destinationName: obj.placeName,
+            };
+          });
+    }
+  };
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
 
@@ -49,44 +130,6 @@ export default function Mapbox(props) {
       alert(err);
     }
   }
-
-  const directions = useMemo(() => {
-    return new Directions({
-      accessToken: mapboxgl.accessToken,
-      profile: "mapbox/cycling",
-      unit: "metric",
-      styles: style,
-      interactive: true,
-      alternatives: false,
-      language: "pl",
-      congestion: true,
-      steps: true,
-      controls: {
-        inputs: false,
-        instructions: false,
-        profileSwitcher: true,
-      },
-      zoom: 10,
-    });
-  }, []);
-
-  // const directions = new Directions({
-  //   accessToken: mapboxgl.accessToken,
-  //   profile: "mapbox/cycling",
-  //   unit: "metric",
-  //   styles: style,
-  //   interactive: false,
-  //   alternatives: false,
-  //   language: "pl",
-  //   congestion: true,
-  //   steps: true,
-  //   controls: {
-  //     inputs: false,
-  //     instructions: false,
-  //     profileSwitcher: true,
-  //   },
-  //   zoom: 10,
-  // });
 
   const getOnRouteData = useCallback(
     (object) => {
@@ -128,8 +171,6 @@ export default function Mapbox(props) {
     },
     [directions, props]
   );
-
-  // const getOnRouteData =
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
