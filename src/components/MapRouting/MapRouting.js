@@ -65,25 +65,8 @@ export default function Mapbox(props) {
     });
   }, []);
 
-  // const addRoute = (routePoints, waypoints) => {
-  //   console.log("add Route function");
-  //   directions.removeRoutes(); // must be here to prevent duplicating waypoints
-  //   if (routePoints.origin) directions.setOrigin(routePoints.origin);
-  //   if (routePoints.destination)
-  //     directions.setDestination(routePoints.destination);
-  //   if (Object.keys(waypoints).length > 0) {
-  //     const waypointNumbers = Object.keys(waypoints);
-  //     waypointNumbers.forEach((number) => {
-  //       const coordinates = waypoints[number];
-  //       const figure = Number(number);
-  //       directions.addWaypoint(figure, coordinates);
-  //     });
-  //   }
-  // };
-
   const addRoute = useCallback(
     (routePoints, waypoints) => {
-      console.log("add Route function");
       directions.removeRoutes(); // must be here to prevent duplicating waypoints
       if (routePoints.origin) directions.setOrigin(routePoints.origin);
       if (routePoints.destination)
@@ -101,12 +84,9 @@ export default function Mapbox(props) {
   );
 
   const cleanPreviousWaypoints = (previousWaypoints) => {
-    console.log("removing", previousWaypoints);
     const waypointNumbers = Object.keys(previousWaypoints);
-    console.log(waypointNumbers);
     waypointNumbers.forEach(() => {
       // const figure = Number(number);
-      // console.log("removeing");
       directions.removeWaypoint(0);
     });
   };
@@ -129,7 +109,6 @@ export default function Mapbox(props) {
   };
 
   const selectWaypointHandler = (selectedPlaceData, waypointNumber) => {
-    console.log("--------------------", selectedPlaceData, waypointNumber);
     if (selectedPlaceData) {
       const coordinates = selectedPlaceData.coordinates;
       const waypointNumbers = Object.keys(waypoints);
@@ -147,7 +126,6 @@ export default function Mapbox(props) {
   const { setRouteData } = props;
 
   useEffect(() => {
-    console.log("setsetset waypoint effect");
     setRouteData((previousState) => {
       return {
         ...previousState,
