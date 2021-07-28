@@ -95,8 +95,65 @@ export default function Mapbox(props) {
     }
   };
 
-  // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
+  const selectWaypointHandler = (selectedPlaceData, waypointNumber) => {
+    console.log("--------------------", selectedPlaceData, waypointNumber);
+    if (selectedPlaceData) {
+      const coordinates = selectedPlaceData.coordinates;
+      const waypointNumbers = Object.keys(waypoints);
+      const nextNumber = waypointNumbers.length; // this is next number of addition waypoint
+      setWaypoints((previousState) => {
+        if (previousState) cleanPreviousWaypoints(previousState);
+        return {
+          ...previousState,
+          [nextNumber]: coordinates,
+          ///////////////////////////////// alternative //////////////////////
+          // [
+          //   ...previousState.waypoints,
+          //   { waypointNumber, coordinates },
+          // ],
+        };
+      });
+    }
+  };
 
+  useEffect(() => {
+    if (routePoints.origin) {
+      addRoute(routePoints, waypoints);
+    }
+  }, [routePoints.origin, addRoute, waypoints, routePoints]);
+
+  useEffect(() => {
+    if (routePoints.destination) {
+      addRoute(routePoints, waypoints);
+    }
+  }, [routePoints.destination, routePoints, waypoints, addRoute]);
+
+  useEffect(() => {
+    console.log("waypoints useeffect started");
+    // map.current._markers.forEach((marker)=> marker.remove())
+    if (waypoints) {
+      // console.log(Object.keys(waypoints));
+      addRoute(routePoints, waypoints);
+    }
+  }, [waypoints, routePoints, addRoute]);
+
+  const addWaypointHandler = () => {
+    setIsDisabled(true);
+    setDestinatioInputValueCleaner(null); ////// to give props to clean destination input value
+
+    // add waypoint as last key/value to waypoints state example { 1: [lng,lat], 2:[lng,lat]}
+    if (routePoints.destination) {
+      const waypointNumbers = Object.keys(waypoints);
+      const nextNumber = waypointNumbers.length;
+      setWaypoints((previousState) => {
+        return { ...previousState, [nextNumber]: routePoints.destination };
+      });
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
   async function getElevation(coordinates, setRouteData) {
     try {
       const elevationArray = await Promise.all(
