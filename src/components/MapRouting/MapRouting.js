@@ -60,8 +60,8 @@ export default function Mapbox(props) {
   }, []);
 
   const addRoute = (routePoints, waypoints) => {
-    console.log("add Route functoin");
-    directions.removeRoutes();
+    console.log("add Route function");
+    directions.removeRoutes(); // must be here to prevent duplicating waypoints
     if (routePoints.origin) directions.setOrigin(routePoints.origin);
     if (routePoints.destination)
       directions.setDestination(routePoints.destination);
@@ -119,15 +119,17 @@ export default function Mapbox(props) {
     }
   };
 
+  const { setRouteData } = props;
+
   useEffect(() => {
     console.log("setsetset waypoint effect");
-    props.setRouteData((previousState) => {
+    setRouteData((previousState) => {
       return {
         ...previousState,
         waypoints,
       };
     });
-  }, [waypoints]);
+  }, [waypoints, setRouteData]);
 
   useEffect(() => {
     if (routePoints.origin) {
