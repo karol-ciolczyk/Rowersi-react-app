@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-  useState,
-} from "react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper, Button } from "@material-ui/core";
@@ -51,7 +45,7 @@ export default function Mapbox(props) {
       profile: "mapbox/cycling",
       unit: "metric",
       styles: style,
-      interactive: true,
+      interactive: false,
       alternatives: false,
       language: "pl",
       congestion: true,
@@ -61,11 +55,12 @@ export default function Mapbox(props) {
         instructions: false,
         profileSwitcher: true,
       },
-      zoom: 10,
+      zoom: 7,
     });
   }, []);
 
   const addRoute = (routePoints, waypoints) => {
+    console.log("add Route functoin");
     directions.removeRoutes();
     if (routePoints.origin) directions.setOrigin(routePoints.origin);
     if (routePoints.destination)
@@ -119,36 +114,39 @@ export default function Mapbox(props) {
         return {
           ...previousState,
           [nextNumber]: coordinates,
-          ///////////////////////////////// alternative //////////////////////
-          // [
-          //   ...previousState.waypoints,
-          //   { waypointNumber, coordinates },
-          // ],
         };
       });
     }
   };
 
   useEffect(() => {
+    console.log("setsetset waypoint effect");
+    props.setRouteData((previousState) => {
+      return {
+        ...previousState,
+        waypoints,
+      };
+    });
+  }, [waypoints]);
+
+  useEffect(() => {
     if (routePoints.origin) {
       addRoute(routePoints, waypoints);
     }
-  }, [routePoints.origin, addRoute, waypoints, routePoints]);
+  }, [routePoints.origin]);
 
   useEffect(() => {
     if (routePoints.destination) {
       addRoute(routePoints, waypoints);
     }
-  }, [routePoints.destination, routePoints, waypoints, addRoute]);
+  }, [routePoints.destination]);
 
   useEffect(() => {
-    console.log("waypoints useeffect started");
     // map.current._markers.forEach((marker)=> marker.remove())
     if (waypoints) {
-      // console.log(Object.keys(waypoints));
       addRoute(routePoints, waypoints);
     }
-  }, [waypoints, routePoints, addRoute]);
+  }, [waypoints]);
 
   const addWaypointHandler = () => {
     setIsDisabled(true);
@@ -231,8 +229,31 @@ export default function Mapbox(props) {
     }
   }
 
-  const getOnRouteData = useCallback(
-    (object) => {
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
+      center: [19.52, 50.1],
+      zoom: 11,
+    });
+    map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
+    const nav = new mapboxgl.NavigationControl();
+    map.current.addControl(nav, "bottom-left");
+    map.current.addControl(directions, "top-left");
+
+    return () => {
+      map.current.remove();
+      directions.removeRoutes();
+    };
+  }, [directions]);
+
+  useEffect(() => {
+    if (!directions) return;
+    if (directions.actions.eventSubscribe().events.route) return;
+    directions.on("route", (object) => {
+      ///////////// first function to get route screen and to invoke getElevation function /////////////
+      //////////////////////////////////////////////////////////////////////////////////////////////////
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates =
         directions.getDestination().geometry.coordinates;
@@ -268,39 +289,13 @@ export default function Mapbox(props) {
           destination: destinationCoordinates,
         };
       });
-    },
-    [directions, props]
-  );
-
-  useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
-      center: [19.52, 50.1],
-      zoom: 11,
     });
-    map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
-    const nav = new mapboxgl.NavigationControl();
-    map.current.addControl(nav, "bottom-left");
-    map.current.addControl(directions, "top-left");
-
-    return () => {
-      map.current.remove();
-      directions.removeRoutes();
-    };
-  }, [directions]);
-
-  useEffect(() => {
-    if (!directions) return;
-    if (directions.actions.eventSubscribe().events.route) return;
-    directions.on("route", getOnRouteData);
 
     return () => {
       delete directions.actions.eventSubscribe().events.route;
       delete directions.actions.eventSubscribe().events.undefined;
     };
-  }, [directions, getOnRouteData]);
+  }, [directions, props]);
 
   return (
     <section className={classes.contentContaner}>
@@ -336,16 +331,16 @@ export default function Mapbox(props) {
         </Timeline>
         <IconButton
           // size="small"
-          disabled={isDisabled}
+          disabled={false}
           color="secondary"
           aria-label="upload picture"
           component="span"
           onClick={addWaypointHandler}
         >
-          <AddCircleOutlineIcon fontSize="default" />
+          <AddCircleOutlineIcon fontSize="medium" />
         </IconButton>
         <Button
-          disabled={isDisabled}
+          disabled={false}
           variant="contained"
           color="secondary"
           size="small"

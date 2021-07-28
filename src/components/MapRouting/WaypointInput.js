@@ -52,8 +52,8 @@ export default function WaypointInput(props) {
         );
         props.onSelectWaypoint(
           selectedPlaceData,
-          props.waypointNumber,
-          props.waypoints
+          props.waypointNumber
+          // props.waypoints
         );
       }}
       id="combo-box-demo"
@@ -63,12 +63,7 @@ export default function WaypointInput(props) {
       style={{ width: 300 }}
       filterOptions={(options, state) => options}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Choose additional waypoint"
-          variant="outlined"
-          // size="small"
-        />
+        <TextField {...params} placeholder="Choose additional waypoint" />
       )}
     />
   );
