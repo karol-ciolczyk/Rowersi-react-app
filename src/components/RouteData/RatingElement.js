@@ -21,7 +21,7 @@ const RatingElement = (props) => {
         object.user === ctx.userUid ? setIsVoted(true) : setIsVoted(false)
       );
     }
-  }, [props.routeData.votes, isVoted]);
+  }, [props.routeData.votes, isVoted, ctx.userUid]);
 
   return (
     <Box component="fieldset" mb={3} borderColor="transparent">

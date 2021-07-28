@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: "0px 5px",
-    backgroundColor: '#3bb2d0',
-    color: '#fff',
+    backgroundColor: "#3bb2d0",
+    color: "#fff",
     "&:hover, &:focus": {
-      backgroundColor: '#3bb2d0',
-    }
+      backgroundColor: "#3bb2d0",
+    },
   },
 }));
 

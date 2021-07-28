@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useRef, useEffect, useState, useContext, useMemo } from "react";
 import UserSessionContext from "../context/userSession-context";
 import firebase from "firebase";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -25,65 +25,32 @@ import { Slider } from "./Slider";
 const RouteData = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [routeData, setRouteData] = useState({ urls: [] });
+  const [routeData, setRouteData] = useState({});
   const [chartData, setChartData] = useState([]);
   const [rateValue, setRateValue] = useState(undefined);
   const { routeId } = useParams();
   const ctx = useContext(UserSessionContext);
   const isChartDataLoaded = chartData.length > 0;
 
-  const getFilesUrlFromStorage = async function () {
-    try {
-      const storageRef = await firebase.storage().ref();
-
-      const listAll = await storageRef
-        .child(`usersTest/${ctx.userUid}/routes/${routeId}`)
-        .listAll();
-
-      const urls = await Promise.all(
-        listAll.items.map((item) => {
-          return (async () => {
-            try {
-              const src = await item.getDownloadURL();
-              return src;
-            } catch (error) {
-              alert(error);
-            }
-          })();
-        })
-      );
-      setRouteData((previousState) => {
-        return {
-          ...previousState,
-          urls,
-        };
-      });
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  useEffect(() => {
-    if (ctx.userUid) getFilesUrlFromStorage();
-  }, [ctx]);
-
-  const directions = new Directions({
-    accessToken: mapboxgl.accessToken,
-    profile: "mapbox/cycling",
-    unit: "metric",
-    styles: style,
-    interactive: false,
-    alternatives: false,
-    language: "pl",
-    congestion: true,
-    steps: true,
-    controls: {
-      inputs: false,
-      instructions: false,
-      profileSwitcher: true,
-    },
-    zoom: 10,
-  });
+  const directions = useMemo(() => {
+    return new Directions({
+      accessToken: mapboxgl.accessToken,
+      profile: "mapbox/cycling",
+      unit: "metric",
+      styles: style,
+      interactive: false,
+      alternatives: false,
+      language: "pl",
+      congestion: true,
+      steps: true,
+      controls: {
+        inputs: false,
+        instructions: false,
+        profileSwitcher: true,
+      },
+      zoom: 10,
+    });
+  }, []);
 
   const nav = new mapboxgl.NavigationControl();
 
@@ -129,7 +96,7 @@ const RouteData = () => {
         }),
       });
     }
-  }, [rateValue]);
+  }, [rateValue, ctx.userUid, routeId]);
 
   // the following useEffect applies add map to component, add map load listener once which invokes fetch route-data
   useEffect(() => {
@@ -189,7 +156,7 @@ const RouteData = () => {
       directions.removeRoutes();
       map.current.remove();
     };
-  }, []);
+  }, [directions]);
 
   async function fetchDirectionData() {
     const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;
@@ -312,7 +279,7 @@ const RouteData = () => {
   return (
     <div className={classes.flexContainer}>
       <div className={classes.flexchild1}>
-        {routeData.urls.length > 0 ? <Slider urls={routeData.urls} /> : ""}
+        <Slider routeId={routeId} />
         <div className={classes.flexchild__routeData}>
           <header className={classes.header}>
             <div>
@@ -376,9 +343,14 @@ const RouteData = () => {
               Route description:
             </Typography>
             <Typography variant="subtitle1" style={{ padding: "10px" }}>
-              {routeData.isDataLoaded
-                ? routeData.routeDescription
-                : [<Skeleton />, <Skeleton />]}
+              {routeData.isDataLoaded ? (
+                routeData.routeDescription
+              ) : (
+                <>
+                  <Skeleton />
+                  <Skeleton />
+                </>
+              )}
             </Typography>
           </div>
           <div className={classes.chart}></div>

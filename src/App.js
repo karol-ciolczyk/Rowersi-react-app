@@ -6,7 +6,8 @@ import CreateNewRoute from "./components/CreateNewRoute/CreateNewRoute";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Profile } from "./user-profile/profile.jsx";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 import HomePage from "./components/HomePage/HomePage";
 import RouteData from "./components/RouteData/RouteData";
 
