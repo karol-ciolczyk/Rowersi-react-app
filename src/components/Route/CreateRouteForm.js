@@ -114,8 +114,7 @@ export default function CreateRouteForm(props) {
     routeDescription: "",
   });
   const [routeFiles, setRouteFiles] = useState([]);
-  const { distance, duration, originElevation, destinationElevation } =
-    props.routeData;
+  const { distance, duration, originElevation } = props.routeData;
   const ctx = useContext(UserSessionContext);
 
   const handleChange = (event) => {

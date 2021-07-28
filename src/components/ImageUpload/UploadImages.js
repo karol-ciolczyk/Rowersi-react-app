@@ -78,7 +78,7 @@ export default function UploadImages(props) {
   const thumbs = files.map((file) => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
-        <img src={file.preview} style={img} />
+        <img src={file.preview} style={img} alt="views" />
       </div>
     </div>
   ));
@@ -100,7 +100,7 @@ export default function UploadImages(props) {
         };
       });
     }
-  }, [files]);
+  }, [files, setRouteFiles]);
 
   return (
     <section className={classes.container}>

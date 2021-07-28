@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useMemo, useCallback } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper } from "@material-ui/core";
@@ -13,7 +13,6 @@ mapboxgl.accessToken =
 export default function Mapbox(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  // const [routeData, setRouteData] = useState({ distance: "", duration: "" });
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
 
@@ -51,63 +50,86 @@ export default function Mapbox(props) {
     }
   }
 
-  const directions = new Directions({
-    accessToken: mapboxgl.accessToken,
-    profile: "mapbox/cycling",
-    unit: "metric",
-    styles: style,
-    interactive: false,
-    alternatives: false,
-    language: "pl",
-    congestion: true,
-    steps: true,
-    controls: {
-      inputs: false,
-      instructions: false,
-      profileSwitcher: true,
-    },
-    zoom: 10,
-  });
-
-  const nav = new mapboxgl.NavigationControl();
-
-  const getOnRouteData = (object) => {
-    const originCoordinates = directions.getOrigin().geometry.coordinates;
-    const destinationCoordinates =
-      directions.getDestination().geometry.coordinates;
-
-    const bbox = [originCoordinates, destinationCoordinates];
-    map.current.fitBounds(bbox, {
-      padding: 200,
-      // duration: 2000,
+  const directions = useMemo(() => {
+    return new Directions({
+      accessToken: mapboxgl.accessToken,
+      profile: "mapbox/cycling",
+      unit: "metric",
+      styles: style,
+      interactive: true,
+      alternatives: false,
+      language: "pl",
+      congestion: true,
+      steps: true,
+      controls: {
+        inputs: false,
+        instructions: false,
+        profileSwitcher: true,
+      },
+      zoom: 10,
     });
+  }, []);
 
-    const coordinates = [originCoordinates, destinationCoordinates];
-    getElevation(coordinates, props.setRouteData);
+  // const directions = new Directions({
+  //   accessToken: mapboxgl.accessToken,
+  //   profile: "mapbox/cycling",
+  //   unit: "metric",
+  //   styles: style,
+  //   interactive: false,
+  //   alternatives: false,
+  //   language: "pl",
+  //   congestion: true,
+  //   steps: true,
+  //   controls: {
+  //     inputs: false,
+  //     instructions: false,
+  //     profileSwitcher: true,
+  //   },
+  //   zoom: 10,
+  // });
 
-    map.current.once("idle", () => {
+  const getOnRouteData = useCallback(
+    (object) => {
+      const originCoordinates = directions.getOrigin().geometry.coordinates;
+      const destinationCoordinates =
+        directions.getDestination().geometry.coordinates;
+
+      const bbox = [originCoordinates, destinationCoordinates];
+      map.current.fitBounds(bbox, {
+        padding: 200,
+        // duration: 2000,
+      });
+
+      const coordinates = [originCoordinates, destinationCoordinates];
+      getElevation(coordinates, props.setRouteData);
+
+      map.current.once("idle", () => {
+        props.setRouteData((previousState) => {
+          return {
+            ...previousState,
+            img: map.current.getCanvas().toDataURL(),
+          };
+        });
+      });
+
+      const seconds = object.route[0].duration;
+      const time = new Date(seconds * 1000).toISOString().substr(11, 8);
+      const distanceInKm = (object.route[0].distance / 1000).toFixed(3);
+
       props.setRouteData((previousState) => {
         return {
           ...previousState,
-          img: map.current.getCanvas().toDataURL(),
+          distance: distanceInKm,
+          duration: time,
+          origin: originCoordinates,
+          destination: destinationCoordinates,
         };
       });
-    });
+    },
+    [directions, props]
+  );
 
-    const seconds = object.route[0].duration;
-    const time = new Date(seconds * 1000).toISOString().substr(11, 8);
-    const distanceInKm = (object.route[0].distance / 1000).toFixed(3);
-
-    props.setRouteData((previousState) => {
-      return {
-        ...previousState,
-        distance: distanceInKm,
-        duration: time,
-        origin: originCoordinates,
-        destination: destinationCoordinates,
-      };
-    });
-  };
+  // const getOnRouteData =
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -118,25 +140,29 @@ export default function Mapbox(props) {
       zoom: 11,
     });
     map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
+    const nav = new mapboxgl.NavigationControl();
     map.current.addControl(nav, "bottom-left");
     map.current.addControl(directions, "top-left");
 
-    return () => map.current.remove();
-  }, []);
+    return () => {
+      map.current.remove();
+      directions.removeRoutes();
+    };
+  }, [directions]);
 
   useEffect(() => {
+    if (!directions) return;
     if (directions.actions.eventSubscribe().events.route) return;
     directions.on("route", getOnRouteData);
 
     return () => {
       delete directions.actions.eventSubscribe().events.route;
       delete directions.actions.eventSubscribe().events.undefined;
-      directions.removeRoutes();
     };
-  }, []);
+  }, [directions, getOnRouteData]);
 
   return (
-     <section className={classes.contentContaner}>
+    <section className={classes.contentContaner}>
       <div className={classes.directionsContainer}>
         <OriginInput />
       </div>
