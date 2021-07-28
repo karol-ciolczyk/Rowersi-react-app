@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useMemo, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Paper, Button } from "@material-ui/core";
@@ -59,21 +65,40 @@ export default function Mapbox(props) {
     });
   }, []);
 
-  const addRoute = (routePoints, waypoints) => {
-    console.log("add Route function");
-    directions.removeRoutes(); // must be here to prevent duplicating waypoints
-    if (routePoints.origin) directions.setOrigin(routePoints.origin);
-    if (routePoints.destination)
-      directions.setDestination(routePoints.destination);
-    if (Object.keys(waypoints).length > 0) {
-      const waypointNumbers = Object.keys(waypoints);
-      waypointNumbers.forEach((number) => {
-        const coordinates = waypoints[number];
-        const figure = Number(number);
-        directions.addWaypoint(figure, coordinates);
-      });
-    }
-  };
+  // const addRoute = (routePoints, waypoints) => {
+  //   console.log("add Route function");
+  //   directions.removeRoutes(); // must be here to prevent duplicating waypoints
+  //   if (routePoints.origin) directions.setOrigin(routePoints.origin);
+  //   if (routePoints.destination)
+  //     directions.setDestination(routePoints.destination);
+  //   if (Object.keys(waypoints).length > 0) {
+  //     const waypointNumbers = Object.keys(waypoints);
+  //     waypointNumbers.forEach((number) => {
+  //       const coordinates = waypoints[number];
+  //       const figure = Number(number);
+  //       directions.addWaypoint(figure, coordinates);
+  //     });
+  //   }
+  // };
+
+  const addRoute = useCallback(
+    (routePoints, waypoints) => {
+      console.log("add Route function");
+      directions.removeRoutes(); // must be here to prevent duplicating waypoints
+      if (routePoints.origin) directions.setOrigin(routePoints.origin);
+      if (routePoints.destination)
+        directions.setDestination(routePoints.destination);
+      if (Object.keys(waypoints).length > 0) {
+        const waypointNumbers = Object.keys(waypoints);
+        waypointNumbers.forEach((number) => {
+          const coordinates = waypoints[number];
+          const figure = Number(number);
+          directions.addWaypoint(figure, coordinates);
+        });
+      }
+    },
+    [directions]
+  );
 
   const cleanPreviousWaypoints = (previousWaypoints) => {
     console.log("removing", previousWaypoints);
@@ -132,23 +157,10 @@ export default function Mapbox(props) {
   }, [waypoints, setRouteData]);
 
   useEffect(() => {
-    if (routePoints.origin) {
+    if (routePoints.origin || routePoints.destination || waypoints) {
       addRoute(routePoints, waypoints);
     }
-  }, [routePoints.origin]);
-
-  useEffect(() => {
-    if (routePoints.destination) {
-      addRoute(routePoints, waypoints);
-    }
-  }, [routePoints.destination]);
-
-  useEffect(() => {
-    // map.current._markers.forEach((marker)=> marker.remove())
-    if (waypoints) {
-      addRoute(routePoints, waypoints);
-    }
-  }, [waypoints]);
+  }, [routePoints, waypoints, addRoute]);
 
   const addWaypointHandler = () => {
     setIsDisabled(true);
