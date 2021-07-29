@@ -139,6 +139,10 @@ const RouteData = () => {
               isDataLoaded: true,
             };
           });
+          for (const number in routeData.waypoints) {
+            const coordinates = routeData.waypoints[number];
+            directions.addWaypoint(number, coordinates);
+          }
           directions.setOrigin(routeData.origin);
           directions.setDestination(routeData.destination);
           const bbox = [routeData.origin, routeData.destination];
