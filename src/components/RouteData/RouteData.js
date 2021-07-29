@@ -213,7 +213,7 @@ const RouteData = () => {
 
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
-      // fetchDirectionData();
+      fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 
