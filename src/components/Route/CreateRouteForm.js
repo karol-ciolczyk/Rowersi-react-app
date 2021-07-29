@@ -13,7 +13,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import UploadImages from "../ImageUpload/UploadImages";
 import UserSessionContext from "../context/userSession-context";
 import addRouteDataToFirebase from "../../firebase/addRouteDataToFirebase";
-import MouseOverPopover from "./MouseOverPopover";
+import { Tooltip } from "@material-ui/core";
+import DirectionsIcon from "@material-ui/icons/Directions";
+import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import HeightIcon from "@material-ui/icons/Height";
 import firebase from "firebase";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -183,9 +186,13 @@ export default function CreateRouteForm(props) {
               className={classes.routeDetailsItem}
             >
               <div className={classes.routeDetailsContainer}>
-                <div>
-                  <MouseOverPopover data="duration" />
-                </div>
+                <Tooltip title="Duration" placement="bottom">
+                  <div>
+                    <QueryBuilderIcon
+                      style={{ fontSize: 45, color: "#b8b8b8" }}
+                    />
+                  </div>
+                </Tooltip>
                 <div>{duration}</div>
               </div>
             </Paper>
@@ -195,9 +202,13 @@ export default function CreateRouteForm(props) {
               className={classes.routeDetailsItem}
             >
               <div className={classes.routeDetailsContainer}>
-                <div>
-                  <MouseOverPopover data="distance" />
-                </div>
+                <Tooltip title="Distance" placement="bottom">
+                  <div>
+                    <DirectionsIcon
+                      style={{ fontSize: 45, color: "#b8b8b8" }}
+                    />
+                  </div>
+                </Tooltip>
                 <div>{distance} km</div>
               </div>
             </Paper>
@@ -207,9 +218,11 @@ export default function CreateRouteForm(props) {
               className={classes.routeDetailsItem}
             >
               <div className={classes.routeDetailsContainer}>
-                <div>
-                  <MouseOverPopover data="elevation" />
-                </div>
+                <Tooltip title="Elevation" placement="bottom">
+                  <div>
+                    <HeightIcon style={{ fontSize: 45, color: "#b8b8b8" }} />
+                  </div>
+                </Tooltip>
                 <div>{originElevation} m</div>
               </div>
             </Paper>
