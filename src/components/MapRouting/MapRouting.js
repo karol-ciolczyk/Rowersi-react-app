@@ -281,6 +281,49 @@ export default function Mapbox(props) {
           destination: destinationCoordinates,
         };
       });
+
+      /////////// second function to add markers for waypoints and set isDisabled for add new point button/////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+      const markersArrray = directions._map._markers;
+      const waypointsArray = directions.getWaypoints();
+
+      ////// clear up markers
+      for (let i = 0; i < 100; i++) {
+        if (markersArrray.length > 0) {
+          markersArrray.forEach((marker) => {
+            marker.remove();
+          });
+        } else {
+          break;
+        }
+      }
+
+      if (waypointsArray.length > 0) {
+        waypointsArray.forEach((waypoint) => {
+          // console.log(waypoint.geometry.coordinates);
+          const coordinates = waypoint.geometry.coordinates;
+          new mapboxgl.Marker({
+            color: "#FF9406",
+            draggable: false,
+            scale: 0.65,
+          })
+            .setLngLat(coordinates)
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+            .addTo(map.current);
+        });
+      }
+
+      // set if addNewPoint button is Disabled
+      const lastWaypointCoordinates =
+        directions.getWaypoints().length > 0
+          ? directions.getWaypoints()[directions.getWaypoints().length - 1]
+              .geometry.coordinates
+          : null;
+      if (destinationCoordinates === lastWaypointCoordinates) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
     });
 
     return () => {
@@ -323,7 +366,7 @@ export default function Mapbox(props) {
         </Timeline>
         <IconButton
           // size="small"
-          disabled={false}
+          disabled={isDisabled}
           color="secondary"
           aria-label="upload picture"
           component="span"
@@ -332,7 +375,7 @@ export default function Mapbox(props) {
           <AddCircleOutlineIcon fontSize="medium" />
         </IconButton>
         <Button
-          disabled={false}
+          disabled={isDisabled}
           variant="contained"
           color="secondary"
           size="small"
