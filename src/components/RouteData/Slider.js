@@ -24,7 +24,7 @@ import "firebase/storage";
 import "firebase/firestore";
 import AwesomeSlider from "react-awesome-slider";
 import withAutoplay from "react-awesome-slider/dist/autoplay";
-import "react-awesome-slider/dist/styles.css";
+import "./Slider.css";
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
