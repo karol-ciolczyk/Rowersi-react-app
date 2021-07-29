@@ -163,7 +163,11 @@ const RouteData = () => {
   }, [directions]);
 
   async function fetchDirectionData() {
-    const coordinatesString = `${routeData.origin.join()};${routeData.destination.join()}`;
+    const waypointsString = Object.keys(routeData.waypoints)
+      .map((number) => routeData.waypoints[number])
+      .map((array) => array.join())
+      .join(";");
+    const coordinatesString = `${routeData.origin.join()};${waypointsString};${routeData.destination.join()}`;
     try {
       let response = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
@@ -209,7 +213,7 @@ const RouteData = () => {
 
   useEffect(() => {
     if (routeData.origin && routeData.destination) {
-      // fetchDirectionData();
+      fetchDirectionData();
     }
   }, [routeData.origin, routeData.destination]);
 
