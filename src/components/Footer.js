@@ -65,7 +65,7 @@ export default function Footer() {
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
                         <Typography variant="h6" className={classes.title}>
-                            About Us
+                            Our goal
                         </Typography>
                         <div className={classes.moreText}>
                             <p>Our application was created to promote cycling as a form of sustainable tourism and to encourage an active and healthy lifestyle.</p>
@@ -74,7 +74,13 @@ export default function Footer() {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <Typography variant="h6" className={classes.title}>
-                            Useful Links
+                            Authors
+                        </Typography>
+                        <Typography variant="body1" className={classes.text}>
+                            <p>Karol Ciolczyk<br />
+                                Ilona Kozak<br />
+                                Michal Lachowski<br />
+                                Adam Szumski</p>
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={3}>
