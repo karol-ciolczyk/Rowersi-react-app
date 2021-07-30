@@ -19,6 +19,7 @@ import TimelineDot from "@material-ui/lab/TimelineDot";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 import RoomIcon from "@material-ui/icons/Room";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import { IconButton } from "@material-ui/core";
 import { Tooltip } from "@material-ui/core";
 
@@ -160,10 +161,14 @@ export default function Mapbox(props) {
         timeLineItemContent: [
           ...previousState.timeLineItemContent,
           <TimelineItem key={Math.random()}>
-            <TimelineSeparator>
-              <TimelineDot style={{ backgroundColor: "#f36046" }}>
-                <MyLocationIcon />
-              </TimelineDot>
+            <TimelineSeparator style={{ paddingRight: "4px" }}>
+              <RadioButtonUncheckedIcon
+                style={{
+                  fontSize: "17px",
+                  color: "#f36046",
+                  margin: "10px 0px",
+                }}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
@@ -339,9 +344,13 @@ export default function Mapbox(props) {
         <Timeline>
           <TimelineItem>
             <TimelineSeparator>
-              <TimelineDot style={{ backgroundColor: "#f36046" }}>
-                <MyLocationIcon />
-              </TimelineDot>
+              <MyLocationIcon
+                style={{
+                  fontSize: "25px",
+                  color: "#f36046",
+                  margin: "10px 0px",
+                }}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
@@ -354,7 +363,7 @@ export default function Mapbox(props) {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot style={{ backgroundColor: "#3bb2d0" }}>
-                <RoomIcon />
+                <RoomIcon style={{ fontSize: "16px" }} />
               </TimelineDot>
             </TimelineSeparator>
             <TimelineContent>
