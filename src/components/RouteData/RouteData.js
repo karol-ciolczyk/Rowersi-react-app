@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useContext, useMemo } from "react";
 import UserSessionContext from "../context/userSession-context";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Avatar, Paper, Typography } from "@material-ui/core";

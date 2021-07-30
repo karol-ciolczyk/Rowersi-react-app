@@ -17,7 +17,8 @@ import { Tooltip } from "@material-ui/core";
 import DirectionsIcon from "@material-ui/icons/Directions";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import HeightIcon from "@material-ui/icons/Height";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/storage";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";

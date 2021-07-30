@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserSessionContext from "../context/userSession-context";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -64,7 +65,8 @@ const DisplayRouteElements = () => {
         });
         if (!isMounted) return;
         setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
-      });
+      })
+      .catch(console.log);
     return () => {
       isMounted = false;
     };
