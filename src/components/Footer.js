@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         width: '100%',
-        minHeight: '13rem',
+        minHeight: '15rem',
         backgroundColor: '#3bb2d0',
+        padding: '1.5rem',
     },
     iconBox: {
         display: 'flex',
@@ -44,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
     text: {
         color: '#fff',
         textAlign: 'left',
+    },
+    moreText: {
+        color: '#fff',
+        textAlign: 'left',
+        paddingRight: '9rem',
+        [theme.breakpoints.down('sm')]: {
+            paddingRight: '3rem',
+        },
     }
 }));
 
@@ -54,8 +63,19 @@ export default function Footer() {
         <footer className={classes.root}>
             <Container fixed>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} sm={9}>
-                        <div className={classes.paper}>Made in Poland with love.</div>
+                    <Grid item xs={12} sm={6}>
+                        <Typography variant="h6" className={classes.title}>
+                            About Us
+                        </Typography>
+                        <div className={classes.moreText}>
+                            <p>Our application was created to promote cycling as a form of sustainable tourism and to encourage an active and healthy lifestyle.</p>
+                            <p>Our goal is to promote the best bicycle routes and places in Poland among Polish and foreign cyclists.</p>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                        <Typography variant="h6" className={classes.title}>
+                            Useful Links
+                        </Typography>
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <Typography variant="h4" className={classes.title}>
