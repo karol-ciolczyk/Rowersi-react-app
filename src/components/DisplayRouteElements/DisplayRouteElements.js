@@ -55,7 +55,7 @@ const DisplayRouteElements = () => {
         const doscsArray = response.docs;
         const routeDataObjects = doscsArray.map((object) => {
           const time = object.data().duration;
-          const distanceInKm = (object.data().distance / 1000).toFixed(3);
+          const distanceInKm = object.data().distance;
           return {
             ...object.data(),
             routeId: object.id,
@@ -90,7 +90,7 @@ const DisplayRouteElements = () => {
                     title="Contemplative Reptile"
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h6" component="h2">
                       {object.routeTitle}
                     </Typography>
                     <div className={classes.routeDescription}>
@@ -110,7 +110,7 @@ const DisplayRouteElements = () => {
                   <Grid className={classes.gridItem} item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >
@@ -128,7 +128,7 @@ const DisplayRouteElements = () => {
                   <Grid className={classes.gridItem} item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >
@@ -146,7 +146,7 @@ const DisplayRouteElements = () => {
                   <Grid className={classes.gridItem} item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >
@@ -164,7 +164,7 @@ const DisplayRouteElements = () => {
                   <Grid item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >

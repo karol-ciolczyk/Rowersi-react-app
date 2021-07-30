@@ -276,7 +276,7 @@ export default function Mapbox(props) {
 
       const seconds = object.route[0].duration;
       const time = new Date(seconds * 1000).toISOString().substr(11, 8);
-      const distanceInKm = (object.route[0].distance / 1000).toFixed(3);
+      const distanceInKm = (object.route[0].distance / 1000).toFixed(2);
 
       props.setRouteData((previousState) => {
         return {
