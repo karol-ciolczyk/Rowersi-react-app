@@ -5,12 +5,10 @@ import { Autocomplete } from "@material-ui/lab";
 // import InputAdornment from "@material-ui/core/InputAdornment";
 // import { Room } from "@material-ui/icons";
 
-export const OriginInput = function (props) {
-  // const [inputText, setInputText] = useState("")
-  // const [places, setPlaces] = useState([]);
-  const [inputValue, setInputValue] = useState("Polska");
+export default function WaypointInput(props) {
   const [placesObject, setPlacesObject] = useState([]);
-
+  const [inputValue, setInputValue] = useState("");
+  const [value, setValue] = useState(props.initialInputValue);
   useEffect(() => {
     if (inputValue) {
       fetch(
@@ -29,34 +27,44 @@ export const OriginInput = function (props) {
     }
   }, [inputValue]);
 
+  useEffect(() => {
+    console.log(props.inputValue);
+    if (props.inputValue) {
+      setInputValue(props.inputValue);
+      // setValue(props.inputValue);
+    } // this set destinaton input value after add new point button after add new waypoint
+  }, [props.inputValue]);
+
   const placesName = placesObject.map((obj) => obj.placeName);
 
   return (
     <Autocomplete
+      inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
-        // setInputText(newInputValue);
         setInputValue(newInputValue);
       }}
+      value={value}
       onChange={(event, newValue, reason) => {
+        setValue(newValue);
+        // console.log(placesObject.find((obj) => obj.placeName === value));
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
-        props.onSelectOriginDestination(selectedPlaceData, "origin");
+        props.onSelectWaypoint(
+          selectedPlaceData,
+          props.waypointNumber
+          // props.waypoints
+        );
       }}
-      id="combo-box-origin"
+      id="combo-box-demo"
       options={placesName}
       getOptionLabel={(option) => option}
       renderOption={(option) => option}
       style={{ width: 300 }}
       filterOptions={(options, state) => options}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Choose origin"
-          // variant="outlined"
-          // size="small"
-        />
+        <TextField {...params} placeholder="Choose additional waypoint" />
       )}
     />
   );
-};
+}

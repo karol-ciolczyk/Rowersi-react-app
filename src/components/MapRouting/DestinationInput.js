@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete } from "@material-ui/lab";
-// import InputAdornment from "@material-ui/core/InputAdornment";
-// import { Room } from "@material-ui/icons";
 
-export const OriginInput = function (props) {
+export default function DestinationInput(props) {
   // const [inputText, setInputText] = useState("")
   // const [places, setPlaces] = useState([]);
   const [inputValue, setInputValue] = useState("Polska");
   const [placesObject, setPlacesObject] = useState([]);
+  const [value, setValue] = useState(null);
 
   useEffect(() => {
     if (inputValue) {
@@ -29,6 +28,12 @@ export const OriginInput = function (props) {
     }
   }, [inputValue]);
 
+  ///////////////////////////////  useEffect to clean input value after add new waypoint by new waypoint button in Mapbox.js
+  useEffect(() => {
+    if (props.destinationInputValueCleaner === null)
+      setValue(props.destinationInputValueCleaner);
+  }, [props.destinationInputValueCleaner]);
+
   const placesName = placesObject.map((obj) => obj.placeName);
 
   return (
@@ -37,13 +42,15 @@ export const OriginInput = function (props) {
         // setInputText(newInputValue);
         setInputValue(newInputValue);
       }}
+      value={value}
       onChange={(event, newValue, reason) => {
+        setValue(newValue);
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
-        props.onSelectOriginDestination(selectedPlaceData, "origin");
+        props.onSelectOriginDestination(selectedPlaceData, "destination");
       }}
-      id="combo-box-origin"
+      id="combo-box-destination"
       options={placesName}
       getOptionLabel={(option) => option}
       renderOption={(option) => option}
@@ -52,11 +59,11 @@ export const OriginInput = function (props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder="Choose origin"
+          placeholder="Choose destination"
           // variant="outlined"
           // size="small"
         />
       )}
     />
   );
-};
+}

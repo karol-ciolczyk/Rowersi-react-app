@@ -1,11 +1,30 @@
-import React, { useRef, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { Paper } from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 import { OriginInput } from "./OriginInput";
+
+import Timeline from "@material-ui/lab/Timeline";
+import TimelineItem from "@material-ui/lab/TimelineItem";
+import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
+import TimelineConnector from "@material-ui/lab/TimelineConnector";
+import TimelineContent from "@material-ui/lab/TimelineContent";
+import TimelineDot from "@material-ui/lab/TimelineDot";
+import MyLocationIcon from "@material-ui/icons/MyLocation";
+import RoomIcon from "@material-ui/icons/Room";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { IconButton } from "@material-ui/core";
 
 import style from "../mapStyle/directions-styles";
 import classes from "./MapRouting.module.css";
+import DestinationInput from "./DestinationInput";
+import WaypointInput from "./WaypointInput";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA";
@@ -13,9 +32,161 @@ mapboxgl.accessToken =
 export default function Mapbox(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [routePoints, setRoutePoints] = useState({
+    origin: null,
+    destination: null,
+  });
+  const [waypoints, setWaypoints] = useState({});
+  const [timeLineItemContentData, setTimeLineItemContentData] = useState({
+    waypointNumber: 0,
+    timeLineItemContent: [],
+  });
+  const [destinatioInputValueCleaner, setDestinatioInputValueCleaner] =
+    useState(undefined);
+
+  const directions = useMemo(() => {
+    return new Directions({
+      accessToken: mapboxgl.accessToken,
+      profile: "mapbox/cycling",
+      unit: "metric",
+      styles: style,
+      interactive: false,
+      alternatives: false,
+      language: "pl",
+      congestion: true,
+      steps: true,
+      controls: {
+        inputs: false,
+        instructions: false,
+        profileSwitcher: true,
+      },
+      zoom: 7,
+    });
+  }, []);
+
+  const addRoute = useCallback(
+    (routePoints, waypoints) => {
+      directions.removeRoutes(); // must be here to prevent duplicating waypoints
+      if (routePoints.origin) directions.setOrigin(routePoints.origin);
+      if (routePoints.destination)
+        directions.setDestination(routePoints.destination);
+      if (Object.keys(waypoints).length > 0) {
+        const waypointNumbers = Object.keys(waypoints);
+        waypointNumbers.forEach((number) => {
+          const coordinates = waypoints[number];
+          const figure = Number(number);
+          directions.addWaypoint(figure, coordinates);
+        });
+      }
+    },
+    [directions]
+  );
+
+  const cleanPreviousWaypoints = (previousWaypoints) => {
+    const waypointNumbers = Object.keys(previousWaypoints);
+    waypointNumbers.forEach(() => {
+      // const figure = Number(number);
+      directions.removeWaypoint(0);
+    });
+  };
+
+  const selectOriginDestinationHandler = (obj, whichLocation) => {
+    if (obj) {
+      const coordinates = obj.coordinates;
+      whichLocation === "origin"
+        ? setRoutePoints((previousState) => {
+            return { ...previousState, origin: coordinates };
+          })
+        : setRoutePoints((previousState) => {
+            return {
+              ...previousState,
+              destination: coordinates,
+              destinationName: obj.placeName,
+            };
+          });
+    }
+  };
+
+  const selectWaypointHandler = (selectedPlaceData, waypointNumber) => {
+    if (selectedPlaceData) {
+      const coordinates = selectedPlaceData.coordinates;
+      const waypointNumbers = Object.keys(waypoints);
+      const nextNumber = waypointNumbers.length; // this is next number of addition waypoint
+      setWaypoints((previousState) => {
+        if (previousState) cleanPreviousWaypoints(previousState);
+        return {
+          ...previousState,
+          [nextNumber]: coordinates,
+        };
+      });
+    }
+  };
+
+  const { setRouteData } = props;
+
+  useEffect(() => {
+    setRouteData((previousState) => {
+      return {
+        ...previousState,
+        waypoints,
+      };
+    });
+  }, [waypoints, setRouteData]);
+
+  useEffect(() => {
+    if (routePoints.origin || routePoints.destination || waypoints) {
+      addRoute(routePoints, waypoints);
+    }
+  }, [routePoints, waypoints, addRoute]);
+
+  const addWaypointHandler = () => {
+    setIsDisabled(true);
+    setDestinatioInputValueCleaner(null); ////// to give props to clean destination input value
+
+    // add waypoint as last key/value to waypoints state example { 1: [lng,lat], 2:[lng,lat]}
+    if (routePoints.destination) {
+      const waypointNumbers = Object.keys(waypoints);
+      const nextNumber = waypointNumbers.length;
+      setWaypoints((previousState) => {
+        return { ...previousState, [nextNumber]: routePoints.destination };
+      });
+    }
+
+    setTimeLineItemContentData((previousState) => {
+      return {
+        waypointNumber: previousState.waypointNumber + 1,
+        timeLineItemContent: [
+          ...previousState.timeLineItemContent,
+          <TimelineItem key={Math.random()}>
+            <TimelineSeparator>
+              <TimelineDot color="primary">
+                <MyLocationIcon />
+              </TimelineDot>
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <WaypointInput
+                initialInputValue={routePoints.destinationName}
+                waypointNumber={previousState.waypointNumber}
+                onSelectWaypoint={selectWaypointHandler}
+              />
+            </TimelineContent>
+          </TimelineItem>,
+        ],
+      };
+    });
+  };
+
+  ////////////////////  useEffect to reset destinatioInputValueCleaner to initial state
+  useEffect(() => {
+    setDestinatioInputValueCleaner(undefined);
+  }, [destinatioInputValueCleaner]);
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Function to retrieve from api the highest elevation of a point ( specified: lng, lat ) of the map
-
   async function getElevation(coordinates, setRouteData) {
     try {
       const elevationArray = await Promise.all(
@@ -50,46 +221,31 @@ export default function Mapbox(props) {
     }
   }
 
-  const directions = useMemo(() => {
-    return new Directions({
-      accessToken: mapboxgl.accessToken,
-      profile: "mapbox/cycling",
-      unit: "metric",
-      styles: style,
-      interactive: true,
-      alternatives: false,
-      language: "pl",
-      congestion: true,
-      steps: true,
-      controls: {
-        inputs: false,
-        instructions: false,
-        profileSwitcher: true,
-      },
-      zoom: 10,
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
+      center: [19.52, 50.1],
+      zoom: 11,
     });
-  }, []);
+    map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
+    const nav = new mapboxgl.NavigationControl();
+    map.current.addControl(nav, "bottom-left");
+    map.current.addControl(directions, "top-left");
 
-  // const directions = new Directions({
-  //   accessToken: mapboxgl.accessToken,
-  //   profile: "mapbox/cycling",
-  //   unit: "metric",
-  //   styles: style,
-  //   interactive: false,
-  //   alternatives: false,
-  //   language: "pl",
-  //   congestion: true,
-  //   steps: true,
-  //   controls: {
-  //     inputs: false,
-  //     instructions: false,
-  //     profileSwitcher: true,
-  //   },
-  //   zoom: 10,
-  // });
+    return () => {
+      map.current.remove();
+      directions.removeRoutes();
+    };
+  }, [directions]);
 
-  const getOnRouteData = useCallback(
-    (object) => {
+  useEffect(() => {
+    if (!directions) return;
+    if (directions.actions.eventSubscribe().events.route) return;
+    directions.on("route", (object) => {
+      ///////////// first function to get route screen and to invoke getElevation function /////////////
+      //////////////////////////////////////////////////////////////////////////////////////////////////
       const originCoordinates = directions.getOrigin().geometry.coordinates;
       const destinationCoordinates =
         directions.getDestination().geometry.coordinates;
@@ -125,46 +281,65 @@ export default function Mapbox(props) {
           destination: destinationCoordinates,
         };
       });
-    },
-    [directions, props]
-  );
-
-  // const getOnRouteData =
-
-  useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/karcio/ckr3m2igg5uin18p3iolzcdmp",
-      center: [19.52, 50.1],
-      zoom: 11,
     });
-    map.current.addControl(new mapboxgl.FullscreenControl(), "bottom-left");
-    const nav = new mapboxgl.NavigationControl();
-    map.current.addControl(nav, "bottom-left");
-    map.current.addControl(directions, "top-left");
-
-    return () => {
-      map.current.remove();
-      directions.removeRoutes();
-    };
-  }, [directions]);
-
-  useEffect(() => {
-    if (!directions) return;
-    if (directions.actions.eventSubscribe().events.route) return;
-    directions.on("route", getOnRouteData);
 
     return () => {
       delete directions.actions.eventSubscribe().events.route;
       delete directions.actions.eventSubscribe().events.undefined;
     };
-  }, [directions, getOnRouteData]);
+  }, [directions, props]);
 
   return (
     <section className={classes.contentContaner}>
       <div className={classes.directionsContainer}>
-        <OriginInput />
+        <Timeline>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="primary">
+                <MyLocationIcon />
+              </TimelineDot>
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <OriginInput
+                onSelectOriginDestination={selectOriginDestinationHandler}
+              />
+            </TimelineContent>
+          </TimelineItem>
+          {timeLineItemContentData.timeLineItemContent}
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="primary">
+                <RoomIcon />
+              </TimelineDot>
+            </TimelineSeparator>
+            <TimelineContent>
+              <DestinationInput
+                onSelectOriginDestination={selectOriginDestinationHandler}
+                destinationInputValueCleaner={destinatioInputValueCleaner}
+              />
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+        <IconButton
+          // size="small"
+          disabled={false}
+          color="secondary"
+          aria-label="upload picture"
+          component="span"
+          onClick={addWaypointHandler}
+        >
+          <AddCircleOutlineIcon fontSize="medium" />
+        </IconButton>
+        <Button
+          disabled={false}
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={addWaypointHandler}
+        >
+          Add new point
+        </Button>
       </div>
       <div className={classes.mapContainer}>
         <Paper

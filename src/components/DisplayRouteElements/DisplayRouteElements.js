@@ -45,6 +45,7 @@ const DisplayRouteElements = () => {
   const progressElement = routesData.length > 0 ? "" : <CircularProgress />;
 
   useEffect(() => {
+    let isMounted = true;
     firebase
       .firestore()
       .collection("routes")
@@ -61,8 +62,12 @@ const DisplayRouteElements = () => {
             distance: distanceInKm,
           };
         });
+        if (!isMounted) return;
         setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
       });
+    return () => {
+      isMounted = false;
+    };
   }, [ctx.userUid]);
 
   return (
