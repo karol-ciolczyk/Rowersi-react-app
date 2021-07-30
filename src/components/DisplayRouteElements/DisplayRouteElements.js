@@ -12,6 +12,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress, Grid } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +41,9 @@ const DisplayRouteElements = () => {
   const [routesData, setRoutesData] = useState([]);
   const ctx = useContext(UserSessionContext);
   const classes = useStyles();
+  const matches1300 = useMediaQuery("(min-width:1300px)");
+  const matches1700 = useMediaQuery("(min-width:1700px)");
+  const matches960 = useMediaQuery("(min-width:960px)");
 
   // console.log(ctx);
 
@@ -77,7 +81,11 @@ const DisplayRouteElements = () => {
       {progressElement}
       <Grid container spacing={0}>
         {routesData.map((object) => (
-          <Grid key={object.routeId} item xs={3}>
+          <Grid
+            key={object.routeId}
+            item
+            xs={matches960 ? (matches1300 ? (matches1700 ? 3 : 4) : 6) : 12}
+          >
             <Card className={classes.root}>
               <Link
                 to={`/route/${object.routeId}`}
