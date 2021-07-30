@@ -110,7 +110,7 @@ export default function Mapbox(props) {
     }
   };
 
-  const selectWaypointHandler = (selectedPlaceData, waypointNumber) => {
+  const selectWaypointHandler = (selectedPlaceData) => {
     if (selectedPlaceData) {
       const coordinates = selectedPlaceData.coordinates;
       const waypointNumbers = Object.keys(waypoints);
@@ -308,14 +308,23 @@ export default function Mapbox(props) {
         waypointsArray.forEach((waypoint) => {
           // console.log(waypoint.geometry.coordinates);
           const coordinates = waypoint.geometry.coordinates;
-          new mapboxgl.Marker({
+          const marker = new mapboxgl.Marker({
             color: "#FF9406",
-            draggable: false,
+            draggable: true,
             scale: 0.65,
           })
             .setLngLat(coordinates)
             .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
             .addTo(map.current);
+          // marker.on("dragend", (event) => {
+          //   const mapOfWaypoints = event.target._map._markers.map(
+          //     (object, index) => {
+          //       return [index, [object._lngLat.lng, object._lngLat.lat]];
+          //     }
+          //   );
+          //   const waypointsObject = Object.fromEntries(mapOfWaypoints);
+          //   setWaypoints(waypointsObject);
+          // });
         });
       }
 
