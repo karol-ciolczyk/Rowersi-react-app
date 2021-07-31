@@ -21,7 +21,7 @@ import RatingElement from "./RatingElement";
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
 import "./MapPopup.css";
-import { Slider } from "./Slider";
+import { Slider } from "./Slider/Slider";
 
 const RouteData = () => {
   const mapContainer = useRef(null);
@@ -288,7 +288,7 @@ const RouteData = () => {
   return (
     <div className={classes.flexContainer}>
       <div className={classes.flexchild1}>
-        <Slider routeId={routeId} />
+        <Slider />
         <div className={classes.flexchild__routeData}>
           <header className={classes.header}>
             <div>
