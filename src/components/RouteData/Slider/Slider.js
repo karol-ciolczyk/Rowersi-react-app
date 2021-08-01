@@ -12,6 +12,7 @@ export const Slider = function () {
   const { routeId } = useParams();
 
   useEffect(() => {
+    let isMounted = true;
     if (images.length > 0) return;
     (async function () {
       try {
@@ -43,11 +44,15 @@ export const Slider = function () {
             })();
           })
         );
+        if (isMounted === false) return;
         setImages(images);
       } catch (error) {
         alert(error);
       }
     })();
+    return () => {
+      isMounted = false;
+    };
   }, [images, routeId]);
 
   return (

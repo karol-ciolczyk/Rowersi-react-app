@@ -118,7 +118,14 @@ export default function CreateRouteForm(props) {
     routeDescription: "",
   });
   const [routeFiles, setRouteFiles] = useState([]);
-  const { distance, duration, originElevation } = props.routeData;
+  const {
+    distance,
+    origin,
+    destination,
+    duration,
+    originElevation,
+    waypoints,
+  } = props.routeData;
   const ctx = useContext(UserSessionContext);
 
   const handleChange = (event) => {
@@ -129,6 +136,59 @@ export default function CreateRouteForm(props) {
       };
     });
   };
+
+  async function fetchRouteDataForChart(
+    origin,
+    destination,
+    distance,
+    waypoints
+  ) {
+    const waypointsString = Object.keys(waypoints)
+      .map((number) => waypoints[number])
+      .map((array) => array.join())
+      .join(";");
+    const coordinatesString = `${origin.join()};${waypointsString};${destination.join()}`;
+    try {
+      let response = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+      );
+      let data = await response.json();
+      const allCoordinates = data.routes[0].geometry.coordinates;
+      let step = (Number(distance) / allCoordinates.length).toFixed(3);
+      // return;
+      const allResponses = await Promise.all(
+        allCoordinates.map((coordinates, index) => {
+          const stringCoordinate = coordinates.join();
+          return (async () => {
+            try {
+              const response = await fetch(
+                `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+              );
+              const data = await response.json();
+              const allFeatures = data.features;
+              const elevations = allFeatures.map(
+                (object) => object.properties.ele
+              );
+              const highestElevetion = Math.max(...elevations);
+              const distance = (step * (index + 1)).toFixed(2);
+              const chartObject = {
+                distance: distance,
+                coordinates: coordinates,
+                elevation: highestElevetion,
+              };
+              return chartObject;
+            } catch (err) {
+              alert(err);
+            }
+          })();
+        })
+      );
+      console.log(allResponses);
+      return allResponses;
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   async function addRouteData(allRouteData, routeFiles) {
     console.log(allRouteData);
@@ -146,6 +206,7 @@ export default function CreateRouteForm(props) {
           )
           .put(filesObject);
       });
+      alert("new route with images added to dataBase");
     } catch (error) {
       alert(error);
     }
@@ -153,14 +214,28 @@ export default function CreateRouteForm(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    const allRouteData = {
-      ...routeDescription,
-      ...props.routeData,
-      ...ctx,
-      isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
-    };
 
-    addRouteData(allRouteData, routeFiles);
+    (async function () {
+      try {
+        const chartData = await fetchRouteDataForChart(
+          origin,
+          destination,
+          distance,
+          waypoints
+        );
+        const allRouteData = {
+          ...routeDescription,
+          ...props.routeData,
+          ...ctx,
+          chartData,
+          isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
+        };
+        addRouteData(allRouteData, routeFiles);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+
     setRouteDescription((previousState) => {
       return {
         ...previousState,
@@ -170,6 +245,8 @@ export default function CreateRouteForm(props) {
       };
     });
   };
+
+  console.log("createRouteForm comonent, routeData:", props.routeData);
 
   return (
     <Container maxWidth="sm" className={classes.container}>
