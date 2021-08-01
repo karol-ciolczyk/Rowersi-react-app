@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -127,6 +128,7 @@ export default function CreateRouteForm(props) {
     waypoints,
   } = props.routeData;
   const ctx = useContext(UserSessionContext);
+  const history = useHistory();
 
   const handleChange = (event) => {
     setRouteDescription((previousState) => {
@@ -204,6 +206,7 @@ export default function CreateRouteForm(props) {
           .put(filesObject);
       });
       alert("new route with images added to dataBase");
+      history.push("/");
     } catch (error) {
       alert(error);
     }
@@ -241,6 +244,7 @@ export default function CreateRouteForm(props) {
         region: "",
       };
     });
+    props.setRouteData({});
   };
 
   return (
