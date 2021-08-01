@@ -183,7 +183,6 @@ export default function CreateRouteForm(props) {
           })();
         })
       );
-      console.log(allResponses);
       return allResponses;
     } catch (err) {
       alert(err);
@@ -191,8 +190,6 @@ export default function CreateRouteForm(props) {
   }
 
   async function addRouteData(allRouteData, routeFiles) {
-    console.log(allRouteData);
-    console.log(routeFiles);
     try {
       const response = await addRouteDataToFirebase(allRouteData);
       const routeAddedId = response.id;
@@ -245,8 +242,6 @@ export default function CreateRouteForm(props) {
       };
     });
   };
-
-  console.log("createRouteForm comonent, routeData:", props.routeData);
 
   return (
     <Container maxWidth="sm" className={classes.container}>

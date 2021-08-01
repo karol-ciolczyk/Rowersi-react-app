@@ -31,7 +31,6 @@ export default function WaypointInput(props) {
   }, [inputValue]);
 
   useEffect(() => {
-    console.log(props.inputValue);
     if (props.inputValue) {
       setInputValue(props.inputValue);
       // setValue(props.inputValue);

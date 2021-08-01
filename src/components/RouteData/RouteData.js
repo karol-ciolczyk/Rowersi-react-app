@@ -27,11 +27,9 @@ const RouteData = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [routeData, setRouteData] = useState({});
-  const [chartData, setChartData] = useState([]);
   const [rateValue, setRateValue] = useState(undefined);
   const { routeId } = useParams();
   const ctx = useContext(UserSessionContext);
-  const isChartDataLoaded = chartData.length > 0;
 
   const directions = useMemo(() => {
     return new Directions({
@@ -163,61 +161,6 @@ const RouteData = () => {
     };
   }, [directions]);
 
-  async function fetchDirectionData() {
-    const waypointsString = Object.keys(routeData.waypoints)
-      .map((number) => routeData.waypoints[number])
-      .map((array) => array.join())
-      .join(";");
-    const coordinatesString = `${routeData.origin.join()};${waypointsString};${routeData.destination.join()}`;
-    try {
-      let response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-      );
-      let data = await response.json();
-      const allCoordinates = data.routes[0].geometry.coordinates;
-      let step = (Number(routeData.distance) / allCoordinates.length).toFixed(
-        3
-      );
-      // return;
-      const allResponses = await Promise.all(
-        allCoordinates.map((coordinates, index) => {
-          const stringCoordinate = coordinates.join();
-          return (async () => {
-            try {
-              const response = await fetch(
-                `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-              );
-              const data = await response.json();
-              const allFeatures = data.features;
-              const elevations = allFeatures.map(
-                (object) => object.properties.ele
-              );
-              const highestElevetion = Math.max(...elevations);
-              const distance = (step * (index + 1)).toFixed(2);
-              const chartObject = {
-                distance: distance,
-                coordinates: coordinates,
-                elevation: highestElevetion,
-              };
-              return chartObject;
-            } catch (err) {
-              alert(err);
-            }
-          })();
-        })
-      );
-      setChartData(allResponses);
-    } catch (err) {
-      alert(err);
-    }
-  }
-
-  useEffect(() => {
-    if (routeData.origin && routeData.destination) {
-      fetchDirectionData();
-    }
-  }, [routeData.origin, routeData.destination]);
-
   const manageMarker = (object) => {
     if (!object.isTooltipActive) return;
     if (!object.activePayload) return; // before render chart with data
@@ -246,44 +189,46 @@ const RouteData = () => {
     if (map.current._markers[0]) map.current._markers[0].remove();
   };
 
-  const chart = (
-    <ResponsiveContainer width="100%" height={200}>
-      <AreaChart
-        data={chartData}
-        onMouseMove={manageMarker}
-        onMouseLeave={removeMarker}
-      >
-        <defs>
-          <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2451B7" stopOpacity={0.6} />
-            <stop offset="100%" stopColor="#2451B7" stopOpacity={0.1} />
-          </linearGradient>
-        </defs>
-        <Area
-          type="monotone"
-          dataKey="elevation"
-          stroke="#2451B7"
-          fill="url(#color)"
-        />
-        <XAxis
-          dataKey="distance"
-          axisLine={false}
-          tickLine={false}
-          // tickFormatter={(number) => `${number} m`}
-        />
-        <YAxis
-          dataKey="elevation"
-          axisLine={false}
-          tickLine={false}
-          tickCount={10}
-          // tickFormatter={(number) => `${number} m`}
-        />
-        {/* <Tooltip content={<CustomTooltip />} /> */}
-        <Tooltip />
-        <CartesianGrid opacity={0.2} vertical={false} />
-      </AreaChart>
-    </ResponsiveContainer>
-  );
+  const Chart = function () {
+    return (
+      <ResponsiveContainer width="100%" height={200}>
+        <AreaChart
+          data={routeData.chartData}
+          onMouseMove={manageMarker}
+          onMouseLeave={removeMarker}
+        >
+          <defs>
+            <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#2451B7" stopOpacity={0.6} />
+              <stop offset="100%" stopColor="#2451B7" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
+          <Area
+            type="monotone"
+            dataKey="elevation"
+            stroke="#2451B7"
+            fill="url(#color)"
+          />
+          <XAxis
+            dataKey="distance"
+            axisLine={false}
+            tickLine={false}
+            // tickFormatter={(number) => `${number} m`}
+          />
+          <YAxis
+            dataKey="elevation"
+            axisLine={false}
+            tickLine={false}
+            tickCount={10}
+            // tickFormatter={(number) => `${number} m`}
+          />
+          {/* <Tooltip content={<CustomTooltip />} /> */}
+          <Tooltip />
+          <CartesianGrid opacity={0.2} vertical={false} />
+        </AreaChart>
+      </ResponsiveContainer>
+    );
+  };
 
   return (
     <div className={classes.flexContainer}>
@@ -382,8 +327,8 @@ const RouteData = () => {
             </div>
           </div>
           <div className={classes.chart}>
-            {isChartDataLoaded ? (
-              chart
+            {routeData.chartData ? (
+              <Chart />
             ) : (
               <Paper elevation={0} component="div">
                 <Skeleton variant="rect" height={180} />
