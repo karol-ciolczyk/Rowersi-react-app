@@ -79,9 +79,9 @@ export default function Footer() {
                         </Typography>
                         <Typography variant="body1" className={classes.text}>
                             Karol Ciolczyk<br />
-                                Ilona Kozak<br />
-                                Michal Lachowski<br />
-                                Adam Szumski
+                            Ilona Kozak<br />
+                            Michal Lachowski<br />
+                            Adam Szumski
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={3}>
