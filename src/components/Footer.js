@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'uppercase',
         fontWeight: 'bold',
         textAlign: 'left',
+        lineHeight: '3rem',
     },
     text: {
         color: '#fff',
@@ -68,8 +69,8 @@ export default function Footer() {
                             Our goal
                         </Typography>
                         <div className={classes.moreText}>
-                            <p>Our application was created to promote cycling as a form of sustainable tourism and to encourage an active and healthy lifestyle.</p>
-                            <p>Our goal is to promote the best bicycle routes and places in Poland among Polish and foreign cyclists.</p>
+                            Our application was created to promote cycling as a form of sustainable tourism and to encourage an active and healthy lifestyle.<br /><br />
+                            Our goal is to promote the best bicycle routes and places in Poland among Polish and foreign cyclists.
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={3}>
@@ -77,10 +78,10 @@ export default function Footer() {
                             Authors
                         </Typography>
                         <Typography variant="body1" className={classes.text}>
-                            <p>Karol Ciolczyk<br />
+                            Karol Ciolczyk<br />
                                 Ilona Kozak<br />
                                 Michal Lachowski<br />
-                                Adam Szumski</p>
+                                Adam Szumski
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={3}>
