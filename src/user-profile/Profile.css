@@ -31,7 +31,6 @@
 
 .userProfile_SwitchArea span {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-size: 2.5em;
     margin-left: 10px;
     font-weight: bolder;
     color: black;
@@ -51,5 +50,6 @@
     justify-content: flex-start;
     flex-flow: row nowrap;
     align-items: center;
+    font-size: 2.5em;
 }
 

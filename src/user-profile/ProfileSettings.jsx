@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     display: "none",
+    fontsize: "0.875rem",
   },
 }));
 
@@ -53,6 +54,7 @@ export function ProfileSettings() {
           id="uploadAvatarPicture"
           className={classes.input}
           onChange={submitAvatar}
+          
         />
         <label htmlFor="uploadAvatarPicture">
           <Button
