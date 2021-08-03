@@ -58,7 +58,7 @@ export function Profile() {
         <span>{renderUserName(userUid)}</span>
       </div>
       <UserProfileTabs />
-      <div>
+      <div className="userProfile_SwitchArea">
         <Switch>
           <Route path="/profile/profilesettings">
             <ProfileSettings />

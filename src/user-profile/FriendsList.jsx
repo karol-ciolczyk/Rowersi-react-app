@@ -68,13 +68,10 @@ return (
     <>
       <div className="friendsListWrapper">
         <div className="friendsWidget">
-            <ul>{friendsData.map(item => <div className="userCard">
-                <UserAvatar url={item[0]}/>
-                <span>{item[1]}</span>
-                
-            </div>)}</ul>
+            {friendsData.map(item => <div className="userCard">
+                <UserAvatar url={item[0]} name={item[1]}/>               
+            </div>)}
         </div>
-        <div className="TBA"></div>
       </div>
     </>
   );
