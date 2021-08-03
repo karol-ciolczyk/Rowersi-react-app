@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -13,8 +14,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import UploadImages from "../ImageUpload/UploadImages";
 import UserSessionContext from "../context/userSession-context";
 import addRouteDataToFirebase from "../../firebase/addRouteDataToFirebase";
-import MouseOverPopover from "./MouseOverPopover";
-import firebase from "firebase";
+import { Tooltip } from "@material-ui/core";
+import DirectionsIcon from "@material-ui/icons/Directions";
+import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import HeightIcon from "@material-ui/icons/Height";
+import firebase from "firebase/app";
+import "firebase/storage";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -114,8 +119,16 @@ export default function CreateRouteForm(props) {
     routeDescription: "",
   });
   const [routeFiles, setRouteFiles] = useState([]);
-  const { distance, duration, originElevation } = props.routeData;
+  const {
+    distance,
+    origin,
+    destination,
+    duration,
+    originElevation,
+    waypoints,
+  } = props.routeData;
   const ctx = useContext(UserSessionContext);
+  const history = useHistory();
 
   const handleChange = (event) => {
     setRouteDescription((previousState) => {
@@ -126,9 +139,59 @@ export default function CreateRouteForm(props) {
     });
   };
 
+  async function fetchRouteDataForChart(
+    origin,
+    destination,
+    distance,
+    waypoints
+  ) {
+    const waypointsString = Object.keys(waypoints)
+      .map((number) => waypoints[number])
+      .map((array) => array.join())
+      .join(";");
+    const coordinatesString = `${origin.join()};${waypointsString};${destination.join()}`;
+    try {
+      let response = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+      );
+      let data = await response.json();
+      const allCoordinates = data.routes[0].geometry.coordinates;
+      let step = (Number(distance) / allCoordinates.length).toFixed(3);
+      // return;
+      const allResponses = await Promise.all(
+        allCoordinates.map((coordinates, index) => {
+          const stringCoordinate = coordinates.join();
+          return (async () => {
+            try {
+              const response = await fetch(
+                `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${stringCoordinate}.json?layers=contour&limit=50&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+              );
+              const data = await response.json();
+              const allFeatures = data.features;
+              const elevations = allFeatures.map(
+                (object) => object.properties.ele
+              );
+              const highestElevetion = Math.max(...elevations);
+              const distance = (step * (index + 1)).toFixed(2);
+              const chartObject = {
+                distance: distance,
+                coordinates: coordinates,
+                elevation: highestElevetion,
+              };
+              return chartObject;
+            } catch (err) {
+              alert(err);
+            }
+          })();
+        })
+      );
+      return allResponses;
+    } catch (err) {
+      alert(err);
+    }
+  }
+
   async function addRouteData(allRouteData, routeFiles) {
-    console.log(allRouteData);
-    console.log(routeFiles);
     try {
       const response = await addRouteDataToFirebase(allRouteData);
       const routeAddedId = response.id;
@@ -142,6 +205,8 @@ export default function CreateRouteForm(props) {
           )
           .put(filesObject);
       });
+      alert("new route with images added to dataBase");
+      history.push("/");
     } catch (error) {
       alert(error);
     }
@@ -149,14 +214,28 @@ export default function CreateRouteForm(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    const allRouteData = {
-      ...routeDescription,
-      ...props.routeData,
-      ...ctx,
-      isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
-    };
 
-    addRouteData(allRouteData, routeFiles);
+    (async function () {
+      try {
+        const chartData = await fetchRouteDataForChart(
+          origin,
+          destination,
+          distance,
+          waypoints
+        );
+        const allRouteData = {
+          ...routeDescription,
+          ...props.routeData,
+          ...ctx,
+          chartData,
+          isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
+        };
+        addRouteData(allRouteData, routeFiles);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+
     setRouteDescription((previousState) => {
       return {
         ...previousState,
@@ -165,6 +244,7 @@ export default function CreateRouteForm(props) {
         region: "",
       };
     });
+    props.setRouteData({});
   };
 
   return (
@@ -183,9 +263,13 @@ export default function CreateRouteForm(props) {
               className={classes.routeDetailsItem}
             >
               <div className={classes.routeDetailsContainer}>
-                <div>
-                  <MouseOverPopover data="duration" />
-                </div>
+                <Tooltip title="Duration" placement="bottom">
+                  <div>
+                    <QueryBuilderIcon
+                      style={{ fontSize: 45, color: "#b8b8b8" }}
+                    />
+                  </div>
+                </Tooltip>
                 <div>{duration}</div>
               </div>
             </Paper>
@@ -195,9 +279,13 @@ export default function CreateRouteForm(props) {
               className={classes.routeDetailsItem}
             >
               <div className={classes.routeDetailsContainer}>
-                <div>
-                  <MouseOverPopover data="distance" />
-                </div>
+                <Tooltip title="Distance" placement="bottom">
+                  <div>
+                    <DirectionsIcon
+                      style={{ fontSize: 45, color: "#b8b8b8" }}
+                    />
+                  </div>
+                </Tooltip>
                 <div>{distance} km</div>
               </div>
             </Paper>
@@ -207,9 +295,11 @@ export default function CreateRouteForm(props) {
               className={classes.routeDetailsItem}
             >
               <div className={classes.routeDetailsContainer}>
-                <div>
-                  <MouseOverPopover data="elevation" />
-                </div>
+                <Tooltip title="Elevation" placement="bottom">
+                  <div>
+                    <HeightIcon style={{ fontSize: 45, color: "#b8b8b8" }} />
+                  </div>
+                </Tooltip>
                 <div>{originElevation} m</div>
               </div>
             </Paper>

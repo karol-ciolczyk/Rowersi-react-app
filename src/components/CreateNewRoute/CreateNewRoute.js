@@ -7,7 +7,6 @@ import style from "./CreateNewRoute.module.css";
 
 const CreateNewRoute = () => {
   const [routeData, setRouteData] = useState({});
-  console.log("createRouteForm element occured");
 
   return (
     <div className={style.container}>
@@ -16,7 +15,7 @@ const CreateNewRoute = () => {
         isInput={true}
         setRouteData={setRouteData}
       />
-      <CreateRouteForm routeData={routeData} />
+      <CreateRouteForm routeData={routeData} setRouteData={setRouteData} />
     </div>
   );
 };

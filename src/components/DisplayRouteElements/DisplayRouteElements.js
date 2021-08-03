@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserSessionContext from "../context/userSession-context";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +12,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress, Grid } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
   root: {
@@ -39,12 +41,16 @@ const DisplayRouteElements = () => {
   const [routesData, setRoutesData] = useState([]);
   const ctx = useContext(UserSessionContext);
   const classes = useStyles();
+  const matches1300 = useMediaQuery("(min-width:1300px)");
+  const matches1700 = useMediaQuery("(min-width:1700px)");
+  const matches960 = useMediaQuery("(min-width:960px)");
 
   // console.log(ctx);
 
   const progressElement = routesData.length > 0 ? "" : <CircularProgress />;
 
   useEffect(() => {
+    let isMounted = true;
     firebase
       .firestore()
       .collection("routes")
@@ -53,7 +59,7 @@ const DisplayRouteElements = () => {
         const doscsArray = response.docs;
         const routeDataObjects = doscsArray.map((object) => {
           const time = object.data().duration;
-          const distanceInKm = (object.data().distance / 1000).toFixed(3);
+          const distanceInKm = object.data().distance;
           return {
             ...object.data(),
             routeId: object.id,
@@ -61,8 +67,13 @@ const DisplayRouteElements = () => {
             distance: distanceInKm,
           };
         });
+        if (!isMounted) return;
         setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
-      });
+      })
+      .catch(console.log);
+    return () => {
+      isMounted = false;
+    };
   }, [ctx.userUid]);
 
   return (
@@ -70,7 +81,11 @@ const DisplayRouteElements = () => {
       {progressElement}
       <Grid container spacing={0}>
         {routesData.map((object) => (
-          <Grid key={object.routeId} item xs={3}>
+          <Grid
+            key={object.routeId}
+            item
+            xs={matches960 ? (matches1300 ? (matches1700 ? 3 : 4) : 6) : 12}
+          >
             <Card className={classes.root}>
               <Link
                 to={`/route/${object.routeId}`}
@@ -83,7 +98,7 @@ const DisplayRouteElements = () => {
                     title="Contemplative Reptile"
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h6" component="h2">
                       {object.routeTitle}
                     </Typography>
                     <div className={classes.routeDescription}>
@@ -103,7 +118,7 @@ const DisplayRouteElements = () => {
                   <Grid className={classes.gridItem} item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >
@@ -121,7 +136,7 @@ const DisplayRouteElements = () => {
                   <Grid className={classes.gridItem} item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >
@@ -139,7 +154,7 @@ const DisplayRouteElements = () => {
                   <Grid className={classes.gridItem} item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >
@@ -157,7 +172,7 @@ const DisplayRouteElements = () => {
                   <Grid item xs={3}>
                     <Typography
                       align="center"
-                      variant="h6"
+                      variant="subtitle1"
                       display="block"
                       gutterBottom
                     >

@@ -10,6 +10,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import HomePage from "./components/HomePage/HomePage";
 import RouteData from "./components/RouteData/RouteData";
+import Footer from "./components/Footer";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -47,6 +48,7 @@ function App() {
           <Switch>
             <Route path="/route/:routeId" component={RouteData} />
           </Switch>
+          <Footer />
         </div>
       </Router>
     </UserSessionContext.Provider>
