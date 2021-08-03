@@ -37,18 +37,19 @@
     color: black;
 }
 .friendsWidget {
-    width: 80%;
+    width: 70%;
     margin: auto;
     margin-top: 50px;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
 }
 .userCard {
     display: flex;
+    margin-top: 20px;
     width: 500px;
     justify-content: flex-start;
     flex-flow: row nowrap;
+    align-items: center;
 }
 
