@@ -25,6 +25,7 @@ import { Tooltip } from "@material-ui/core";
 
 import style from "../mapStyle/directions-styles";
 import classes from "./MapRouting.module.css";
+import "./waypoint.css";
 import DestinationInput from "./DestinationInput";
 import WaypointInput from "./WaypointInput";
 
@@ -70,9 +71,30 @@ export default function Mapbox(props) {
   const addRoute = useCallback(
     (routePoints, waypoints) => {
       directions.removeRoutes(); // must be here to prevent duplicating waypoints
-      if (routePoints.origin) directions.setOrigin(routePoints.origin);
-      if (routePoints.destination)
+
+      if (directions._map?._markers[0]) directions._map._markers[0].remove();
+      if (routePoints.origin) {
+        directions.setOrigin(routePoints.origin);
+        const el = document.createElement("div");
+        el.className = "originElement";
+        const coordinates = routePoints.origin;
+        new mapboxgl.Marker(el)
+          .setLngLat(coordinates)
+          .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+          .addTo(map.current);
+      }
+      if (routePoints.destination) {
         directions.setDestination(routePoints.destination);
+        const coordinates = routePoints.destination;
+        new mapboxgl.Marker({
+          color: "red",
+        })
+          .setLngLat(coordinates)
+          .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+          .addTo(map.current);
+
+        console.log(directions._map._markers);
+      }
       if (Object.keys(waypoints).length > 0) {
         const waypointNumbers = Object.keys(waypoints);
         waypointNumbers.forEach((number) => {
@@ -291,12 +313,17 @@ export default function Mapbox(props) {
       /////////// second function to add markers for waypoints and set isDisabled for add new point button/////////////
       ////////////////////////////////////////////////////////////////////////////////////////////////
       const markersArrray = directions._map._markers;
-      const waypointsArray = directions.getWaypoints();
+      const waypointsArray = [
+        directions.getOrigin(),
+        ...directions.getWaypoints(),
+      ];
+      console.log(waypointsArray);
 
       ////// clear up markers
       for (let i = 0; i < 100; i++) {
         if (markersArrray.length > 0) {
           markersArrray.forEach((marker) => {
+            if (marker._color === "red") return;
             marker.remove();
           });
         } else {
@@ -306,13 +333,10 @@ export default function Mapbox(props) {
 
       if (waypointsArray.length > 0) {
         waypointsArray.forEach((waypoint) => {
-          // console.log(waypoint.geometry.coordinates);
+          var el = document.createElement("div");
+          el.className = "waypointElement";
           const coordinates = waypoint.geometry.coordinates;
-          const marker = new mapboxgl.Marker({
-            color: "#FF9406",
-            draggable: true,
-            scale: 0.65,
-          })
+          new mapboxgl.Marker(el)
             .setLngLat(coordinates)
             .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
             .addTo(map.current);
