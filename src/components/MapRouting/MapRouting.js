@@ -92,8 +92,6 @@ export default function Mapbox(props) {
           .setLngLat(coordinates)
           .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
           .addTo(map.current);
-
-        console.log(directions._map._markers);
       }
       if (Object.keys(waypoints).length > 0) {
         const waypointNumbers = Object.keys(waypoints);
@@ -317,7 +315,6 @@ export default function Mapbox(props) {
         directions.getOrigin(),
         ...directions.getWaypoints(),
       ];
-      console.log(waypointsArray);
 
       ////// clear up markers
       for (let i = 0; i < 100; i++) {
@@ -333,7 +330,7 @@ export default function Mapbox(props) {
 
       if (waypointsArray.length > 0) {
         waypointsArray.forEach((waypoint) => {
-          var el = document.createElement("div");
+          const el = document.createElement("div");
           el.className = "waypointElement";
           const coordinates = waypoint.geometry.coordinates;
           new mapboxgl.Marker(el)

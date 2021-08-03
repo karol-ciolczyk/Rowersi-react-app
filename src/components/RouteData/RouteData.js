@@ -19,7 +19,7 @@ import {
 import RatingElement from "./RatingElement";
 
 import classes from "./RouteData.module.css";
-import style from "../mapStyle/directions-styles";
+import style from "./directions-styles";
 import "./MapPopup.css";
 import { Slider } from "./Slider/Slider";
 
