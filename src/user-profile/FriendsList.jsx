@@ -7,7 +7,9 @@ import { UserAvatar } from "./avatar";
 export function FriendsList() {
   const userSessionContext = useContext(UserSessionContext);
   const { userUid } = userSessionContext;
-  const [friendsList, setFriendsList] = useState();
+  const [friendsList, setFriendsList] = useState([]);
+  const [friendsData, setFriendsData] = useState([]);
+
 
   useEffect(() => {
     return firebase
@@ -18,40 +20,59 @@ export function FriendsList() {
       .then( doc => setFriendsList(doc.data().following))
       .catch( error => console.log(error));
   }, [userUid]);
+  
 
-let RenderFriends = null
-  if (!friendsList) {
-      RenderFriends = "Try to find some awsome friends"
-  } else {
-    RenderFriends = friendsList.map((item) => {
-            return (
-                <div className="userCard" key={item}>  
-                    <UserAvatar url={handleUserAvatar(item)} />
-                    <span>{item}</span>
-                </div>
-            );
-    });
-};
-         
+
+  useEffect(() => {
+   if(friendsList.length > 0){
+       (async function(){
+           try{
+               const allPictures = await Promise.all(
+                   friendsList.map(uid => {
+                       return handleUserAvatar(uid)
+                   }))
+                const allNames = await Promise.all(
+                    friendsList.map(uid => {
+                        return handleUserName(uid)
+                    }))
+                const combineData = allPictures.map( (item, index) => [item, allNames[index]]);             
+                setFriendsData(combineData)
+           } catch(error){
+               console.log(error)
+           }
+       })()
+   }
+}, [friendsList]);
+      
   function handleUserAvatar(uid) {
-    firebase
+    return firebase
       .storage()
-      .ref("usersTest/" + uid + "/avatar/avatar.jpg")
-      .getDownloadURL()
-      .then( url => url)
-      .catch((error )=>console.log(error));
+      .ref()
+      .child("usersTest/" + uid + "/avatar/")
+      .listAll()
+      .then( response => response.items[0].getDownloadURL())
+      .then( response => response)
   };
 
-//   function renderUserName(uid) {
-//     // render user name, if there is no name use placeholder
-//     return "Anonymus";
-//   };
-
-  return (
+  function handleUserName(uid) {
+    return firebase
+      .firestore()
+      .collection("usersTest")
+      .doc(uid)
+      .get()
+      .then( doc => doc.data().name)
+      .catch( error => console.log(error));
+  };
+console.log(friendsData)
+return (
     <>
       <div className="friendsListWrapper">
         <div className="friendsWidget">
-            <ul>{RenderFriends}</ul>
+            <ul>{friendsData.map(item => <div className="userCard">
+                <UserAvatar url={item[0]}/>
+                <span>{item[1]}</span>
+                
+            </div>)}</ul>
         </div>
         <div className="TBA"></div>
       </div>
