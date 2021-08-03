@@ -11,24 +11,26 @@ export default function WaypointInput(props) {
   const [value, setValue] = useState(props.initialInputValue);
   useEffect(() => {
     if (inputValue) {
-      fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-      )
-        .then((response) => response.json())
-        .then((object) => {
-          const placesArray = object.features.map((obj) => {
-            return {
-              placeName: obj.place_name,
-              coordinates: obj.center,
-            };
+      const fetchData = setTimeout(() => {
+        fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+        )
+          .then((response) => response.json())
+          .then((object) => {
+            const placesArray = object.features.map((obj) => {
+              return {
+                placeName: obj.place_name,
+                coordinates: obj.center,
+              };
+            });
+            setPlacesObject(placesArray);
           });
-          setPlacesObject(placesArray);
-        });
+      }, 200);
+      return () => clearTimeout(fetchData);
     }
   }, [inputValue]);
 
   useEffect(() => {
-    console.log(props.inputValue);
     if (props.inputValue) {
       setInputValue(props.inputValue);
       // setValue(props.inputValue);

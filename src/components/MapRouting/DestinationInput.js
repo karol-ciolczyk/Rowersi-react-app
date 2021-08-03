@@ -6,25 +6,32 @@ import { Autocomplete } from "@material-ui/lab";
 export default function DestinationInput(props) {
   // const [inputText, setInputText] = useState("")
   // const [places, setPlaces] = useState([]);
-  const [inputValue, setInputValue] = useState("Polska");
+  const [inputValue, setInputValue] = useState("");
   const [placesObject, setPlacesObject] = useState([]);
   const [value, setValue] = useState(null);
 
   useEffect(() => {
     if (inputValue) {
-      fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
-      )
-        .then((response) => response.json())
-        .then((object) => {
-          const placesArray = object.features.map((obj) => {
-            return {
-              placeName: obj.place_name,
-              coordinates: obj.center,
-            };
-          });
-          setPlacesObject(placesArray);
-        });
+      const fetchData = setTimeout(() => {
+        (async function () {
+          try {
+            const response = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+            );
+            const data = await response.json();
+            const placesArray = data.features.map((obj) => {
+              return {
+                placeName: obj.place_name,
+                coordinates: obj.center,
+              };
+            });
+            setPlacesObject(placesArray);
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      }, 200);
+      return () => clearTimeout(fetchData);
     }
   }, [inputValue]);
 
