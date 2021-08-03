@@ -19,7 +19,9 @@ import TimelineDot from "@material-ui/lab/TimelineDot";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 import RoomIcon from "@material-ui/icons/Room";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import { IconButton } from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
 
 import style from "../mapStyle/directions-styles";
 import classes from "./MapRouting.module.css";
@@ -108,7 +110,7 @@ export default function Mapbox(props) {
     }
   };
 
-  const selectWaypointHandler = (selectedPlaceData, waypointNumber) => {
+  const selectWaypointHandler = (selectedPlaceData) => {
     if (selectedPlaceData) {
       const coordinates = selectedPlaceData.coordinates;
       const waypointNumbers = Object.keys(waypoints);
@@ -159,10 +161,14 @@ export default function Mapbox(props) {
         timeLineItemContent: [
           ...previousState.timeLineItemContent,
           <TimelineItem key={Math.random()}>
-            <TimelineSeparator>
-              <TimelineDot color="primary">
-                <MyLocationIcon />
-              </TimelineDot>
+            <TimelineSeparator style={{ paddingRight: "4px" }}>
+              <RadioButtonUncheckedIcon
+                style={{
+                  fontSize: "17px",
+                  color: "#f36046",
+                  margin: "10px 0px",
+                }}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
@@ -270,7 +276,7 @@ export default function Mapbox(props) {
 
       const seconds = object.route[0].duration;
       const time = new Date(seconds * 1000).toISOString().substr(11, 8);
-      const distanceInKm = (object.route[0].distance / 1000).toFixed(3);
+      const distanceInKm = (object.route[0].distance / 1000).toFixed(2);
 
       props.setRouteData((previousState) => {
         return {
@@ -281,6 +287,58 @@ export default function Mapbox(props) {
           destination: destinationCoordinates,
         };
       });
+
+      /////////// second function to add markers for waypoints and set isDisabled for add new point button/////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+      const markersArrray = directions._map._markers;
+      const waypointsArray = directions.getWaypoints();
+
+      ////// clear up markers
+      for (let i = 0; i < 100; i++) {
+        if (markersArrray.length > 0) {
+          markersArrray.forEach((marker) => {
+            marker.remove();
+          });
+        } else {
+          break;
+        }
+      }
+
+      if (waypointsArray.length > 0) {
+        waypointsArray.forEach((waypoint) => {
+          // console.log(waypoint.geometry.coordinates);
+          const coordinates = waypoint.geometry.coordinates;
+          const marker = new mapboxgl.Marker({
+            color: "#FF9406",
+            draggable: true,
+            scale: 0.65,
+          })
+            .setLngLat(coordinates)
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+            .addTo(map.current);
+          // marker.on("dragend", (event) => {
+          //   const mapOfWaypoints = event.target._map._markers.map(
+          //     (object, index) => {
+          //       return [index, [object._lngLat.lng, object._lngLat.lat]];
+          //     }
+          //   );
+          //   const waypointsObject = Object.fromEntries(mapOfWaypoints);
+          //   setWaypoints(waypointsObject);
+          // });
+        });
+      }
+
+      // set if addNewPoint button is Disabled
+      const lastWaypointCoordinates =
+        directions.getWaypoints().length > 0
+          ? directions.getWaypoints()[directions.getWaypoints().length - 1]
+              .geometry.coordinates
+          : null;
+      if (destinationCoordinates === lastWaypointCoordinates) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
     });
 
     return () => {
@@ -295,9 +353,13 @@ export default function Mapbox(props) {
         <Timeline>
           <TimelineItem>
             <TimelineSeparator>
-              <TimelineDot color="primary">
-                <MyLocationIcon />
-              </TimelineDot>
+              <MyLocationIcon
+                style={{
+                  fontSize: "25px",
+                  color: "#f36046",
+                  margin: "10px 0px",
+                }}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
@@ -309,8 +371,8 @@ export default function Mapbox(props) {
           {timeLineItemContentData.timeLineItemContent}
           <TimelineItem>
             <TimelineSeparator>
-              <TimelineDot color="primary">
-                <RoomIcon />
+              <TimelineDot style={{ backgroundColor: "#3bb2d0" }}>
+                <RoomIcon style={{ fontSize: "16px" }} />
               </TimelineDot>
             </TimelineSeparator>
             <TimelineContent>
@@ -321,25 +383,36 @@ export default function Mapbox(props) {
             </TimelineContent>
           </TimelineItem>
         </Timeline>
-        <IconButton
-          // size="small"
-          disabled={false}
-          color="secondary"
-          aria-label="upload picture"
-          component="span"
-          onClick={addWaypointHandler}
+        <Tooltip
+          title={isDisabled ? "fill in the missing fields" : "add new point"}
+          placement="bottom"
         >
-          <AddCircleOutlineIcon fontSize="medium" />
-        </IconButton>
-        <Button
-          disabled={false}
-          variant="contained"
-          color="secondary"
-          size="small"
-          onClick={addWaypointHandler}
-        >
-          Add new point
-        </Button>
+          <div>
+            <IconButton
+              // size="small"
+              disabled={isDisabled}
+              style={isDisabled ? { color: "#9e9e9e86" } : { color: "#3bb2d0" }}
+              aria-label="upload picture"
+              component="span"
+              onClick={addWaypointHandler}
+            >
+              <AddCircleOutlineIcon fontSize="medium" />
+            </IconButton>
+            <Button
+              disabled={isDisabled}
+              variant="contained"
+              style={
+                isDisabled
+                  ? { backgroundColor: "#9e9e9e86", color: "#fff" }
+                  : { backgroundColor: "#3bb2d0", color: "#fff" }
+              }
+              size="small"
+              onClick={addWaypointHandler}
+            >
+              Add new point
+            </Button>
+          </div>
+        </Tooltip>
       </div>
       <div className={classes.mapContainer}>
         <Paper

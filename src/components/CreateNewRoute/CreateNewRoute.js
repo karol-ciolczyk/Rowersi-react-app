@@ -15,7 +15,7 @@ const CreateNewRoute = () => {
         isInput={true}
         setRouteData={setRouteData}
       />
-      <CreateRouteForm routeData={routeData} />
+      <CreateRouteForm routeData={routeData} setRouteData={setRouteData} />
     </div>
   );
 };
