@@ -20,7 +20,7 @@ export const LogOutButton = function () {
       .auth()
       .signOut()
       .then(() => {
-        alert("You are log out");
+        alert("You are logged out");
       })
       .catch((error) => {
         alert("Error");
