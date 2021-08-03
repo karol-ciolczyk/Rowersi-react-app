@@ -6,25 +6,28 @@ import { Box, Typography } from "@material-ui/core";
 
 const RatingElement = (props) => {
   const [votesAverage, setVotesAverage] = useState(5);
-  const [isVoted, setIsVoted] = useState(false);
+  const [isVoted, setIsVoted] = useState(true);
   const ctx = useContext(UserSessionContext);
-
   useEffect(() => {
     if (!props.routeData.votesAverage) return;
     setVotesAverage(+props.routeData.votesAverage); // + represents changing of string to number
   }, [props.routeData.votesAverage]);
 
   useEffect(() => {
-    if (isVoted) return;
     if (props.routeData.votes) {
       props.routeData.votes.find((object) =>
         object.user === ctx.userUid ? setIsVoted(true) : setIsVoted(false)
       );
     }
+    if (isVoted) return;
   }, [props.routeData.votes, isVoted, ctx.userUid]);
 
   return (
-    <Box component="fieldset" mb={3} borderColor="transparent">
+    <Box
+      component="fieldset"
+      borderColor="transparent"
+      style={{ padding: "2px" }}
+    >
       <Typography variant="body2" component="legend">
         Rate this route
       </Typography>

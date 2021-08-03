@@ -25,6 +25,7 @@ export const OriginInput = function (props) {
               `https://api.mapbox.com/geocoding/v5/mapbox.places/${specialCharactersRemoved}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
             );
             const data = await response.json();
+            console.log(data);
             const placesArray = data.features.map((obj) => {
               return {
                 placeName: obj.place_name,

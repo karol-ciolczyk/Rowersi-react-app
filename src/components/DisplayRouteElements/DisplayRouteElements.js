@@ -13,6 +13,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress, Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { RatingElement } from "./RatingElement";
 
 const useStyles = makeStyles({
   root: {
@@ -34,6 +35,14 @@ const useStyles = makeStyles({
   routeDescription: {
     overflow: "auto",
     height: "70px",
+  },
+  rating: {
+    position: "absolute",
+    borderRadius: "5px",
+    opacity: "0.7",
+    top: "6px",
+    left: "6px",
+    backgroundColor: "#fff",
   },
 });
 
@@ -60,11 +69,18 @@ const DisplayRouteElements = () => {
         const routeDataObjects = doscsArray.map((object) => {
           const time = object.data().duration;
           const distanceInKm = object.data().distance;
+          const votesArray = object.data().votes;
+          const average = votesArray
+            ? votesArray
+                .map((object) => +object.rate)
+                .reduce((acc, number) => acc + number) / votesArray.length
+            : 0;
           return {
             ...object.data(),
             routeId: object.id,
             duration: time,
             distance: distanceInKm,
+            votesAverage: average.toFixed(1),
           };
         });
         if (!isMounted) return;
@@ -92,13 +108,26 @@ const DisplayRouteElements = () => {
                 style={{ textDecoration: "none", color: "#222222" }}
               >
                 <CardActionArea>
+                  <div className={classes.rating}>
+                    <RatingElement votesAverage={object.votesAverage} />
+                  </div>
                   <CardMedia
                     className={classes.media}
                     image={object.img}
                     title="Contemplative Reptile"
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h6" component="h2">
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h2"
+                      style={{
+                        width: "330px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
                       {object.routeTitle}
                     </Typography>
                     <div className={classes.routeDescription}>
