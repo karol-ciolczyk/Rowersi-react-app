@@ -440,7 +440,7 @@ export default function Mapbox(props) {
           elevation={0}
           style={{
             width: "100%",
-            height: "900px",
+            height: "100%",
             // margin: "auto",
             // marginTop: "100px",
           }}
