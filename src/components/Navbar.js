@@ -19,6 +19,8 @@ import LoginModal from "./LoginModal/LoginModal";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
+import { LogOutButton } from "./LogOutButton/LogOutButton";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -132,6 +134,7 @@ export default function Navbar(props) {
               </Button>
               <LoginModal onLoggedInData={props.onLoggedInData} />
               <SignUpModal />
+              <LogOutButton />
               <Link to="/profile">
                 <IconButton aria-label="account">
                   <AccountCircle />
