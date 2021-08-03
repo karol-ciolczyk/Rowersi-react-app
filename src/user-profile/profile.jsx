@@ -17,9 +17,11 @@ export function Profile() {
 
   const [ wallpaperUrl, setWallpaperUrl ] = useState("https://picsum.photos/950/300");
   const [ avatarUrl, setAvatarUrl ] = useState("https://picsum.photos/150/150");
+  const [ userName, setUserName ] = useState("Anonymus");
 
   handleUserWallpaper(userUid);
   handleUserAvatar(userUid);
+  handleUserName(userUid)
 
   function handleUserWallpaper(uid) {
       firebase
@@ -45,17 +47,20 @@ export function Profile() {
       });
   }
   
-
-  function renderUserName(uid) {
-    // render user name along avatar pic, if there is no name use placeholder
-    return "Anonymus";
+  function handleUserName(uid) {
+    return firebase
+      .firestore()
+      .collection("usersTest")
+      .doc(uid)
+      .get()
+      .then( doc => setUserName(doc.data().name))
+      .catch( error => console.log(error));
   }
   return (
     <>
       <UserWallpaper url={wallpaperUrl} />
       <div className="userProfile_navBar">
-        <UserAvatar url={avatarUrl} />
-        <span>{renderUserName(userUid)}</span>
+        <UserAvatar url={avatarUrl} name={userName}/>
       </div>
       <UserProfileTabs />
       <div className="userProfile_SwitchArea">
