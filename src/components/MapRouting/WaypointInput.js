@@ -11,9 +11,14 @@ export default function WaypointInput(props) {
   const [value, setValue] = useState(props.initialInputValue);
   useEffect(() => {
     if (inputValue) {
+      const specialCharactersRemoved = inputValue.replace(
+        /[^a-zA-Z0-9 śŚńŃęĘąĄćĆżŻźŹłŁ]/g,
+        ""
+      );
+
       const fetchData = setTimeout(() => {
         fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${specialCharactersRemoved}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
         )
           .then((response) => response.json())
           .then((object) => {
