@@ -6,15 +6,10 @@ import { useContext } from "react";
 import UserSessionContext from "../components/context/userSession-context.js";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
   input: {
     display: "none",
     fontsize: "0.875rem",
-  },
+  }
 }));
 
 const addUserBackgroundToFirebase = function (file, uid) {
@@ -47,14 +42,13 @@ export function ProfileSettings() {
 
   return (
     <>
-      <div className={classes.root}>
+      <div className="profileSettings_Wrapper" >
         <input
           accept="image/*"
           type="file"
           id="uploadAvatarPicture"
           className={classes.input}
           onChange={submitAvatar}
-          
         />
         <label htmlFor="uploadAvatarPicture">
           <Button
@@ -66,6 +60,7 @@ export function ProfileSettings() {
             Upload avatar picture
           </Button>
         </label>
+
         <input
           accept="image/*"
           type="file"
