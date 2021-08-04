@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   routeDetailsItem: {
     width: theme.spacing(16),
     flexGrow: "1",
-    height: "100px",
+    minHeight: "100px",
     margin: "1px",
     padding: "5px 3px",
   },
