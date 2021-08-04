@@ -69,7 +69,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DisplayRouteElements = () => {
+const DisplayRouteElements = (props) => {
   const [routesData, setRoutesData] = useState([]);
   const ctx = useContext(UserSessionContext);
   const classes = useStyles();
@@ -107,13 +107,17 @@ const DisplayRouteElements = () => {
           };
         });
         if (!isMounted) return;
-        setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
+        if (props.allRoutes) {
+          setRoutesData(routeDataObjects);
+        } else {
+          setRoutesData(routeDataObjects.slice(0, 4)); // show only 4 objects from data base - first four objects from the array
+        }
       })
       .catch(console.log);
     return () => {
       isMounted = false;
     };
-  }, [ctx.userUid]);
+  }, [ctx.userUid, props.allRoutes]);
 
   const HtmlTooltip = withStyles((theme) => ({
     tooltip: {

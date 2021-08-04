@@ -1,8 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 import DisplayRouteElements from "../DisplayRouteElements/DisplayRouteElements";
 
 const useStyle = makeStyles((theme) => ({
@@ -30,21 +28,12 @@ export default function PopularCycles() {
   return (
     <section className={classes.root}>
       <Typography variant="h2" gutterBottom className={classes.title}>
-        Popular cycles
+        All popular cycles
       </Typography>
       <Typography variant="body1" gutterBottom>
         Our routes do more than just get you there
       </Typography>
-      <DisplayRouteElements />
-      <Button
-        size="large"
-        component={Link}
-        to="/allRoutes"
-        variant="contained"
-        className={classes.button}
-      >
-        Explore All Routes
-      </Button>
+      <DisplayRouteElements allRoutes />
     </section>
   );
 }
