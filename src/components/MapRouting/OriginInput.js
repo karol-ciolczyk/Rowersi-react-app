@@ -51,10 +51,12 @@ export const OriginInput = function (props) {
       }}
       onChange={(event, newValue, reason) => {
         const region = newValue
-          .split(",")
-          [newValue.split(",").length - 2].replace("Voivodeship", "")
-          .replace("-", " ")
-          .replace(/[^a-zA-Z śŚńŃęĘąĄćĆżŻźŹłŁ]/g, "");
+          ? newValue
+              .split(",")
+              [newValue.split(",").length - 2].replace("Voivodeship", "")
+              .replace("-", " ")
+              .replace(/[^a-zA-Z śŚńŃęĘąĄćĆżŻźŹłŁ]/g, "")
+          : "";
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
