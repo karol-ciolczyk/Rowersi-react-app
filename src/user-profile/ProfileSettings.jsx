@@ -53,7 +53,7 @@ export function ProfileSettings() {
         <label htmlFor="uploadAvatarPicture">
           <Button
             variant="contained"
-            color="primary"
+            style={{ background: "#3bb2d0" }}
             component="span"
             startIcon={<CloudUploadIcon />}
           >
@@ -70,8 +70,8 @@ export function ProfileSettings() {
         />
         <label htmlFor="uploadProfileWallpaper">
           <Button
+            style={{ background: "#3bb2d0" }}
             variant="contained"
-            color="primary"
             component="span"
             startIcon={<CloudUploadIcon />}
           >

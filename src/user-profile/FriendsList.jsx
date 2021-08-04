@@ -24,7 +24,7 @@ export function FriendsList() {
 
 
   useEffect(() => {
-   if(friendsList.length > 0){
+   if(friendsList){
        (async function(){
            try{
                const allPictures = await Promise.all(
@@ -63,7 +63,14 @@ export function FriendsList() {
       .then( doc => doc.data().name)
       .catch( error => console.log(error));
   };
-console.log(friendsData)
+
+if (!friendsList) { 
+  return (
+  <h2 className="friendsList_noFriends">
+    Try to find some awsome friends !
+  </h2>)
+}
+else {
 return (
     <>
       <div className="friendsListWrapper">
@@ -75,4 +82,5 @@ return (
       </div>
     </>
   );
+}  
 }
