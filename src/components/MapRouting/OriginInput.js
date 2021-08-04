@@ -25,7 +25,6 @@ export const OriginInput = function (props) {
               `https://api.mapbox.com/geocoding/v5/mapbox.places/${specialCharactersRemoved}.json?country=pl&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
             );
             const data = await response.json();
-            console.log(data);
             const placesArray = data.features.map((obj) => {
               return {
                 placeName: obj.place_name,
@@ -51,10 +50,14 @@ export const OriginInput = function (props) {
         setInputValue(newInputValue);
       }}
       onChange={(event, newValue, reason) => {
+        const region = newValue
+          .split(",")
+          [newValue.split(",").length - 2].replace("Voivodeship", "")
+          .replace(/[^a-zA-Z śŚńŃęĘąĄćĆżŻźŹłŁ]/g, "");
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
-        props.onSelectOriginDestination(selectedPlaceData, "origin");
+        props.onSelectOriginDestination(selectedPlaceData, "origin", region);
       }}
       id="combo-box-origin"
       options={placesName}

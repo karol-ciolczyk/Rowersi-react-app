@@ -7,6 +7,7 @@ import style from "./CreateNewRoute.module.css";
 
 const CreateNewRoute = () => {
   const [routeData, setRouteData] = useState({});
+  console.log(routeData);
 
   return (
     <div className={style.container}>

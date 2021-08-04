@@ -113,20 +113,38 @@ export default function Mapbox(props) {
     });
   };
 
-  const selectOriginDestinationHandler = (obj, whichLocation) => {
+  const selectOriginDestinationHandler = (obj, whichLocation, region) => {
     if (obj) {
       const coordinates = obj.coordinates;
-      whichLocation === "origin"
-        ? setRoutePoints((previousState) => {
-            return { ...previousState, origin: coordinates };
-          })
-        : setRoutePoints((previousState) => {
-            return {
-              ...previousState,
-              destination: coordinates,
-              destinationName: obj.placeName,
-            };
-          });
+      console.log(region);
+      if (region)
+        props.setRouteData((previousState) => {
+          return { ...previousState, region };
+        });
+      if (whichLocation === "origin") {
+        setRoutePoints((previousState) => {
+          return { ...previousState, origin: coordinates };
+        });
+      } else {
+        setRoutePoints((previousState) => {
+          return {
+            ...previousState,
+            destination: coordinates,
+            destinationName: obj.placeName,
+          };
+        });
+      }
+      // whichLocation === "origin"
+      //   ? setRoutePoints((previousState) => {
+      //       return { ...previousState, origin: coordinates };
+      //     })
+      //   : setRoutePoints((previousState) => {
+      //       return {
+      //         ...previousState,
+      //         destination: coordinates,
+      //         destinationName: obj.placeName,
+      //       };
+      //     });
     }
   };
 
