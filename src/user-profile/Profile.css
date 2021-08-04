@@ -58,7 +58,7 @@
 
 .profileSettings_Wrapper {
     display: flex;
-    margin: 200px auto;
+    margin: 100px auto;
     justify-content: space-around;
     flex-flow: column wrap;
     align-items: center;
