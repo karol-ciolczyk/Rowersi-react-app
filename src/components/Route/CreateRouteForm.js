@@ -1,10 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Button from "@material-ui/core/Button";
@@ -17,6 +13,7 @@ import addRouteDataToFirebase from "../../firebase/addRouteDataToFirebase";
 import { Tooltip } from "@material-ui/core";
 import DirectionsIcon from "@material-ui/icons/Directions";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import MapIcon from "@material-ui/icons/Map";
 import HeightIcon from "@material-ui/icons/Height";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -101,13 +98,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: "1",
     height: "100px",
     margin: "1px",
-    padding: "10px 3px",
+    padding: "5px 3px",
   },
   accordionSummary: {
     backgroundColor: "#3bb2d0",
     "&:hover": {
       backgroundColor: "#34bfe2",
     },
+  },
+  icon: {
+    fontSize: 45,
+    color: "#b8b8b8",
   },
 }));
 
@@ -126,6 +127,7 @@ export default function CreateRouteForm(props) {
     duration,
     originElevation,
     waypoints,
+    region,
   } = props.routeData;
   const ctx = useContext(UserSessionContext);
   const history = useHistory();
@@ -265,9 +267,7 @@ export default function CreateRouteForm(props) {
               <div className={classes.routeDetailsContainer}>
                 <Tooltip title="Duration" placement="bottom">
                   <div>
-                    <QueryBuilderIcon
-                      style={{ fontSize: 45, color: "#b8b8b8" }}
-                    />
+                    <QueryBuilderIcon className={classes.icon} />
                   </div>
                 </Tooltip>
                 <div>{duration}</div>
@@ -281,9 +281,7 @@ export default function CreateRouteForm(props) {
               <div className={classes.routeDetailsContainer}>
                 <Tooltip title="Distance" placement="bottom">
                   <div>
-                    <DirectionsIcon
-                      style={{ fontSize: 45, color: "#b8b8b8" }}
-                    />
+                    <DirectionsIcon className={classes.icon} />
                   </div>
                 </Tooltip>
                 <div>{distance} km</div>
@@ -297,10 +295,24 @@ export default function CreateRouteForm(props) {
               <div className={classes.routeDetailsContainer}>
                 <Tooltip title="Elevation" placement="bottom">
                   <div>
-                    <HeightIcon style={{ fontSize: 45, color: "#b8b8b8" }} />
+                    <HeightIcon className={classes.icon} />
                   </div>
                 </Tooltip>
                 <div>{originElevation} m</div>
+              </div>
+            </Paper>
+            <Paper
+              variant="outlined"
+              elevation={0}
+              className={classes.routeDetailsItem}
+            >
+              <div className={classes.routeDetailsContainer}>
+                <Tooltip title="Region" placement="bottom">
+                  <div>
+                    <MapIcon className={classes.icon} />
+                  </div>
+                </Tooltip>
+                <div>{distance ? region : ""}</div>
               </div>
             </Paper>
           </div>
@@ -346,33 +358,6 @@ export default function CreateRouteForm(props) {
                     variant="outlined"
                     onChange={handleChange}
                   />
-
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formFullWidth}
-                  >
-                    <InputLabel id="select-region">Region</InputLabel>
-                    <Select
-                      name="region"
-                      labelId="select-region"
-                      id="select-region"
-                      value={routeDescription.region}
-                      onChange={handleChange}
-                      label="Region"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={"Greater Poland"}>
-                        Greater Poland
-                      </MenuItem>
-                      <MenuItem value={"Kuyavia"}>Kuyavia</MenuItem>
-                      <MenuItem value={"Mazury"}>Mazury</MenuItem>
-                      <MenuItem value={"Podhale"}>Podhale</MenuItem>
-                      <MenuItem value={"Pomerania"}>Pomerania</MenuItem>
-                      <MenuItem value={"Silesia"}>Silesia</MenuItem>
-                    </Select>
-                  </FormControl>
                 </div>
                 <UploadImages setRouteFiles={setRouteFiles} />
                 <Button
