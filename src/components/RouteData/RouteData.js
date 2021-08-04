@@ -315,8 +315,19 @@ const RouteData = () => {
               </Typography>
             </div>
             <div>
-              <Typography variant="h3" style={{ padding: "20px" }}>
+              <Typography
+                variant="h3"
+                style={{ padding: "20px 20px 5px 20px" }}
+              >
                 {routeData.votesAverage}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                style={{ padding: "5px", color: "#808080" }}
+              >
+                {routeData.votes
+                  ? `( ${routeData.votes.length} votes)`
+                  : "( votes )"}
               </Typography>
             </div>
             <div>
