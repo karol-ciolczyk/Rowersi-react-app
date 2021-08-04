@@ -116,7 +116,6 @@ export default function Mapbox(props) {
   const selectOriginDestinationHandler = (obj, whichLocation, region) => {
     if (obj) {
       const coordinates = obj.coordinates;
-      console.log(region);
       if (region)
         props.setRouteData((previousState) => {
           return { ...previousState, region };
@@ -134,17 +133,6 @@ export default function Mapbox(props) {
           };
         });
       }
-      // whichLocation === "origin"
-      //   ? setRoutePoints((previousState) => {
-      //       return { ...previousState, origin: coordinates };
-      //     })
-      //   : setRoutePoints((previousState) => {
-      //       return {
-      //         ...previousState,
-      //         destination: coordinates,
-      //         destinationName: obj.placeName,
-      //       };
-      //     });
     }
   };
 
