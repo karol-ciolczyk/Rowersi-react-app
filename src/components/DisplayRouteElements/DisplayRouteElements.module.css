@@ -1,0 +1,31 @@
+.avatar {
+  /* background-image: url("https://picsum.photos/150/150"); */
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  background-color: black;
+  top: 7px;
+  right: 7px;
+  z-index: 1;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  transition: 150ms;
+  background-size: cover;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;
+}
+
+.avatar:hover {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 1;
+  cursor: pointer;
+  border: 2px solid #fff;
+  background-size: cover;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;
+  box-shadow: 5px 5px 21px -6px rgb(0 0 0 / 73%);
+}

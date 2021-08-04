@@ -50,10 +50,17 @@ export const OriginInput = function (props) {
         setInputValue(newInputValue);
       }}
       onChange={(event, newValue, reason) => {
+        const region = newValue
+          ? newValue
+              .split(",")
+              [newValue.split(",").length - 2].replace("Voivodeship", "")
+              .replace("-", " ")
+              .replace(/[^a-zA-Z śŚńŃęĘąĄćĆżŻźŹłŁ]/g, "")
+          : "";
         const selectedPlaceData = placesObject.find(
           (obj) => obj.placeName === newValue
         );
-        props.onSelectOriginDestination(selectedPlaceData, "origin");
+        props.onSelectOriginDestination(selectedPlaceData, "origin", region);
       }}
       id="combo-box-origin"
       options={placesName}
