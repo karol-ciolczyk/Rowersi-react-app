@@ -17,6 +17,7 @@ const RatingElement = (props) => {
   useEffect(() => {
     console.log(props.routeData.votes);
     if (isCurrentVote) return;
+    if (!props.routeData.votes) setIsVoted(false);
     if (props.routeData.votes) {
       const isUserMatch = props.routeData.votes.find(
         (object) => object.user === ctx.userUid
