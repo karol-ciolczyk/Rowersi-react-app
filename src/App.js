@@ -11,6 +11,7 @@ import "firebase/auth";
 import HomePage from "./components/HomePage/HomePage";
 import RouteData from "./components/RouteData/RouteData";
 import Footer from "./components/Footer";
+import ExploreAllRoutes from "./components/ExploreAllRoutes/ExpolreAllRoutes";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -44,6 +45,7 @@ function App() {
             <Route path="/profile" component={Profile} />
             <Route exact path="/" component={HomePage} />
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
+            <Route path="/allRoutes" component={ExploreAllRoutes} />
           </Switch>
           <Switch>
             <Route path="/route/:routeId" component={RouteData} />
