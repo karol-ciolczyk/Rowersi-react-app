@@ -14,10 +14,17 @@ const RatingElement = (props) => {
   }, [props.routeData.votesAverage]);
 
   useEffect(() => {
+    console.log(props.routeData.votes);
     if (props.routeData.votes) {
-      props.routeData.votes.find((object) =>
-        object.user === ctx.userUid ? setIsVoted(true) : setIsVoted(false)
+      console.log("check");
+      const isUserMatch = props.routeData.votes.find(
+        (object) => object.user === ctx.userUid
       );
+      if (isUserMatch) {
+        setIsVoted(true);
+      } else {
+        setIsVoted(false);
+      }
     }
     if (isVoted) return;
   }, [props.routeData.votes, isVoted, ctx.userUid]);
