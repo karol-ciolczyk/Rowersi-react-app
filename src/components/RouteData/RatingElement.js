@@ -7,6 +7,7 @@ import { Box, Typography } from "@material-ui/core";
 const RatingElement = (props) => {
   const [votesAverage, setVotesAverage] = useState(5);
   const [isVoted, setIsVoted] = useState(true);
+  const [isCurrentVote, setIsCurrentVote] = useState(false);
   const ctx = useContext(UserSessionContext);
   useEffect(() => {
     if (!props.routeData.votesAverage) return;
@@ -15,8 +16,8 @@ const RatingElement = (props) => {
 
   useEffect(() => {
     console.log(props.routeData.votes);
+    if (isCurrentVote) return;
     if (props.routeData.votes) {
-      console.log("check");
       const isUserMatch = props.routeData.votes.find(
         (object) => object.user === ctx.userUid
       );
@@ -26,8 +27,7 @@ const RatingElement = (props) => {
         setIsVoted(false);
       }
     }
-    if (isVoted) return;
-  }, [props.routeData.votes, isVoted, ctx.userUid]);
+  }, [props.routeData.votes, isVoted, ctx.userUid, isCurrentVote]);
 
   return (
     <Box
@@ -46,6 +46,7 @@ const RatingElement = (props) => {
         size="large"
         onChange={(event, newValue) => {
           setIsVoted(true);
+          setIsCurrentVote(true);
           props.setRateValue(newValue);
         }}
         readOnly={isVoted}
