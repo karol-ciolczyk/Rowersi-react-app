@@ -16,7 +16,8 @@ const RatingElement = (props) => {
 
   useEffect(() => {
     if (isCurrentVote) return;
-    if (!props.routeData.votes) setIsVoted(false);
+    console.log(props.routeData.isDataLoaded);
+    if (props.routeData.isDataLoaded) setIsVoted(false);
     if (props.routeData.votes) {
       const isUserMatch = props.routeData.votes.find(
         (object) => object.user === ctx.userUid
@@ -27,7 +28,13 @@ const RatingElement = (props) => {
         setIsVoted(false);
       }
     }
-  }, [props.routeData.votes, isVoted, ctx.userUid, isCurrentVote]);
+  }, [
+    props.routeData.votes,
+    isVoted,
+    ctx.userUid,
+    isCurrentVote,
+    props.routeData.isDataLoaded,
+  ]);
 
   return (
     <Box
