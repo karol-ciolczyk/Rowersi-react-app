@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# :bike: ROWERSI - Check out the best cycling routes and places in Poland
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Index of Contents
 
-## Available Scripts
+- [Introduction](#introduction)
+- [Back-end](#back-end)
+- [Enviroment](#enviroment)
+- [Workflow](#workflow)
+- [Our Team](#our-team)
+- [Setup](#setup)
+- [Thanks a Lot](#thanks-a-lot)
 
-In the project directory, you can run:
+### Introduction
 
-### `yarn start`
+Our application was created to promote cycling as a form of sustainable tourism and to encourage an active and healthy lifestyle.
+Our goal is to promote the best bicycle routes and places in Poland among Polish and foreign cyclists.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The application allows its logged in users to create personalized bicycle routes. The user can add photos from the cycling route, description, title and select the region where the route is located. It is also possible to add additional points along the route, e.g. interesting landscape spots, accommodation or eating spots.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Each visitor can view the added routes, and has access to information added by other users, checking the rating of the route, description, etc. However, non-logged in users cannot add such routes.
 
-### `yarn test`
+![](./public/assets/app_screen_shot.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Back-end
 
-### `yarn build`
+Our team used Firebase to create connections between the database and application.
+Cloud Firestore is a highly scalable, cloud hosted, NoSQL realtime database, which helped us to store, sync, and query data for our web application.
+We used Firebase Authentication to let our users authenticate with Firebase using their email addresses and passwords.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Enviroment
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ROWERSI application is making use of ReactJS.
+To cut a long story short, React is a JavaScript library for building User Interfaces.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Linking within the application uses React Router.
 
-### `yarn eject`
+To make our application look nice and modern, we decided to use MATERIAL UI. Working in a group, we found this to be the safest way to make our application design consistent.
+However, standard Material UI style is a big limitation and that's why we decided to use Material UI custom styles using makeStyles.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Our team implemented various functions using React Hooks, including useState, useEffect, useContext, useDropzone.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To make our application more attractive, we also used several animated elements, such as Modal Boxes for login and sign up, useLayoutEffect (region cards), animated text on hero banner and slider (photo gallery for the route).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+However, our most important element is Mapbox. We were able to integrate custom live maps and location search into our web app with Mapbox APIs.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Workflow
 
-## Learn More
+Our work was based on the Scrum methodology. We used Jira to create and manage tasks.
+It took some time to learn to use the benefits of this platform, and today we are familiar with concepts such as backlog, sprints and sprint retrospective.
+Slack was also very useful in Daily Scrum. We tried to define our daily tasks and, if necessary, ask our mentors for advice.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Our Team
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+We are pleased to present the ROWERSI Team:
 
-### Code Splitting
+:heavy_check_mark: [Karol Ciolczyk](https://github.com/karol-ciolczyk)  
+:heavy_check_mark: [Ilona Kozak](https://github.com/ilonakozak)  
+:heavy_check_mark: [Michal Lachowski](https://github.com/Michal-Lachowski)  
+:heavy_check_mark: [Adam Szumski](https://github.com/AdamSzumski)  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Setup
 
-### Analyzing the Bundle Size
+Clone this repo and run `$ npm install` to install all dependecies.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Thanks a Lot
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project was supervised by the <a href="https://github.com/infoshareacademy">infoShare Academy</a>.
