@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserSessionContext from "../context/userSession-context";
-import firebase from "firebase/app";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
 
@@ -8,7 +7,6 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress, Grid } from "@material-ui/core";
@@ -81,6 +79,7 @@ const useStyles = makeStyles({
 export const DisplayRoutes = (props) => {
   const [routesData, setRoutesData] = useState([]);
   const ctx = useContext(UserSessionContext);
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
   const classes = useStyles();
   const matches1300 = useMediaQuery("(min-width:1300px)");
   const matches1630 = useMediaQuery("(min-width:1630px)");
@@ -101,6 +100,20 @@ export const DisplayRoutes = (props) => {
       borderRadius: "7px",
     },
   }))(Tooltip);
+
+  useEffect(() => {
+    console.log("useState");
+    // const filteredRoutes = props.routes.filter((route) => {
+    //   const region = props.region.toLowerCase();
+    //   console.log(region, route.region.toLowerCase());
+    //   return route.region.toLowerCase() === region;
+    // });
+    // console.log(filteredRoutes);
+  }, [props.region, props.routes]);
+
+  // console.log(props.region.toLowerCase());
+  console.log(props.region);
+  console.log(props.routes);
 
   return (
     <div className={classes.gridRoot}>

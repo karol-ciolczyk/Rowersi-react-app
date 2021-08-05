@@ -8,12 +8,12 @@ import "firebase/firestore";
 import classes from "./DisplayByRegion.module.css";
 
 export const DisplayByRegion = function () {
-  const [imageClicked, setImageClicked] = useState("");
+  const [clickedImage, setClickedImage] = useState("");
   const [routes, setRoutes] = useState([]);
 
   const imageClickedHandler = function (event) {
     const region = event.target.innerText;
-    setImageClicked(region);
+    setClickedImage(region);
   };
 
   useEffect(() => {
@@ -34,8 +34,6 @@ export const DisplayByRegion = function () {
       }
     })();
   }, []);
-  console.log(routes);
-  console.log(imageClicked);
 
   return (
     <div className={classes.container}>
@@ -44,7 +42,7 @@ export const DisplayByRegion = function () {
       </nav>
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
-          <DisplayRoutes routes={routes} />
+          <DisplayRoutes region={clickedImage} routes={routes} />
         </div>
       </section>
     </div>
