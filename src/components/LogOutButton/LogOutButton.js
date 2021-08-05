@@ -27,7 +27,11 @@ export const LogOutButton = function () {
       });
   };
   return (
-    <Button className={classes.button} onClick={onClickHandler}>
+    <Button
+      variant="contained"
+      className={classes.button}
+      onClick={onClickHandler}
+    >
       Log Out
     </Button>
   );

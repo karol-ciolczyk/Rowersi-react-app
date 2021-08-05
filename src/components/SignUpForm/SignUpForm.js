@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "tomato",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#3bb2d0",
+    color: "#fff",
+    "&:hover, &:focus": {
+      backgroundColor: "#3bb2d0",
+    },
   },
 }));
 
@@ -73,9 +78,8 @@ export default function SignUpForm(props) {
       password.trim() === repeatPassword.trim() &&
       password.trim().length > 0
     ) {
-      createUserWithEmailAndPassword(email, password);
+      createUserWithEmailAndPassword(email, password, nickname);
       props.onSubmitButton();
-      alert("successfully registered");
     } else alert("incorrect password");
 
     setUserData({
@@ -137,7 +141,6 @@ export default function SignUpForm(props) {
             autoComplete="current-password"
           />
           <TextField
-            disabled
             onChange={userDataChangeHandler}
             value={nickname}
             variant="outlined"
@@ -157,7 +160,6 @@ export default function SignUpForm(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
             Sign Up
