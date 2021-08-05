@@ -12,6 +12,7 @@ import HomePage from "./components/HomePage/HomePage";
 import RouteData from "./components/RouteData/RouteData";
 import Footer from "./components/Footer";
 import ExploreAllRoutes from "./components/ExploreAllRoutes/ExpolreAllRoutes";
+import { DisplayByRegion } from "./components/DisplayByRegion/DisplayByRegion";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -51,6 +52,7 @@ function App() {
             <Route path="/route/:routeId" component={RouteData} />
           </Switch>
           <Footer />
+          <DisplayByRegion />
         </div>
       </Router>
     </UserSessionContext.Provider>
