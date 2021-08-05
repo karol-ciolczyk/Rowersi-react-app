@@ -147,11 +147,15 @@ export default function CreateRouteForm(props) {
     distance,
     waypoints
   ) {
-    const waypointsString = Object.keys(waypoints)
-      .map((number) => waypoints[number])
-      .map((array) => array.join())
-      .join(";");
-    const coordinatesString = `${origin.join()};${waypointsString};${destination.join()}`;
+    const waypointsString = waypoints
+      ? Object.keys(waypoints)
+          .map((number) => waypoints[number])
+          .map((array) => array.join())
+          .join(";")
+      : null;
+    const coordinatesString = waypointsString
+      ? `${origin.join()};${waypointsString};${destination.join()}`
+      : `${origin.join()};${destination.join()}`;
     try {
       let response = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/cycling/${coordinatesString}?geometries=geojson&access_token=pk.eyJ1Ijoia2FyY2lvIiwiYSI6ImNrcTd6YjExejAxc3kyb3BrcnBzY252em4ifQ.emytj-LkRX7RcGueM2S9HA`
@@ -198,6 +202,7 @@ export default function CreateRouteForm(props) {
       const response = await addRouteDataToFirebase(allRouteData);
       const routeAddedId = response.id;
 
+      if (!routeFiles.files) return;
       routeFiles.files.forEach((filesObject) => {
         const routeFileName = filesObject.name;
         firebase
