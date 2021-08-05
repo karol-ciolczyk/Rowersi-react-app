@@ -168,6 +168,8 @@ const RouteData = () => {
     });
   });
 
+  console.log(map.current);
+
   //  The following useEffect applies to cleaning map data and direction data after unmounting a component
   useEffect(() => {
     return () => {
@@ -180,7 +182,7 @@ const RouteData = () => {
   const manageMarker = (object) => {
     if (!object.isTooltipActive) return;
     if (!object.activePayload) return; // before render chart with data
-    if (map.current._markers[0]) map.current._markers[0].remove();
+    if (map.current._markers[2]) map.current._markers[0].remove();
     if (object.activePayload[0]) {
       const elevation = object.activePayload[0].payload.elevation;
       const coordinates = object.activePayload[0].payload.coordinates;
@@ -202,7 +204,7 @@ const RouteData = () => {
   };
 
   const removeMarker = (event) => {
-    if (map.current._markers[0]) map.current._markers[0].remove();
+    if (map.current._markers[2]) map.current._markers[2].remove();
   };
 
   const Chart = function () {

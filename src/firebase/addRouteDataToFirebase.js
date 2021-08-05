@@ -8,7 +8,6 @@ const addRouteDataToFirebase = (routeDataObject) => {
     .add(routeDataObject)
     .then((response) => {
       if (response) {
-        alert("your new route added");
         return response;
       }
     })
