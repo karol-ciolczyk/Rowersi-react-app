@@ -29,7 +29,7 @@ We used Firebase Authentication to let our users authenticate with Firebase usin
 
 ### Enviroment
 
-ROWERSI app is making use of ReactJS.
+ROWERSI application is making use of ReactJS.
 To cut a long story short, React is a JavaScript library for building User Interfaces.
 
 Linking within the application uses React Router.
