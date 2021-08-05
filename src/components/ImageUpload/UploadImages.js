@@ -59,11 +59,12 @@ const img = {
 
 export default function UploadImages(props) {
   const classes = useStyles();
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
+  const { routeFiles, setRouteFiles } = props;
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
-      setFiles(
+      setRouteFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
@@ -73,9 +74,9 @@ export default function UploadImages(props) {
     },
   });
 
-  const setRouteFiles = props.setRouteFiles;
+  // const setRouteFiles = props.setRouteFiles;
 
-  const thumbs = files.map((file) => (
+  const thumbs = routeFiles.map((file) => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
         <img src={file.preview} style={img} alt="views" />
@@ -86,21 +87,18 @@ export default function UploadImages(props) {
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      routeFiles.forEach((file) => URL.revokeObjectURL(file.preview));
     },
-    [files]
+    [routeFiles]
   );
 
-  useEffect(() => {
-    if (files.length > 0) {
-      setRouteFiles((previousState) => {
-        return {
-          ...previousState,
-          files,
-        };
-      });
-    }
-  }, [files, setRouteFiles]);
+  // useEffect(() => {
+  //   if (routeFiles.length > 0) {
+  //     setRouteFiles([...routeFiles]);
+  //   }
+  // }, [files, setRouteFiles]);
+
+  // console.log(files);
 
   return (
     <section className={classes.container}>

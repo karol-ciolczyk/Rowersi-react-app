@@ -147,6 +147,10 @@ export default function CreateRouteForm(props) {
     distance,
     waypoints
   ) {
+    if (!origin || !destination) {
+      alert("you must set the origin and destination points");
+      return;
+    }
     const waypointsString = waypoints
       ? Object.keys(waypoints)
           .map((number) => waypoints[number])
@@ -198,12 +202,13 @@ export default function CreateRouteForm(props) {
   }
 
   async function addRouteData(allRouteData, routeFiles) {
+    if (!allRouteData.destination || !allRouteData.origin) return;
     try {
       const response = await addRouteDataToFirebase(allRouteData);
       const routeAddedId = response.id;
 
-      if (!routeFiles.files) return;
-      routeFiles.files.forEach((filesObject) => {
+      if (routeFiles.length === 0) return;
+      routeFiles.forEach((filesObject) => {
         const routeFileName = filesObject.name;
         firebase
           .storage()
@@ -212,7 +217,7 @@ export default function CreateRouteForm(props) {
           )
           .put(filesObject);
       });
-      alert("new route with images added to dataBase");
+      console.log("new route with images added to dataBase");
       history.push("/");
     } catch (error) {
       alert(error);
@@ -238,6 +243,7 @@ export default function CreateRouteForm(props) {
           isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
         };
         addRouteData(allRouteData, routeFiles);
+        setRouteFiles([]);
       } catch (error) {
         console.log(error);
       }
@@ -253,6 +259,8 @@ export default function CreateRouteForm(props) {
     });
     props.setRouteData({});
   };
+
+  console.log(routeFiles);
 
   return (
     <Container maxWidth="sm" className={classes.container}>
@@ -364,7 +372,10 @@ export default function CreateRouteForm(props) {
                     onChange={handleChange}
                   />
                 </div>
-                <UploadImages setRouteFiles={setRouteFiles} />
+                <UploadImages
+                  setRouteFiles={setRouteFiles}
+                  routeFiles={routeFiles}
+                />
                 <Button
                   type="submit"
                   variant="contained"
