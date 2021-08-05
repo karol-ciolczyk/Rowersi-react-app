@@ -77,8 +77,10 @@ export default function LoginModal(props) {
           <div className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
               <LoginForm
+                setOpen={setOpen}
                 onLoggedInData={props.onLoggedInData}
                 onSubmitButton={onSubmitButtonHandler}
+                isSignUpLinkClickedHandler={props.isSignUpLinkClickedHandler}
               />
             </Paper>
           </div>

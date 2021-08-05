@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "tomato",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -46,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#3bb2d0",
+    color: "#fff",
+    "&:hover, &:focus": {
+      backgroundColor: "#3bb2d0",
+    },
   },
   progress: {
     width: "300px",
@@ -79,6 +84,7 @@ export default function LoginForm(props) {
     setProgress(true);
     signInWithEmailAndPassword(email, password).then((object) => {
       if (!object) return;
+      alert("success :) :)");
       setUserData((previousState) => {
         return {
           ...previousState,
@@ -93,9 +99,13 @@ export default function LoginForm(props) {
     });
   };
 
+  const linkClickHandler = function () {
+    props.setOpen(false);
+    props.isSignUpLinkClickedHandler();
+  };
+
   useEffect(() => {
     if (userData.uid) {
-      alert("success :) :)");
       props.onSubmitButton(); // to close modal after submit
       props.onLoggedInData(userData.uid);
     }
@@ -147,7 +157,6 @@ export default function LoginForm(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
             Log In
@@ -159,7 +168,7 @@ export default function LoginForm(props) {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={linkClickHandler}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
