@@ -37,7 +37,7 @@ export function FriendsList() {
                     }))
                 const combineData = allPictures.map( (item, index) => [item, allNames[index]]);             
                 setFriendsData(combineData)
-           } catch(error){
+           } catch (error) {
                console.log(error)
            }
        })()
