@@ -5,10 +5,14 @@
 .nav {
   display: flex;
   flex-direction: column;
-  width: 350px;
+  width: 20%;
 }
 .section {
-  /* width: 70%; */
-  width: 100%;
+  position: relative;
+  width: 80%;
   background-color: black;
+}
+.routeElementsContainer {
+  top: 80px;
+  position: sticky;
 }

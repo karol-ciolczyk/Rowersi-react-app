@@ -15,7 +15,7 @@ import { CircularProgress, Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Tooltip } from "@material-ui/core";
 // import { RatingElement } from "./RatingElement";
-import style from "./DisplayRouteElements.module.css";
+import style from "./DisplayRoutes.module.css";
 
 const useStyles = makeStyles({
   root: {

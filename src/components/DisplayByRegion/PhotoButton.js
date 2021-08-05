@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
+// import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
+import { Button } from "@material-ui/core";
 
 const images = [
   {
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     border: "3px solid #fff",
     position: "relative",
-    height: 350,
+    height: "350px",
     [theme.breakpoints.down("xs")]: {
       width: "100% !important", // Overrides inline-style
       height: 100,
@@ -118,15 +119,12 @@ export function PhotoButton(props) {
   return (
     <>
       {images.map((image) => (
-        <ButtonBase
+        <Button
           onClick={props.imageClickedHandler}
           focusRipple
           key={image.title}
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
-          style={{
-            width: image.width,
-          }}
         >
           <span
             className={classes.imageSrc}
@@ -146,7 +144,7 @@ export function PhotoButton(props) {
               <span className={classes.imageMarked} />
             </Typography>
           </span>
-        </ButtonBase>
+        </Button>
       ))}
     </>
   );

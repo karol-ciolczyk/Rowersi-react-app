@@ -43,7 +43,9 @@ export const DisplayByRegion = function () {
         <PhotoButton imageClickedHandler={imageClickedHandler} />
       </nav>
       <section className={classes.section}>
-        <DisplayRoutes routes={routes} />
+        <div className={classes.routeElementsContainer}>
+          <DisplayRoutes routes={routes} />
+        </div>
       </section>
     </div>
   );
