@@ -49,6 +49,25 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#3bb2d0",
     },
   },
+  formFullWidth: {
+    "& label.Mui-focused": {
+      color: "#3bb2d0",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "green",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#c9c9c9",
+      },
+      "&:hover fieldset": {
+        borderColor: "#3bb2d0",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#3bb2d0",
+      },
+    },
+  },
 }));
 
 export default function SignUpForm(props) {
@@ -102,6 +121,7 @@ export default function SignUpForm(props) {
         </Typography>
         <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={email}
             variant="outlined"
@@ -115,6 +135,7 @@ export default function SignUpForm(props) {
             autoFocus
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={password}
             variant="outlined"
@@ -128,6 +149,7 @@ export default function SignUpForm(props) {
             autoComplete="current-password"
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={repeatPassword}
             variant="outlined"
@@ -141,6 +163,7 @@ export default function SignUpForm(props) {
             autoComplete="current-password"
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={nickname}
             variant="outlined"

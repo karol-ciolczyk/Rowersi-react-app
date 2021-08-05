@@ -57,6 +57,25 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "300px",
   },
+  formFullWidth: {
+    "& label.Mui-focused": {
+      color: "#3bb2d0",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "green",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#c9c9c9",
+      },
+      "&:hover fieldset": {
+        borderColor: "#3bb2d0",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#3bb2d0",
+      },
+    },
+  },
 }));
 
 export default function LoginForm(props) {
@@ -124,6 +143,7 @@ export default function LoginForm(props) {
         </Typography>
         <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={email}
             variant="outlined"
@@ -137,6 +157,7 @@ export default function LoginForm(props) {
             autoFocus
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={password}
             variant="outlined"

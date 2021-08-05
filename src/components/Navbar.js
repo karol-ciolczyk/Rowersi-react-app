@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [isSignUpClicked, setIsSignUpClicked] = useState(false);
+  const [isSignUpClicked, setIsSignUpClicked] = useState(null);
 
   function newRouteButtonClickHandler() {
     history.push("/newRoute");

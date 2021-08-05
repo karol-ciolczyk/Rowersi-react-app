@@ -23,7 +23,7 @@ export const LogOutButton = function () {
         alert("You are logged out");
       })
       .catch((error) => {
-        alert("Error");
+        alert("Error:", error);
       });
   };
   return (

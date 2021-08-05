@@ -52,6 +52,7 @@ export default function SignUpModal(props) {
   };
 
   useEffect(() => {
+    if (props.isSignUpClicked === null) return;
     setOpen(true);
   }, [props.isSignUpClicked]);
 
