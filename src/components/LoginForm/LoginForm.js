@@ -76,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  link: {
+    color: "#3bb2d0",
+  },
 }));
 
 export default function LoginForm(props) {
@@ -184,12 +187,17 @@ export default function LoginForm(props) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link className={classes.link} href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2" onClick={linkClickHandler}>
+              <Link
+                className={classes.link}
+                href="#"
+                variant="body2"
+                onClick={linkClickHandler}
+              >
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
