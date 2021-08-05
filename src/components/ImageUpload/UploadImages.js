@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -59,7 +59,6 @@ const img = {
 
 export default function UploadImages(props) {
   const classes = useStyles();
-  // const [files, setFiles] = useState([]);
   const { routeFiles, setRouteFiles } = props;
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",

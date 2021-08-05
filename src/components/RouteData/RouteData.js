@@ -31,7 +31,7 @@ const RouteData = () => {
   const { routeId } = useParams();
   const ctx = useContext(UserSessionContext);
 
-  const directions = useMemo(() => {
+  let directions = useMemo(() => {
     return new Directions({
       accessToken: mapboxgl.accessToken,
       profile: "mapbox/cycling",
@@ -142,8 +142,23 @@ const RouteData = () => {
             const coordinates = routeData.waypoints[number];
             directions.addWaypoint(number, coordinates);
           }
+
           directions.setOrigin(routeData.origin);
+          new mapboxgl.Marker({
+            color: "tomato",
+          })
+            .setLngLat(routeData.origin)
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+            .addTo(map.current);
+
           directions.setDestination(routeData.destination);
+          new mapboxgl.Marker({
+            color: "tomato",
+          })
+            .setLngLat(routeData.destination)
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+            .addTo(map.current);
+
           const bbox = [routeData.origin, routeData.destination];
           map.current.fitBounds(bbox, {
             padding: 100,
@@ -158,6 +173,7 @@ const RouteData = () => {
     return () => {
       directions.removeRoutes();
       map.current.remove();
+      directions = {};
     };
   }, [directions]);
 

@@ -48,7 +48,7 @@ export default function Mapbox(props) {
   const [destinatioInputValueCleaner, setDestinatioInputValueCleaner] =
     useState(undefined);
 
-  const directions = useMemo(() => {
+  let directions = useMemo(() => {
     return new Directions({
       accessToken: mapboxgl.accessToken,
       profile: "mapbox/cycling",
@@ -269,6 +269,7 @@ export default function Mapbox(props) {
     return () => {
       map.current.remove();
       directions.removeRoutes();
+      directions = {};
     };
   }, [directions]);
 

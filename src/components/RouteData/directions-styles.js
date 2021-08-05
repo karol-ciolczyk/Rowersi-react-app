@@ -101,7 +101,7 @@ const style = [
     type: "circle",
     source: "directions",
     paint: {
-      "circle-radius": 15,
+      "circle-radius": 0,
       "circle-color": "#3bb2d0",
     },
     filter: ["all", ["in", "$type", "Point"], ["in", "marker-symbol", "A"]],
@@ -113,7 +113,7 @@ const style = [
     layout: {
       "text-field": "A",
       "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-      "text-size": 10,
+      "text-size": 0,
     },
     paint: {
       "text-color": "#fff",
@@ -125,7 +125,7 @@ const style = [
     type: "circle",
     source: "directions",
     paint: {
-      "circle-radius": 15,
+      "circle-radius": 0,
       "circle-color": "#8a8bc9",
     },
     filter: ["all", ["in", "$type", "Point"], ["in", "marker-symbol", "B"]],
@@ -137,7 +137,7 @@ const style = [
     layout: {
       "text-field": "B",
       "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-      "text-size": 10,
+      "text-size": 0,
     },
     paint: {
       "text-color": "#fff",

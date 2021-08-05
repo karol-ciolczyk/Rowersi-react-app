@@ -205,7 +205,7 @@ export default function CreateRouteForm(props) {
     if (!allRouteData.destination || !allRouteData.origin) return;
     try {
       const response = await addRouteDataToFirebase(allRouteData);
-      const routeAddedId = response.id;
+      const addedRouteId = response.id;
 
       if (routeFiles.length === 0) return;
       routeFiles.forEach((filesObject) => {
@@ -213,12 +213,12 @@ export default function CreateRouteForm(props) {
         firebase
           .storage()
           .ref(
-            `usersTest/${ctx.userUid}/routes/${routeAddedId}/${routeFileName}`
+            `usersTest/${ctx.userUid}/routes/${addedRouteId}/${routeFileName}`
           )
           .put(filesObject);
       });
       console.log("new route with images added to dataBase");
-      history.push("/");
+      history.push(`/route/${addedRouteId}`);
     } catch (error) {
       alert(error);
     }
@@ -259,8 +259,6 @@ export default function CreateRouteForm(props) {
     });
     props.setRouteData({});
   };
-
-  console.log(routeFiles);
 
   return (
     <Container maxWidth="sm" className={classes.container}>
