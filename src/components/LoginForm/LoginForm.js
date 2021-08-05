@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "tomato",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -46,11 +46,38 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#3bb2d0",
+    color: "#fff",
+    "&:hover, &:focus": {
+      backgroundColor: "#3bb2d0",
+    },
   },
   progress: {
     width: "300px",
     position: "absolute",
     top: "300px",
+  },
+  formFullWidth: {
+    "& label.Mui-focused": {
+      color: "#3bb2d0",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "green",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#c9c9c9",
+      },
+      "&:hover fieldset": {
+        borderColor: "#3bb2d0",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#3bb2d0",
+      },
+    },
+  },
+  link: {
+    color: "#3bb2d0",
   },
 }));
 
@@ -79,6 +106,7 @@ export default function LoginForm(props) {
     setProgress(true);
     signInWithEmailAndPassword(email, password).then((object) => {
       if (!object) return;
+      alert("success :) :)");
       setUserData((previousState) => {
         return {
           ...previousState,
@@ -93,9 +121,13 @@ export default function LoginForm(props) {
     });
   };
 
+  const linkClickHandler = function () {
+    props.setOpen(false);
+    props.isSignUpLinkClickedHandler();
+  };
+
   useEffect(() => {
     if (userData.uid) {
-      alert("success :) :)");
       props.onSubmitButton(); // to close modal after submit
       props.onLoggedInData(userData.uid);
     }
@@ -114,6 +146,7 @@ export default function LoginForm(props) {
         </Typography>
         <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={email}
             variant="outlined"
@@ -127,6 +160,7 @@ export default function LoginForm(props) {
             autoFocus
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={password}
             variant="outlined"
@@ -147,19 +181,23 @@ export default function LoginForm(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
             Log In
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link className={classes.link} href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link
+                className={classes.link}
+                href="#"
+                variant="body2"
+                onClick={linkClickHandler}
+              >
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

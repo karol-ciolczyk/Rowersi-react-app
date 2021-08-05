@@ -23,11 +23,15 @@ export const LogOutButton = function () {
         alert("You are logged out");
       })
       .catch((error) => {
-        alert("Error");
+        alert("Error:", error);
       });
   };
   return (
-    <Button className={classes.button} onClick={onClickHandler}>
+    <Button
+      variant="contained"
+      className={classes.button}
+      onClick={onClickHandler}
+    >
       Log Out
     </Button>
   );

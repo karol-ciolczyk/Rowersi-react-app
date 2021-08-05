@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -87,10 +87,18 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar(props) {
   const classes = useStyles();
   const history = useHistory();
+  const [isSignUpClicked, setIsSignUpClicked] = useState(null);
 
   function newRouteButtonClickHandler() {
     history.push("/newRoute");
   }
+
+  const isSignUpLinkClickedHandler = function () {
+    setTimeout(() => {
+      if (isSignUpClicked) setIsSignUpClicked(false);
+      if (!isSignUpClicked) setIsSignUpClicked(true);
+    }, 350);
+  };
 
   return (
     <div className={classes.root}>
@@ -132,8 +140,11 @@ export default function Navbar(props) {
               >
                 New Route
               </Button>
-              <LoginModal onLoggedInData={props.onLoggedInData} />
-              <SignUpModal />
+              <LoginModal
+                onLoggedInData={props.onLoggedInData}
+                isSignUpLinkClickedHandler={isSignUpLinkClickedHandler}
+              />
+              <SignUpModal isSignUpClicked={isSignUpClicked} />
               <LogOutButton />
               <Link to="/profile">
                 <IconButton aria-label="account">

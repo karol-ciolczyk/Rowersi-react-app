@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -50,6 +50,11 @@ export default function SignUpModal(props) {
   const onSubmitButtonHandler = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (props.isSignUpClicked === null) return;
+    setOpen(true);
+  }, [props.isSignUpClicked]);
 
   return (
     <>

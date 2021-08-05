@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "tomato",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -43,6 +43,30 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#3bb2d0",
+    color: "#fff",
+    "&:hover, &:focus": {
+      backgroundColor: "#3bb2d0",
+    },
+  },
+  formFullWidth: {
+    "& label.Mui-focused": {
+      color: "#3bb2d0",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "green",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#c9c9c9",
+      },
+      "&:hover fieldset": {
+        borderColor: "#3bb2d0",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#3bb2d0",
+      },
+    },
   },
 }));
 
@@ -73,9 +97,8 @@ export default function SignUpForm(props) {
       password.trim() === repeatPassword.trim() &&
       password.trim().length > 0
     ) {
-      createUserWithEmailAndPassword(email, password);
+      createUserWithEmailAndPassword(email, password, nickname);
       props.onSubmitButton();
-      alert("successfully registered");
     } else alert("incorrect password");
 
     setUserData({
@@ -98,6 +121,7 @@ export default function SignUpForm(props) {
         </Typography>
         <form onSubmit={submitHandler} className={classes.form} noValidate>
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={email}
             variant="outlined"
@@ -111,6 +135,7 @@ export default function SignUpForm(props) {
             autoFocus
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={password}
             variant="outlined"
@@ -124,6 +149,7 @@ export default function SignUpForm(props) {
             autoComplete="current-password"
           />
           <TextField
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={repeatPassword}
             variant="outlined"
@@ -137,7 +163,7 @@ export default function SignUpForm(props) {
             autoComplete="current-password"
           />
           <TextField
-            disabled
+            className={classes.formFullWidth}
             onChange={userDataChangeHandler}
             value={nickname}
             variant="outlined"
@@ -157,7 +183,6 @@ export default function SignUpForm(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
             Sign Up
