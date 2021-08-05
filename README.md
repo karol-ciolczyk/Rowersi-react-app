@@ -6,7 +6,7 @@
 - [Back-end](#back-end)
 - [Enviroment](#enviroment)
 - [Workflow](#workflow)
-- [Out Team](#our-team)
+- [Our Team](#our-team)
 - [Setup](#setup)
 - [Thanks a Lot](#thanks-a-lot)
 
