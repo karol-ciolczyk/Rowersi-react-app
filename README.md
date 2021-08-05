@@ -53,10 +53,10 @@ Slack was also very useful in Daily Scrum. We tried to define our daily tasks an
 
 We are pleased to present the ROWERSI Team:
 
-:heavy_check_mark: [Karol Ciolczyk](https://github.com/karol-ciolczyk)
-:heavy_check_mark: [Ilona Kozak](https://github.com/ilonakozak)
-:heavy_check_mark: [Michal Lachowski](https://github.com/Michal-Lachowski)
-:heavy_check_mark: [Adam Szumski](https://github.com/AdamSzumski)
+:heavy_check_mark: [Karol Ciolczyk](https://github.com/karol-ciolczyk)  
+:heavy_check_mark: [Ilona Kozak](https://github.com/ilonakozak)  
+:heavy_check_mark: [Michal Lachowski](https://github.com/Michal-Lachowski)  
+:heavy_check_mark: [Adam Szumski](https://github.com/AdamSzumski)  
 
 ### Setup
 
