@@ -23,7 +23,7 @@
   z-index: 2;
   padding: 18px 0px;
   width: 100%;
-  justify-content: center;
+  justify-content: space-around;
   position: sticky;
   bottom: 0px;
   background-color: #fff;
