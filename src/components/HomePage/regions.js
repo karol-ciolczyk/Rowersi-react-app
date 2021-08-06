@@ -5,12 +5,12 @@ const regions = [
     linkPath: "/regions/mazury",
   },
   {
-    title: "Pomerania",
+    title: "Pomeranian",
     imageUrl: "/assets/pomerania.jpg",
     linkPath: "/regions/pomerania",
   },
   {
-    title: "Kuyavia",
+    title: "Kuyavian Pomeranian",
     imageUrl: "/assets/kuyavia.jpg",
     linkPath: "/regions/kuyavia",
   },
@@ -25,7 +25,7 @@ const regions = [
     linkPath: "/regions/silesia",
   },
   {
-    title: "Podkarpackie",
+    title: "Lesser Poland",
     imageUrl: "/assets/podhale.jpg",
     linkPath: "/regions/podhale",
   },

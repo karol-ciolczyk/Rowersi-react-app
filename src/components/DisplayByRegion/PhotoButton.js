@@ -12,12 +12,12 @@ const images = [
   },
   {
     url: "/assets/pomerania.jpg",
-    title: "Pomerania",
+    title: "Pomeranian",
     // width: "350px",
   },
   {
     url: "/assets/kuyavia.jpg",
-    title: "Kuyavia",
+    title: "Kuyavian Pomeranian",
     // width: "350px",
   },
   {
