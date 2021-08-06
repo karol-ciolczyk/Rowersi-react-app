@@ -77,46 +77,19 @@ const useStyles = makeStyles({
 });
 
 export const DisplayRoutes = (props) => {
-  // const [routesData, setRoutesData] = useState([]);
-  // const ctx = useContext(UserSessionContext);
-  // const [filteredRoutes, setFilteredRoutes] = useState([]);
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
   const classes = useStyles();
   const matches1300 = useMediaQuery("(min-width:1300px)");
   const matches1630 = useMediaQuery("(min-width:1630px)");
   const matches960 = useMediaQuery("(min-width:960px)");
 
-  // console.log(ctx);
-
-  const obj = [
-    { number: 1 },
-    { number: 2 },
-    { number: 3 },
-    { number: 4 },
-    { number: 5 },
-    { number: 6 },
-    { number: 7 },
-    { number: 8 },
-    { number: 9 },
-    { number: 10 },
-    { number: 11 },
-    { number: 12 },
-    { number: 13 },
-    { number: 14 },
-    { number: 15 },
-    { number: 16 },
-    { number: 17 },
-    { number: 18 },
-  ];
-
   function paginationFilter(obj, number) {
-    const indexStart = number * 4 - 4;
-    const indexEnd = number * 4 - 1;
-    console.log(indexStart, indexEnd);
+    const indexStart = number * 8 - 8;
+    const indexEnd = number * 8 - 1;
     return obj.filter((obj, index) => {
       return index >= indexStart && index <= indexEnd;
     });
   }
-  console.log(paginationFilter(obj, props.paginationValue));
 
   const progressElement = props.routes.length > 0 ? "" : <CircularProgress />;
 
@@ -138,14 +111,25 @@ export const DisplayRoutes = (props) => {
       const region = route.region.toLowerCase().trim();
       return selectedRegion === region;
     });
-    console.log("filtered array", filteredRoutes);
-  }, [props.region, props.routes]);
+    // filter routes that have already been filtered by regions --- version 1
+    // const filteredByPaginationValue = paginationFilter(
+    //   filteredRoutes,
+    //   props.paginationValue
+    // );
+
+    // filter all routes that haven not been filtered by regions yet --- version 2
+    const filteredByPaginationValue = paginationFilter(
+      props.routes,
+      props.paginationValue
+    );
+    setFilteredRoutes(filteredByPaginationValue);
+  }, [props.region, props.routes, props.paginationValue]);
 
   return (
     <div className={classes.gridRoot}>
       {progressElement}
       <Grid container spacing={0}>
-        {props.routes.map((object) => (
+        {filteredRoutes.map((object) => (
           <Grid
             key={object.routeId}
             item
