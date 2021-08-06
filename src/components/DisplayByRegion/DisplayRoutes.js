@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -84,14 +84,17 @@ export const DisplayRoutes = (props) => {
   const matches1630 = useMediaQuery("(min-width:1630px)");
   const matches1100 = useMediaQuery("(min-width:1100px)");
 
-  function paginationFilter(obj, number) {
-    const howManyDisplayed = matches1100 ? (matches1630 ? 12 : 8) : 4;
-    const indexStart = number * howManyDisplayed - howManyDisplayed;
-    const indexEnd = number * howManyDisplayed - 1;
-    return obj.filter((obj, index) => {
-      return index >= indexStart && index <= indexEnd;
-    });
-  }
+  const paginationFilter = useCallback(
+    function (obj, number) {
+      const howManyDisplayed = matches1100 ? (matches1630 ? 12 : 8) : 4;
+      const indexStart = number * howManyDisplayed - howManyDisplayed;
+      const indexEnd = number * howManyDisplayed - 1;
+      return obj.filter((obj, index) => {
+        return index >= indexStart && index <= indexEnd;
+      });
+    },
+    [matches1100, matches1630]
+  );
 
   const progressElement = props.routes.length > 0 ? "" : <CircularProgress />;
 
@@ -132,6 +135,7 @@ export const DisplayRoutes = (props) => {
     matches1100,
     selectedRegion,
     matches1630,
+    paginationFilter,
   ]);
 
   return (
