@@ -11,6 +11,7 @@ import classes from "./DisplayByRegion.module.css";
 export const DisplayByRegion = function () {
   const [clickedImage, setClickedImage] = useState("");
   const [routes, setRoutes] = useState([]);
+  const [paginationValue, setPaginationValue] = useState(1);
 
   const imageClickedHandler = function (event) {
     const region = event.target.innerText;
@@ -18,7 +19,7 @@ export const DisplayByRegion = function () {
   };
 
   const handleChange = function (event, value) {
-    console.log(value);
+    setPaginationValue(value);
   };
 
   useEffect(() => {
@@ -47,7 +48,11 @@ export const DisplayByRegion = function () {
       </nav>
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
-          <DisplayRoutes region={clickedImage} routes={routes} />
+          <DisplayRoutes
+            region={clickedImage}
+            routes={routes}
+            paginationValue={paginationValue}
+          />
           <Pagination
             count={10}
             variant="outlined"
