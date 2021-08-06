@@ -19,7 +19,7 @@ import {
 import RatingElement from "./RatingElement";
 
 import classes from "./RouteData.module.css";
-import style from "./directions-styles";
+import style from "../mapStyle/directions-styles";
 import "./MapPopup.css";
 import { Slider } from "./Slider/Slider";
 
@@ -31,7 +31,7 @@ const RouteData = () => {
   const { routeId } = useParams();
   const ctx = useContext(UserSessionContext);
 
-  const directions = useMemo(() => {
+  let directions = useMemo(() => {
     return new Directions({
       accessToken: mapboxgl.accessToken,
       profile: "mapbox/cycling",
@@ -142,8 +142,23 @@ const RouteData = () => {
             const coordinates = routeData.waypoints[number];
             directions.addWaypoint(number, coordinates);
           }
+
           directions.setOrigin(routeData.origin);
+          new mapboxgl.Marker({
+            color: "tomato",
+          })
+            .setLngLat(routeData.origin)
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+            .addTo(map.current);
+
           directions.setDestination(routeData.destination);
+          new mapboxgl.Marker({
+            color: "tomato",
+          })
+            .setLngLat(routeData.destination)
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+            .addTo(map.current);
+
           const bbox = [routeData.origin, routeData.destination];
           map.current.fitBounds(bbox, {
             padding: 100,
@@ -161,18 +176,20 @@ const RouteData = () => {
     };
   }, [directions]);
 
+  const marker = new mapboxgl.Marker({
+    color: "#3bb2d0",
+    draggable: false,
+    scale: 0.9,
+  });
+
   const manageMarker = (object) => {
     if (!object.isTooltipActive) return;
     if (!object.activePayload) return; // before render chart with data
-    if (map.current._markers[0]) map.current._markers[0].remove();
+    if (map.current._markers.length === 3) marker.remove();
     if (object.activePayload[0]) {
       const elevation = object.activePayload[0].payload.elevation;
       const coordinates = object.activePayload[0].payload.coordinates;
-      const marker = new mapboxgl.Marker({
-        color: "#f36046",
-        draggable: false,
-        scale: 0.8,
-      })
+      marker
         .setLngLat(coordinates)
         .setPopup(
           new mapboxgl.Popup({ closeOnClick: false }).setHTML(
@@ -186,7 +203,7 @@ const RouteData = () => {
   };
 
   const removeMarker = (event) => {
-    if (map.current._markers[0]) map.current._markers[0].remove();
+    if (map.current._markers.length === 3) marker.remove();
   };
 
   const Chart = function () {

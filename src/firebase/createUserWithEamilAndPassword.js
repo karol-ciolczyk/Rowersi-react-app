@@ -11,7 +11,6 @@ const createUserWithEmailAndPassword = (email, password, name) => {
       // Signed in
       const user = userCredential.user;
       const userUid = user.uid;
-      console.log(userUid);
       firebase
         .firestore()
         .collection("usersTest")
