@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
   //   width: "100%",
   // },
   image: {
-    border: "3px solid #fff",
     position: "relative",
     height: "200px",
     [theme.breakpoints.down("xs")]: {

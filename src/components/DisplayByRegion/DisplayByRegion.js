@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PhotoButton } from "./PhotoButton";
+import Pagination from "@material-ui/lab/Pagination";
 
 import { DisplayRoutes } from "./DisplayRoutes";
 import firebase from "firebase/app";
@@ -14,6 +15,10 @@ export const DisplayByRegion = function () {
   const imageClickedHandler = function (event) {
     const region = event.target.innerText;
     setClickedImage(region);
+  };
+
+  const handleChange = function (event, value) {
+    console.log(value);
   };
 
   useEffect(() => {
@@ -43,6 +48,12 @@ export const DisplayByRegion = function () {
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
           <DisplayRoutes region={clickedImage} routes={routes} />
+          <Pagination
+            count={10}
+            variant="outlined"
+            shape="rounded"
+            onChange={handleChange}
+          />
         </div>
       </section>
     </div>
