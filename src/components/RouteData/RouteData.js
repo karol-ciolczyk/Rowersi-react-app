@@ -19,7 +19,7 @@ import {
 import RatingElement from "./RatingElement";
 
 import classes from "./RouteData.module.css";
-import style from "./directions-styles";
+import style from "../mapStyle/directions-styles";
 import "./MapPopup.css";
 import { Slider } from "./Slider/Slider";
 
@@ -168,29 +168,28 @@ const RouteData = () => {
     });
   });
 
-  console.log(map.current);
-
   //  The following useEffect applies to cleaning map data and direction data after unmounting a component
   useEffect(() => {
     return () => {
       directions.removeRoutes();
       map.current.remove();
-      directions = {};
     };
   }, [directions]);
+
+  const marker = new mapboxgl.Marker({
+    color: "#3bb2d0",
+    draggable: false,
+    scale: 0.9,
+  });
 
   const manageMarker = (object) => {
     if (!object.isTooltipActive) return;
     if (!object.activePayload) return; // before render chart with data
-    if (map.current._markers[2]) map.current._markers[0].remove();
+    if (map.current._markers.length === 3) marker.remove();
     if (object.activePayload[0]) {
       const elevation = object.activePayload[0].payload.elevation;
       const coordinates = object.activePayload[0].payload.coordinates;
-      const marker = new mapboxgl.Marker({
-        color: "#f36046",
-        draggable: false,
-        scale: 0.8,
-      })
+      marker
         .setLngLat(coordinates)
         .setPopup(
           new mapboxgl.Popup({ closeOnClick: false }).setHTML(
@@ -204,7 +203,7 @@ const RouteData = () => {
   };
 
   const removeMarker = (event) => {
-    if (map.current._markers[2]) map.current._markers[2].remove();
+    if (map.current._markers.length === 3) marker.remove();
   };
 
   const Chart = function () {

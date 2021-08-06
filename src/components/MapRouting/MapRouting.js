@@ -269,7 +269,6 @@ export default function Mapbox(props) {
     return () => {
       map.current.remove();
       directions.removeRoutes();
-      directions = {};
     };
   }, [directions]);
 
