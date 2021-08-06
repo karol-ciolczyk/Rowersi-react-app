@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import UserSessionContext from "../context/userSession-context";
+import React, { useState, useEffect } from "react";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
 
@@ -31,7 +30,7 @@ const useStyles = makeStyles({
     borderRight: "1px solid black",
   },
   media: {
-    height: 180,
+    height: 160,
   },
   routeDescription: {
     overflow: "auto",
@@ -81,11 +80,12 @@ export const DisplayRoutes = (props) => {
   const classes = useStyles();
   const matches1300 = useMediaQuery("(min-width:1300px)");
   const matches1630 = useMediaQuery("(min-width:1630px)");
-  const matches960 = useMediaQuery("(min-width:960px)");
+  const matches1100 = useMediaQuery("(min-width:1100px)");
 
   function paginationFilter(obj, number) {
-    const indexStart = number * 8 - 8;
-    const indexEnd = number * 8 - 1;
+    const howManyDisplayed = matches1100 ? 8 : 4;
+    const indexStart = number * howManyDisplayed - howManyDisplayed;
+    const indexEnd = number * howManyDisplayed - 1;
     return obj.filter((obj, index) => {
       return index >= indexStart && index <= indexEnd;
     });
@@ -123,7 +123,7 @@ export const DisplayRoutes = (props) => {
       props.paginationValue
     );
     setFilteredRoutes(filteredByPaginationValue);
-  }, [props.region, props.routes, props.paginationValue]);
+  }, [props.region, props.routes, props.paginationValue, matches1100]);
 
   return (
     <div className={classes.gridRoot}>
@@ -133,7 +133,7 @@ export const DisplayRoutes = (props) => {
           <Grid
             key={object.routeId}
             item
-            xs={matches960 ? (matches1300 ? (matches1630 ? 4 : 6) : 6) : 12}
+            xs={matches1100 ? (matches1300 ? (matches1630 ? 4 : 6) : 6) : 12}
           >
             <Card className={classes.root}>
               <HtmlTooltip

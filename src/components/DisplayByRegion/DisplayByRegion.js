@@ -53,12 +53,14 @@ export const DisplayByRegion = function () {
             routes={routes}
             paginationValue={paginationValue}
           />
-          <Pagination
-            count={10}
-            variant="outlined"
-            shape="rounded"
-            onChange={handleChange}
-          />
+          <div className={classes.pagination}>
+            <Pagination
+              count={10}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChange}
+            />
+          </div>
         </div>
       </section>
     </div>
