@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
@@ -7,33 +7,33 @@ import { Button } from "@material-ui/core";
 const images = [
   {
     url: "/assets/mazury.jpg",
-    title: "Mazury",
-    width: "350px",
+    title: "Warmian Masurian",
+    // width: "350px",
   },
   {
     url: "/assets/pomerania.jpg",
     title: "Pomerania",
-    width: "350px",
+    // width: "350px",
   },
   {
     url: "/assets/kuyavia.jpg",
     title: "Kuyavia",
-    width: "350px",
+    // width: "350px",
   },
   {
     url: "/assets/greater_poland.jpg",
     title: "Greater Poland",
-    width: "350px",
+    // width: "350px",
   },
   {
     url: "/assets/silesia.jpg",
     title: "Silesia",
-    width: "350px",
+    // width: "350px",
   },
   {
     url: "/assets/podhale.jpg",
-    title: "Podhale",
-    width: "350px",
+    title: "Lesser Poland",
+    // width: "350px",
   },
 ];
 
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     border: "3px solid #fff",
     position: "relative",
-    height: "350px",
+    height: "200px",
     [theme.breakpoints.down("xs")]: {
       width: "100% !important", // Overrides inline-style
       height: 100,

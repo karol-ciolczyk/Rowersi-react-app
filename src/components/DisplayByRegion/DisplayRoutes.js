@@ -102,18 +102,13 @@ export const DisplayRoutes = (props) => {
   }))(Tooltip);
 
   useEffect(() => {
-    console.log("useState");
-    // const filteredRoutes = props.routes.filter((route) => {
-    //   const region = props.region.toLowerCase();
-    //   console.log(region, route.region.toLowerCase());
-    //   return route.region.toLowerCase() === region;
-    // });
-    // console.log(filteredRoutes);
+    const filteredRoutes = props.routes.filter((route) => {
+      const selectedRegion = props.region.toLowerCase().trim();
+      const region = route.region.toLowerCase().trim();
+      return selectedRegion === region;
+    });
+    console.log("filtered array", filteredRoutes);
   }, [props.region, props.routes]);
-
-  // console.log(props.region.toLowerCase());
-  console.log(props.region);
-  console.log(props.routes);
 
   return (
     <div className={classes.gridRoot}>

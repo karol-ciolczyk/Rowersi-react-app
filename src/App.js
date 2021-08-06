@@ -50,9 +50,9 @@ function App() {
           </Switch>
           <Switch>
             <Route path="/route/:routeId" component={RouteData} />
+            <Route path="/regions" component={DisplayByRegion} />
           </Switch>
           <Footer />
-          <DisplayByRegion />
         </div>
       </Router>
     </UserSessionContext.Provider>
