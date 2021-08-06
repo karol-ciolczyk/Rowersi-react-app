@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -77,13 +78,14 @@ const useStyles = makeStyles({
 
 export const DisplayRoutes = (props) => {
   const [filteredRoutes, setFilteredRoutes] = useState([]);
+  const { selectedRegion } = useParams();
   const classes = useStyles();
   const matches1300 = useMediaQuery("(min-width:1300px)");
   const matches1630 = useMediaQuery("(min-width:1630px)");
   const matches1100 = useMediaQuery("(min-width:1100px)");
 
   function paginationFilter(obj, number) {
-    const howManyDisplayed = matches1100 ? 8 : 4;
+    const howManyDisplayed = matches1100 ? (matches1630 ? 12 : 8) : 4;
     const indexStart = number * howManyDisplayed - howManyDisplayed;
     const indexEnd = number * howManyDisplayed - 1;
     return obj.filter((obj, index) => {
@@ -106,24 +108,31 @@ export const DisplayRoutes = (props) => {
   }))(Tooltip);
 
   useEffect(() => {
+    const selectedRegionReplaced = selectedRegion.replace("-", " ");
     const filteredRoutes = props.routes.filter((route) => {
-      const selectedRegion = props.region.toLowerCase().trim();
+      // const selectedRegion = props.region.toLowerCase().trim();
       const region = route.region.toLowerCase().trim();
-      return selectedRegion === region;
+      return selectedRegionReplaced === region;
     });
-    // filter routes that have already been filtered by regions --- version 1
+    // 1. filter routes that have already been filtered by regions --- version 1
     // const filteredByPaginationValue = paginationFilter(
     //   filteredRoutes,
     //   props.paginationValue
     // );
 
-    // filter all routes that haven not been filtered by regions yet --- version 2
+    // 2. filter all routes that haven not been filtered by regions yet --- version 2
     const filteredByPaginationValue = paginationFilter(
       props.routes,
       props.paginationValue
     );
     setFilteredRoutes(filteredByPaginationValue);
-  }, [props.region, props.routes, props.paginationValue, matches1100]);
+  }, [
+    props.routes,
+    props.paginationValue,
+    matches1100,
+    selectedRegion,
+    matches1630,
+  ]);
 
   return (
     <div className={classes.gridRoot}>

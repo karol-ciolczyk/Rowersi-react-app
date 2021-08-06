@@ -3,36 +3,43 @@ import { makeStyles } from "@material-ui/core/styles";
 // import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const images = [
   {
     url: "/assets/mazury.jpg",
     title: "Warmian Masurian",
+    linkPath: "/regions/warmian-masurian",
     // width: "350px",
   },
   {
     url: "/assets/pomerania.jpg",
     title: "Pomeranian",
+    linkPath: "/regions/pomeranian",
     // width: "350px",
   },
   {
     url: "/assets/kuyavia.jpg",
     title: "Kuyavian Pomeranian",
+    linkPath: "/regions/kuyavian-pomeranian",
     // width: "350px",
   },
   {
     url: "/assets/greater_poland.jpg",
     title: "Greater Poland",
+    linkPath: "/regions/grater-poland",
     // width: "350px",
   },
   {
     url: "/assets/silesia.jpg",
-    title: "Silesia",
+    title: "Silesian",
+    linkPath: "/regions/silesian",
     // width: "350px",
   },
   {
     url: "/assets/podhale.jpg",
     title: "Lesser Poland",
+    linkPath: "/regions/lesser-poland",
     // width: "350px",
   },
 ];
@@ -119,30 +126,31 @@ export function PhotoButton(props) {
     <>
       {images.map((image) => (
         <Button
-          onClick={props.imageClickedHandler}
           focusRipple
           key={image.title}
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
         >
-          <span
-            className={classes.imageSrc}
-            style={{
-              backgroundImage: `url(${image.url})`,
-            }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {image.title}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
+          <Link to={image.linkPath} style={{ textDecoration: "none" }}>
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${image.url})`,
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {image.title}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </Link>
         </Button>
       ))}
     </>

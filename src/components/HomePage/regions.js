@@ -2,17 +2,17 @@ const regions = [
   {
     title: "Warmian Masurian",
     imageUrl: "/assets/mazury.jpg",
-    linkPath: "/regions/mazury",
+    linkPath: "/regions/warmian-masurian",
   },
   {
     title: "Pomeranian",
     imageUrl: "/assets/pomerania.jpg",
-    linkPath: "/regions/pomerania",
+    linkPath: "/regions/pomeranian",
   },
   {
     title: "Kuyavian Pomeranian",
     imageUrl: "/assets/kuyavia.jpg",
-    linkPath: "/regions/kuyavia",
+    linkPath: "/regions/kuyavian-pomeranian",
   },
   {
     title: "Greater Poland",
@@ -22,12 +22,12 @@ const regions = [
   {
     title: "Silesian",
     imageUrl: "/assets/silesia.jpg",
-    linkPath: "/regions/silesia",
+    linkPath: "/regions/silesian",
   },
   {
     title: "Lesser Poland",
     imageUrl: "/assets/podhale.jpg",
-    linkPath: "/regions/podhale",
+    linkPath: "/regions/lesser-poland",
   },
 ];
 

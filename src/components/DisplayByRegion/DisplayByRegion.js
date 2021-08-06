@@ -7,16 +7,11 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 
 import classes from "./DisplayByRegion.module.css";
+import { Typography } from "@material-ui/core";
 
 export const DisplayByRegion = function () {
-  const [clickedImage, setClickedImage] = useState("");
   const [routes, setRoutes] = useState([]);
   const [paginationValue, setPaginationValue] = useState(1);
-
-  const imageClickedHandler = function (event) {
-    const region = event.target.innerText;
-    setClickedImage(region);
-  };
 
   const handleChange = function (event, value) {
     setPaginationValue(value);
@@ -27,7 +22,6 @@ export const DisplayByRegion = function () {
       try {
         const routesRef = await firebase.firestore().collection("routes");
         const querySnapshot = await routesRef.get();
-        console.log(querySnapshot);
         let arrMay = [];
         querySnapshot.forEach((doc) => {
           const obj = doc.data();
@@ -44,15 +38,11 @@ export const DisplayByRegion = function () {
   return (
     <div className={classes.container}>
       <nav className={classes.nav}>
-        <PhotoButton imageClickedHandler={imageClickedHandler} />
+        <PhotoButton />
       </nav>
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
-          <DisplayRoutes
-            region={clickedImage}
-            routes={routes}
-            paginationValue={paginationValue}
-          />
+          <DisplayRoutes routes={routes} paginationValue={paginationValue} />
           <div className={classes.pagination}>
             <Pagination
               count={10}
