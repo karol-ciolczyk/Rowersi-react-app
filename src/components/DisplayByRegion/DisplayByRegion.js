@@ -26,7 +26,7 @@ export const DisplayByRegion = function () {
         const querySnapshot = await routesRef.get();
         let arrMay = [];
         querySnapshot.forEach((doc) => {
-          const obj = doc.data();
+          const obj = { ...doc.data(), routeId: doc.id };
           arrMay = [...arrMay, obj];
         });
         setRoutes(arrMay);
