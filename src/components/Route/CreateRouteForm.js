@@ -226,8 +226,8 @@ export default function CreateRouteForm(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    if (origin && destination) props.switchOnBackdropHandler(true);
     setRouteFiles([]);
-
     (async function () {
       try {
         const chartData = await fetchRouteDataForChart(
