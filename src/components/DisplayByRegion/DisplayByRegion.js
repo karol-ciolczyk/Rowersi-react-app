@@ -20,6 +20,10 @@ export const DisplayByRegion = function () {
   };
 
   useEffect(() => {
+    setPaginationValue(1);
+  }, [selectedRegion]);
+
+  useEffect(() => {
     let isUnmounted = false;
     (async function () {
       try {
@@ -51,7 +55,7 @@ export const DisplayByRegion = function () {
         <div className={classes.routeElementsContainer}>
           <div className={classes.header}>
             <Typography
-              variant="h5"
+              variant="h6"
               display="block"
               style={{ marginLeft: "20px", color: "#3bb2d0" }}
             >
@@ -60,14 +64,19 @@ export const DisplayByRegion = function () {
             <Typography
               variant="h5"
               display="block"
-              style={{ marginLeft: "20px", color: "#3bb2d0" }}
+              style={{
+                marginLeft: "20px",
+                color: "#3bb2d0",
+                fontWeight: "bold",
+              }}
             >
-              {selectedRegion.replace("-", " ")}
+              {selectedRegion.replace("-", " ").toUpperCase()}
             </Typography>
           </div>
           <DisplayRoutes routes={routes} paginationValue={paginationValue} />
           <div className={classes.pagination}>
             <Pagination
+              page={paginationValue}
               count={10}
               variant="outlined"
               shape="rounded"

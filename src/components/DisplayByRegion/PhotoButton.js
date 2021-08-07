@@ -27,7 +27,7 @@ const images = [
   {
     url: "/assets/greater_poland.jpg",
     title: "Greater Poland",
-    linkPath: "/regions/grater-poland",
+    linkPath: "/regions/greater-poland",
     // width: "350px",
   },
   {
