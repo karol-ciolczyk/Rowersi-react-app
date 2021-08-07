@@ -13,3 +13,9 @@
   border-radius: 50%;
   border: 2px solid #000;
 }
+.mapboxgl-ctrl-bottom-left {
+  z-index: 1;
+}
+.mapboxgl-ctrl-bottom-right {
+  z-index: 1;
+}
