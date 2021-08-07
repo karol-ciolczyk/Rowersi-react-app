@@ -49,7 +49,7 @@ export const DisplayByRegion = function () {
       </nav>
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
-          <dvi className={classes.header}>
+          <div className={classes.header}>
             <Typography
               variant="h5"
               display="block"
@@ -64,7 +64,7 @@ export const DisplayByRegion = function () {
             >
               {selectedRegion.replace("-", " ")}
             </Typography>
-          </dvi>
+          </div>
           <DisplayRoutes routes={routes} paginationValue={paginationValue} />
           <div className={classes.pagination}>
             <Pagination
