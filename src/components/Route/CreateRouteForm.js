@@ -226,6 +226,7 @@ export default function CreateRouteForm(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    setRouteFiles([]);
 
     (async function () {
       try {
@@ -243,7 +244,6 @@ export default function CreateRouteForm(props) {
           isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
         };
         addRouteData(allRouteData, routeFiles);
-        setRouteFiles([]);
       } catch (error) {
         console.log(error);
       }

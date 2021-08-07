@@ -13,7 +13,6 @@ export const Slider = function () {
 
   useEffect(() => {
     let isMounted = true;
-    // if (images.length > 0) return;
     (async function () {
       try {
         const docRef = await firebase
@@ -54,8 +53,6 @@ export const Slider = function () {
       isMounted = false;
     };
   }, [routeId]);
-
-  console.log(images);
 
   return (
     <>

@@ -91,9 +91,6 @@ export default function Navbar(props) {
   const history = useHistory();
   const [isSignUpClicked, setIsSignUpClicked] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const ctx = useContext(UserSessionContext);
-  // console.log(ctx);
-  console.log(isLoggedIn);
 
   function newRouteButtonClickHandler() {
     history.push("/newRoute");
@@ -110,7 +107,6 @@ export default function Navbar(props) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
-        // var uid = user.uid;
       } else {
         setIsLoggedIn(false);
       }

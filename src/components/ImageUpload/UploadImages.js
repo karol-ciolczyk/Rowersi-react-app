@@ -91,14 +91,6 @@ export default function UploadImages(props) {
     [routeFiles]
   );
 
-  // useEffect(() => {
-  //   if (routeFiles.length > 0) {
-  //     setRouteFiles([...routeFiles]);
-  //   }
-  // }, [files, setRouteFiles]);
-
-  // console.log(files);
-
   return (
     <section className={classes.container}>
       <div {...getRootProps({ className: "dropzone" })}>
