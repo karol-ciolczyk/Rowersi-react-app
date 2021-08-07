@@ -6,31 +6,67 @@ import { Switch, Route } from "react-router-dom";
 import { FriendsList } from "./FriendsList";
 import { Dashboard } from "./Dashboard";
 import { ProfileSettings } from "./ProfileSettings";
+import UserSessionContext from "../components/context/userSession-context.js";
+import { useContext, useState, useEffect } from "react";
+import firebase from "firebase";
 
 export function Profile() {
-  function handleUserWallpaper() {
-    //if user has uploaded wallpaper use it or get default wallpaper
-    return "https://picsum.photos/950/300";
-  }
+  const userSessionContext = useContext(UserSessionContext);
+  const { userUid } = userSessionContext;
 
-  function handleUserAvatar() {
-    //if user has uploaded avatar picture use it or get default avatar
-    return "https://picsum.photos/150/150";
-  }
+  const [wallpaperUrl, setWallpaperUrl] = useState(
+    "https://picsum.photos/1200/600"
+  );
+  const [avatarUrl, setAvatarUrl] = useState("/assets/defaultAvatar.JPG");
+  const [userName, setUserName] = useState("Anonymus");
 
-  function renderUserName() {
-    // render user name along avatar pic, if there is no name use placeholder
-    return "Anonymus";
-  }
+  useEffect(() => {
+    firebase
+      .storage()
+      .ref("usersTest/" + userUid + "/wallpaper/background.jpg")
+      .getDownloadURL()
+      .then((url) => {
+        setWallpaperUrl(url);
+      });
+  }, [userUid]);
+
+  useEffect(() => {
+    firebase
+      .storage()
+      .ref("usersTest/" + userUid + "/avatar/avatar.jpg")
+      .getDownloadURL()
+      .then((url) => {
+        setAvatarUrl(url);
+      });
+  }, [userUid]);
+
+  useEffect(() => {
+    if (userUid) {
+      try {
+        firebase
+          .firestore()
+          .collection("usersTest")
+          .doc(userUid)
+          .get()
+          .then((doc) => {
+            if (doc.data().name) {
+              setUserName(doc.data().name);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [userUid]);
+
   return (
     <>
-      <UserWallpaper url={handleUserWallpaper()} />
+      <UserWallpaper url={wallpaperUrl} />
       <div className="userProfile_navBar">
-        <UserAvatar url={handleUserAvatar()} />
-        <span>{renderUserName()}</span>
+        <UserAvatar url={avatarUrl} name={userName} />
       </div>
       <UserProfileTabs />
-      <div>
+      <div className="userProfile_SwitchArea">
         <Switch>
           <Route path="/profile/profilesettings">
             <ProfileSettings />

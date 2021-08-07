@@ -44,7 +44,6 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -58,7 +57,7 @@ export default function UserProfileTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ background: "#3bb2d0" }}>
         <Tabs
           value={value}
           onChange={handleChange}
