@@ -61,10 +61,11 @@ const RouteData = () => {
       .collection("routes")
       .where("isVote", "==", true)
       .onSnapshot((querySnapshot) => {
-        // console.log(querySnapshot); it shows how many objects from collection are listenned (passed the where("isVote", "==", true) condition) and in next forEach function in first render. Then after each change shows only changed element
+        // console.log(querySnapshot); it shows how many objects from collection are listenned (passed the where("isVote", "==", true) condition) in next forEach function in first render. Then after each change shows only changed element
         querySnapshot.docChanges().forEach((change) => {
           if (change.type === "modified") {
             const votesArray = change.doc.data().votes;
+            const numberOfVotes = votesArray.length;
             const average =
               votesArray
                 .map((object) => +object.rate)
@@ -73,6 +74,7 @@ const RouteData = () => {
             setRouteData((previousState) => {
               return {
                 ...previousState,
+                numberOfVotes,
                 votesAverage: average.toFixed(1),
               };
             });
@@ -342,7 +344,9 @@ const RouteData = () => {
                 variant="subtitle2"
                 style={{ padding: "5px", color: "#808080" }}
               >
-                {routeData.votes
+                {routeData.numberOfVotes
+                  ? `(${routeData.numberOfVotes} votes)`
+                  : routeData.votes
                   ? `( ${routeData.votes.length} votes)`
                   : "( votes )"}
               </Typography>
