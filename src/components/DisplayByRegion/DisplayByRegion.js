@@ -20,6 +20,7 @@ export const DisplayByRegion = function () {
   };
 
   useEffect(() => {
+    let isUnmounted = false;
     (async function () {
       try {
         const routesRef = await firebase.firestore().collection("routes");
@@ -29,12 +30,16 @@ export const DisplayByRegion = function () {
           const obj = { ...doc.data(), routeId: doc.id };
           arrMay = [...arrMay, obj];
         });
+        if (isUnmounted) return;
         setRoutes(arrMay);
       } catch (error) {
         alert("second error");
         alert(error);
       }
     })();
+    return () => {
+      isUnmounted = true;
+    };
   }, []);
 
   return (
@@ -44,30 +49,30 @@ export const DisplayByRegion = function () {
       </nav>
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
+          <dvi className={classes.header}>
+            <Typography
+              variant="h5"
+              display="block"
+              style={{ marginLeft: "20px", color: "#3bb2d0" }}
+            >
+              Explore region:
+            </Typography>
+            <Typography
+              variant="h5"
+              display="block"
+              style={{ marginLeft: "20px", color: "#3bb2d0" }}
+            >
+              {selectedRegion.replace("-", " ")}
+            </Typography>
+          </dvi>
           <DisplayRoutes routes={routes} paginationValue={paginationValue} />
           <div className={classes.pagination}>
-            <Typography
-              style={{ color: "#3BB2D0" }}
-              variant="h6"
-              display="block"
-              align="center"
-            >
-              Explore region
-            </Typography>
             <Pagination
               count={10}
               variant="outlined"
               shape="rounded"
               onChange={handleChange}
             />
-            <Typography
-              style={{ color: "#3BB2D0" }}
-              variant="h6"
-              display="block"
-              align="center"
-            >
-              {selectedRegion}
-            </Typography>
           </div>
         </div>
       </section>
