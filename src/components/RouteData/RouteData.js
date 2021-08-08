@@ -168,15 +168,21 @@ const RouteData = () => {
           });
         });
     });
+    return () => {
+      return () => {
+        directions.removeRoutes();
+        map.current.remove();
+      };
+    };
   });
 
   //  The following useEffect applies to cleaning map data and direction data after unmounting a component
-  useEffect(() => {
-    return () => {
-      directions.removeRoutes();
-      map.current.remove();
-    };
-  }, [directions]);
+  // useEffect(() => {
+  //   return () => {
+  //     directions.removeRoutes();
+  //     map.current.remove();
+  //   };
+  // }, [directions]);
 
   const marker = new mapboxgl.Marker({
     color: "#3bb2d0",
