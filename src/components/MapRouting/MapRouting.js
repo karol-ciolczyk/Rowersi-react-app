@@ -295,7 +295,7 @@ export default function Mapbox(props) {
         props.setRouteData((previousState) => {
           return {
             ...previousState,
-            img: map.current.getCanvas().toDataURL(),
+            img: map.current.getCanvas().toDataURL("image/jpeg", 0.5),
           };
         });
       });
