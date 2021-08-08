@@ -29,11 +29,16 @@
     color: white;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+.userProfile_SwitchArea {
+    margin-bottom: 300px;
+    margin-top: 50px;
+}
 
 .userProfile_SwitchArea span {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: bolder;
     color: black;
+    
 }
 .friendsWidget {
     width: 70%;
