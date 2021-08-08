@@ -27,6 +27,7 @@ export function FriendsList() {
    if(friendsList){
        (async function(){
            try{
+              console.log(friendsList) 
                const allPictures = await Promise.all(
                    friendsList.map(uid => {
                        return handleUserAvatar(uid)
@@ -50,7 +51,7 @@ export function FriendsList() {
       .ref()
       .child("usersTest/" + uid + "/avatar/")
       .listAll()
-      .then( response => response.items[0].getDownloadURL())
+      .then( response => response.items[0]?.getDownloadURL())
       .then( response => response)
   };
 
