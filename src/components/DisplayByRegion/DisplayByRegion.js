@@ -20,6 +20,11 @@ export const DisplayByRegion = function () {
   };
 
   useEffect(() => {
+    setPaginationValue(1);
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    let isUnmounted = false;
     (async function () {
       try {
         const routesRef = await firebase.firestore().collection("routes");
@@ -29,12 +34,16 @@ export const DisplayByRegion = function () {
           const obj = { ...doc.data(), routeId: doc.id };
           arrMay = [...arrMay, obj];
         });
+        if (isUnmounted) return;
         setRoutes(arrMay);
       } catch (error) {
         alert("second error");
         alert(error);
       }
     })();
+    return () => {
+      isUnmounted = true;
+    };
   }, []);
 
   return (
@@ -44,30 +53,35 @@ export const DisplayByRegion = function () {
       </nav>
       <section className={classes.section}>
         <div className={classes.routeElementsContainer}>
-          <DisplayRoutes routes={routes} paginationValue={paginationValue} />
-          <div className={classes.pagination}>
+          <div className={classes.header}>
             <Typography
-              style={{ color: "#3BB2D0" }}
               variant="h6"
               display="block"
-              align="center"
+              style={{ marginLeft: "20px", color: "#3bb2d0" }}
             >
-              Explore region
+              Explore region:
             </Typography>
+            <Typography
+              variant="h5"
+              display="block"
+              style={{
+                marginLeft: "20px",
+                color: "#3bb2d0",
+                fontWeight: "bold",
+              }}
+            >
+              {selectedRegion.replace("-", " ").toUpperCase()}
+            </Typography>
+          </div>
+          <DisplayRoutes routes={routes} paginationValue={paginationValue} />
+          <div className={classes.pagination}>
             <Pagination
+              page={paginationValue}
               count={10}
               variant="outlined"
               shape="rounded"
               onChange={handleChange}
             />
-            <Typography
-              style={{ color: "#3BB2D0" }}
-              variant="h6"
-              display="block"
-              align="center"
-            >
-              {selectedRegion}
-            </Typography>
           </div>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,6 +9,8 @@ import {
   alpha,
   makeStyles,
 } from "@material-ui/core";
+import firebase from "firebase/app";
+import "firebase/auth";
 import { AccountCircle } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import styled from "styled-components";
@@ -88,6 +90,7 @@ export default function Navbar(props) {
   const classes = useStyles();
   const history = useHistory();
   const [isSignUpClicked, setIsSignUpClicked] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function newRouteButtonClickHandler() {
     history.push("/newRoute");
@@ -99,6 +102,46 @@ export default function Navbar(props) {
       if (!isSignUpClicked) setIsSignUpClicked(true);
     }, 350);
   };
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  }, []);
+
+  const navButtons = isLoggedIn ? (
+    <>
+      <Link to="/profile">
+        <IconButton aria-label="account">
+          <AccountCircle />
+        </IconButton>
+      </Link>
+      <Button
+        variant="contained"
+        onClick={newRouteButtonClickHandler}
+        style={{
+          marginRight: "7px",
+          color: "white",
+          backgroundColor: "tomato",
+        }}
+      >
+        New Route
+      </Button>
+      <LogOutButton />
+    </>
+  ) : (
+    <>
+      <LoginModal
+        onLoggedInData={props.onLoggedInData}
+        isSignUpLinkClickedHandler={isSignUpLinkClickedHandler}
+      />
+      <SignUpModal isSignUpClicked={isSignUpClicked} />
+    </>
+  );
 
   return (
     <div className={classes.root}>
@@ -128,30 +171,7 @@ export default function Navbar(props) {
             />
           </div>
           <RightBox>
-            <div>
-              <Button
-                variant="contained"
-                onClick={newRouteButtonClickHandler}
-                style={{
-                  marginRight: "7px",
-                  color: "white",
-                  backgroundColor: "tomato",
-                }}
-              >
-                New Route
-              </Button>
-              <LoginModal
-                onLoggedInData={props.onLoggedInData}
-                isSignUpLinkClickedHandler={isSignUpLinkClickedHandler}
-              />
-              <SignUpModal isSignUpClicked={isSignUpClicked} />
-              <LogOutButton />
-              <Link to="/profile">
-                <IconButton aria-label="account">
-                  <AccountCircle />
-                </IconButton>
-              </Link>
-            </div>
+            <div>{navButtons}</div>
           </RightBox>
         </Toolbar>
       </AppBar>

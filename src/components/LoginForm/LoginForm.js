@@ -106,7 +106,6 @@ export default function LoginForm(props) {
     setProgress(true);
     signInWithEmailAndPassword(email, password).then((object) => {
       if (!object) return;
-      alert("success :) :)");
       setUserData((previousState) => {
         return {
           ...previousState,

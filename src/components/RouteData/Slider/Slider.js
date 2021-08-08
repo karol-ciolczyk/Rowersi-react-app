@@ -13,7 +13,6 @@ export const Slider = function () {
 
   useEffect(() => {
     let isMounted = true;
-    if (images.length > 0) return;
     (async function () {
       try {
         const docRef = await firebase
@@ -53,20 +52,24 @@ export const Slider = function () {
     return () => {
       isMounted = false;
     };
-  }, [images, routeId]);
+  }, [routeId]);
 
   return (
-    <div className={classes.slider}>
-      <ImageGallery
-        showFullscreenButton={false}
-        showBullets={true}
-        slideInterval={5000}
-        showThumbnails={false}
-        showPlayButton={false}
-        infinite={true}
-        autoPlay={true}
-        items={images}
-      />
-    </div>
+    <>
+      {images.length > 0 ? (
+        <div className={classes.slider}>
+          <ImageGallery
+            showFullscreenButton={false}
+            showBullets={true}
+            slideInterval={5000}
+            showThumbnails={false}
+            showPlayButton={false}
+            infinite={true}
+            autoPlay={true}
+            items={images}
+          />
+        </div>
+      ) : null}
+    </>
   );
 };

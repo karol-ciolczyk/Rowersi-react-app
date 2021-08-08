@@ -226,7 +226,8 @@ export default function CreateRouteForm(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-
+    if (origin && destination) props.switchOnBackdropHandler(true);
+    setRouteFiles([]);
     (async function () {
       try {
         const chartData = await fetchRouteDataForChart(
@@ -243,7 +244,6 @@ export default function CreateRouteForm(props) {
           isVote: true, // only to recognise for firebase subscribe (listening) function onSnapshot in RouteData.js
         };
         addRouteData(allRouteData, routeFiles);
-        setRouteFiles([]);
       } catch (error) {
         console.log(error);
       }

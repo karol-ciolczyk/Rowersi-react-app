@@ -27,7 +27,7 @@ const images = [
   {
     url: "/assets/greater_poland.jpg",
     title: "Greater Poland",
-    linkPath: "/regions/grater-poland",
+    linkPath: "/regions/greater-poland",
     // width: "350px",
   },
   {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   // },
   image: {
     position: "relative",
-    height: "200px",
+    height: "100%",
     [theme.breakpoints.down("xs")]: {
       width: "100% !important", // Overrides inline-style
       height: 100,

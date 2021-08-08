@@ -118,16 +118,16 @@ export const DisplayRoutes = (props) => {
       return selectedRegionReplaced === region;
     });
     // 1. filter routes that have already been filtered by regions --- version 1
-    // const filteredByPaginationValue = paginationFilter(
-    //   filteredRoutes,
-    //   props.paginationValue
-    // );
-
-    // 2. filter all routes that haven not been filtered by regions yet --- version 2
     const filteredByPaginationValue = paginationFilter(
-      props.routes,
+      filteredRoutes,
       props.paginationValue
     );
+
+    // 2. filter all routes that haven not been filtered by regions yet --- version 2
+    // const filteredByPaginationValue = paginationFilter(
+    //   props.routes,
+    //   props.paginationValue
+    // );
     setFilteredRoutes(filteredByPaginationValue);
   }, [
     props.routes,

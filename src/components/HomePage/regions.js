@@ -17,7 +17,7 @@ const regions = [
   {
     title: "Greater Poland",
     imageUrl: "/assets/greater_poland.jpg",
-    linkPath: "/regions/grater-poland",
+    linkPath: "/regions/greater-poland",
   },
   {
     title: "Silesian",
