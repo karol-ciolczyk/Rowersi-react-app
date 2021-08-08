@@ -27,7 +27,6 @@ export function FriendsList() {
    if(friendsList){
        (async function(){
            try{
-              console.log(friendsList) 
                const allPictures = await Promise.all(
                    friendsList.map(uid => {
                        return handleUserAvatar(uid)
@@ -36,8 +35,14 @@ export function FriendsList() {
                     friendsList.map(uid => {
                         return handleUserName(uid)
                     }))
-                const combineData = allPictures.map( (item, index) => [item, allNames[index]]);             
-                setFriendsData(combineData)
+                const combineData = allPictures.map((item, index) => {
+                  if (!item) { 
+                    return ["/assets/defaultAvatar.JPG", allNames[index]]
+                  } else { 
+                      return [item, allNames[index]]
+                    }
+                });
+                setFriendsData(combineData);
            } catch (error) {
                console.log(error)
            }
@@ -77,7 +82,8 @@ return (
       <div className="friendsListWrapper">
         <div className="friendsWidget">
             {friendsData.map(item => <div className="userCard">
-                <UserAvatar url={item[0]} name={item[1]}/>               
+                <UserAvatar url={
+                  item[0]} name={item[1]}/>               
             </div>)}
         </div>
       </div>
