@@ -51,7 +51,9 @@ const RouteData = () => {
     });
   }, []);
 
-  const nav = new mapboxgl.NavigationControl();
+  const nav = useMemo(() => {
+    return new mapboxgl.NavigationControl();
+  }, []);
 
   // Add listener in route collection in firebase to watch changes in route documents which have "isvote = true" field
   // the following useEffect applies changing rating average live
@@ -169,12 +171,10 @@ const RouteData = () => {
         });
     });
     return () => {
-      return () => {
-        directions.removeRoutes();
-        map.current.remove();
-      };
+      directions.removeRoutes();
+      map.current.remove();
     };
-  });
+  }, [directions, routeId, nav]);
 
   //  The following useEffect applies to cleaning map data and direction data after unmounting a component
   // useEffect(() => {
