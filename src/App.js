@@ -13,6 +13,7 @@ import RouteData from "./components/RouteData/RouteData";
 import Footer from "./components/Footer";
 import ExploreAllRoutes from "./components/ExploreAllRoutes/ExpolreAllRoutes";
 import { DisplayByRegion } from "./components/DisplayByRegion/DisplayByRegion";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 function App() {
   const [userUid, setUserUid] = useState();
@@ -37,6 +38,7 @@ function App() {
       }}
     >
       <Router>
+        <ScrollToTop />
         <div className="App">
           <header className="App-header">
             <Navbar onLoggedInData={onLoggedInDataHandler} />
