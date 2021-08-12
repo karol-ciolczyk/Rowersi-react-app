@@ -208,15 +208,17 @@ export default function CreateRouteForm(props) {
       const addedRouteId = response.id;
 
       if (routeFiles.length === 0) return;
-      routeFiles.forEach((filesObject) => {
-        const routeFileName = filesObject.name;
-        firebase
-          .storage()
-          .ref(
-            `usersTest/${ctx.userUid}/routes/${addedRouteId}/${routeFileName}`
-          )
-          .put(filesObject);
-      });
+      await Promise.all(
+        routeFiles.map((filesObject) => {
+          const routeFileName = filesObject.name;
+          return firebase
+            .storage()
+            .ref(
+              `usersTest/${ctx.userUid}/routes/${addedRouteId}/${routeFileName}`
+            )
+            .put(filesObject);
+        })
+      );
       console.log("new route with images added to dataBase");
       history.push(`/route/${addedRouteId}`);
     } catch (error) {

@@ -1,7 +1,7 @@
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { makeStyles } from "@material-ui/core/styles";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { useContext } from "react";
 import UserSessionContext from "../components/context/userSession-context.js";
 

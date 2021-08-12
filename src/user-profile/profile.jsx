@@ -8,7 +8,7 @@ import { Dashboard } from "./Dashboard";
 import { ProfileSettings } from "./ProfileSettings";
 import UserSessionContext from "../components/context/userSession-context.js";
 import { useContext, useState, useEffect } from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 export function Profile() {
   const userSessionContext = useContext(UserSessionContext);

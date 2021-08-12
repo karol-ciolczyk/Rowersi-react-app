@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import UserSessionContext from "../components/context/userSession-context.js";
 import { useContext, useState } from "react";
 import { useEffect } from "react";

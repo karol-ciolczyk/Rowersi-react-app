@@ -7,12 +7,12 @@ import firebase from "firebase/app";
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyD7z3NPK-jq7jWALT70TfXzbADX0Dk7X5c",
-  authDomain: "rowersi.firebaseapp.com",
-  projectId: "rowersi",
-  storageBucket: "rowersi.appspot.com",
-  messagingSenderId: "451720621710",
-  appId: "1:451720621710:web:d860e992ccacd01c8363df",
+  apiKey: "AIzaSyAcsH6qKhte6RWbFH7iQAfb_M8g7PO4NNE",
+  authDomain: "rowersi-karcio.firebaseapp.com",
+  projectId: "rowersi-karcio",
+  storageBucket: "rowersi-karcio.appspot.com",
+  messagingSenderId: "197882555965",
+  appId: "1:197882555965:web:977c2848ba3656c1a60454",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
