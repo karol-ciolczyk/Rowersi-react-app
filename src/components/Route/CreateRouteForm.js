@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginRight: "0px",
-    position: "absolute", ////////   added by Karol
-    zIndex: "1", ////////   added by Karol
-    right: "20px", ////////   added by Karol
-    top: "20px", ////////   added by Karol
+    position: "absolute",
+    zIndex: "1",
+    right: "20px",
+    top: "20px",
   },
   paper: {
     marginTop: "20px",

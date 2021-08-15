@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 
 import MapRouting from "../MapRouting/MapRouting";
 import CreateRouteForm from "../Route/CreateRouteForm";
@@ -16,7 +17,10 @@ const CreateNewRoute = () => {
 
   return (
     <div className={style.container}>
-      <SimpleBackdrop backdrop={backdrop} />
+      {ReactDOM.createPortal(
+        <SimpleBackdrop backdrop={backdrop} />,
+        document.querySelector("#backdrop")
+      )}
       <MapRouting
         routeId={routeData.routeId}
         isInput={true}
