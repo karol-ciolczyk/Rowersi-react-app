@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import UserSessionContext from "./context/userSession-context";
 import {
   AppBar,
   Toolbar,
@@ -90,7 +91,7 @@ export default function Navbar(props) {
   const classes = useStyles();
   const history = useHistory();
   const [isSignUpClicked, setIsSignUpClicked] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const ctx = useContext(UserSessionContext);
 
   function newRouteButtonClickHandler() {
     history.push("/newRoute");
@@ -103,17 +104,7 @@ export default function Navbar(props) {
     }, 350);
   };
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
-  }, []);
-
-  const navButtons = isLoggedIn ? (
+  const navButtons = ctx.userUid ? (
     <>
       <Link to="/profile">
         <IconButton aria-label="account">
