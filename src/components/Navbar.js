@@ -10,8 +10,6 @@ import {
   alpha,
   makeStyles,
 } from "@material-ui/core";
-import firebase from "firebase/app";
-import "firebase/auth";
 import { AccountCircle } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import styled from "styled-components";
@@ -91,6 +89,7 @@ export default function Navbar(props) {
   const classes = useStyles();
   const history = useHistory();
   const [isSignUpClicked, setIsSignUpClicked] = useState(null);
+  const [loader, setLoader] = useState(true);
   const ctx = useContext(UserSessionContext);
 
   function newRouteButtonClickHandler() {
@@ -103,6 +102,12 @@ export default function Navbar(props) {
       if (!isSignUpClicked) setIsSignUpClicked(true);
     }, 350);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 1500);
+  }, []);
 
   const navButtons = ctx.userUid ? (
     <>
@@ -162,7 +167,7 @@ export default function Navbar(props) {
             />
           </div>
           <RightBox>
-            <div>{navButtons}</div>
+            <div>{loader ? "loading..." : navButtons}</div>
           </RightBox>
         </Toolbar>
       </AppBar>
