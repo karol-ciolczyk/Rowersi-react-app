@@ -9,7 +9,7 @@
   height: 45px;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.534);
-  animation: avatarContainer1 0.3s ease-out forwards;
+  animation: avatarContainer1 0.2s ease-out forwards;
 }
 
 @keyframes avatarContainer1 {
@@ -34,7 +34,7 @@
   height: 45px;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.534);
-  animation: avatarContainer 0.3s ease-out forwards;
+  animation: avatarContainer 0.2s ease-out forwards;
 }
 
 @keyframes avatarContainer {
@@ -54,7 +54,7 @@
   height: 45px;
   border: 2px solid #fff;
   border-radius: 50%;
-  background-image: url("https://picsum.photos/150/150");
+  /* background-image: url("https://picsum.photos/150/150"); */
   background-size: cover;
 }
 
@@ -64,10 +64,6 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: clip;
-}
-
-.link a {
-  color: white;
 }
 
 .linkAnimation {
@@ -102,4 +98,7 @@
 
 .linkAnimation a {
   color: white;
+}
+.linkAnimation a:hover {
+  color: #2ad2fc;
 }

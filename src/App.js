@@ -15,8 +15,6 @@ import ExploreAllRoutes from "./components/ExploreAllRoutes/ExpolreAllRoutes";
 import { DisplayByRegion } from "./components/DisplayByRegion/DisplayByRegion";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
-import { AccountAvatar } from "./components/DisplayRouteElements/AccountAvatar";
-
 function App() {
   const [userUid, setUserUid] = useState();
 

@@ -5,7 +5,7 @@ import "firebase/firestore";
 import { Link } from "react-router-dom";
 import { AccountAvatar } from "./AccountAvatar";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -14,9 +14,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress, Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Tooltip } from "@material-ui/core";
 import { RatingElement } from "./RatingElement";
-import style from "./DisplayRouteElements.module.css";
 
 const useStyles = makeStyles({
   root: {
@@ -44,7 +42,7 @@ const useStyles = makeStyles({
     position: "absolute",
     borderRadius: "5px",
     opacity: "0.7",
-    top: "6px",
+    top: "140px",
     left: "6px",
     backgroundColor: "#fff",
   },

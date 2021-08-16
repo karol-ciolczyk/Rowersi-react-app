@@ -17,7 +17,10 @@ export const AccountAvatar = function () {
         setIsAnimated(false);
       }}
     >
-      <div className={style.avatar}></div>
+      <div
+        className={style.avatar}
+        style={{ backgroundImage: `url("https://picsum.photos/150/150") ` }}
+      ></div>
       <div className={isAnimated ? style.linkAnimation : style.link}>
         <a href="#"> Mustafa Mustafin</a>
       </div>
