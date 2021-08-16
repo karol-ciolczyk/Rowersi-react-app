@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import style from "./AccountAvatar.module.css";
+import style from "./Avatar.module.css";
 
 export const AccountAvatar = function () {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -17,9 +17,9 @@ export const AccountAvatar = function () {
         setIsAnimated(false);
       }}
     >
-      <div className={style.avatar}></div>
-      <div className={style.link}>
-        <a href="#"> This is account name</a>
+      <div className={isAnimated ? style.avatarAnimation : style.avatar}></div>
+      <div className={isAnimated ? style.linkAnimation : style.link}>
+        <a href="#"> Mustafa Mustafin</a>
       </div>
     </div>
   );
