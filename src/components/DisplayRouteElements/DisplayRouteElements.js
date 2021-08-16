@@ -3,8 +3,9 @@ import UserSessionContext from "../context/userSession-context";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
+import { AccountAvatar } from "./AccountAvatar";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -13,9 +14,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress, Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Tooltip } from "@material-ui/core";
 import { RatingElement } from "./RatingElement";
-import style from "./DisplayRouteElements.module.css";
 
 const useStyles = makeStyles({
   root: {
@@ -43,7 +42,7 @@ const useStyles = makeStyles({
     position: "absolute",
     borderRadius: "5px",
     opacity: "0.7",
-    top: "6px",
+    top: "140px",
     left: "6px",
     backgroundColor: "#fff",
   },
@@ -119,18 +118,6 @@ const DisplayRouteElements = (props) => {
     };
   }, [ctx.userUid, props.allRoutes]);
 
-  const HtmlTooltip = withStyles((theme) => ({
-    tooltip: {
-      backgroundColor: "#fff",
-      padding: "10px 15px",
-      color: "rgba(0, 0, 0, 0.87)",
-      maxWidth: 220,
-      fontSize: theme.typography.pxToRem(12),
-      border: "1px solid #dadde9",
-      borderRadius: "7px",
-    },
-  }))(Tooltip);
-
   return (
     <div className={classes.gridRoot}>
       {progressElement}
@@ -142,23 +129,7 @@ const DisplayRouteElements = (props) => {
             xs={matches960 ? (matches1300 ? (matches1700 ? 3 : 4) : 6) : 12}
           >
             <Card className={classes.root}>
-              <HtmlTooltip
-                title={
-                  <React.Fragment>
-                    <Typography color="inherit">
-                      Mustafa Mustafiański
-                    </Typography>
-                  </React.Fragment>
-                }
-              >
-                <div
-                  className={style.avatar}
-                  style={{
-                    backgroundImage: `url(${"https://picsum.photos/150/150"})`,
-                  }}
-                ></div>
-              </HtmlTooltip>
-
+              <AccountAvatar />
               <Link
                 to={`/route/${object.routeId}`}
                 style={{ textDecoration: "none", color: "#222222" }}

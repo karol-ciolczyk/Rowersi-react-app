@@ -1,0 +1,104 @@
+.avatarContainer {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 3px;
+
+  display: flex;
+  width: 45px;
+  height: 45px;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.534);
+  animation: avatarContainer1 0.2s ease-out forwards;
+}
+
+@keyframes avatarContainer1 {
+  0% {
+    width: 250px;
+    height: 45px;
+  }
+  100% {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+.avatarContainerAnimation {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 3px;
+
+  display: flex;
+  width: 45px;
+  height: 45px;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.534);
+  animation: avatarContainer 0.2s ease-out forwards;
+}
+
+@keyframes avatarContainer {
+  0% {
+    width: 45px;
+    height: 45px;
+  }
+  100% {
+    width: 250px;
+    height: 45px;
+  }
+}
+
+.avatar {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  /* background-image: url("https://picsum.photos/150/150"); */
+  background-size: cover;
+}
+
+.link {
+  margin: 10px 12px 0px 5px;
+  display: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.linkAnimation {
+  margin: 12px 12px 0px 60px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  animation: link 0.4s linear forwards;
+}
+
+@keyframes link {
+  0% {
+    display: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
+  30% {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
+  100% {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
+}
+
+.linkAnimation a {
+  color: white;
+}
+.linkAnimation a:hover {
+  color: #2ad2fc;
+}
