@@ -3,6 +3,7 @@ import UserSessionContext from "../context/userSession-context";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
+import { AccountAvatar } from "./AccountAvatar";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -119,18 +120,6 @@ const DisplayRouteElements = (props) => {
     };
   }, [ctx.userUid, props.allRoutes]);
 
-  const HtmlTooltip = withStyles((theme) => ({
-    tooltip: {
-      backgroundColor: "#fff",
-      padding: "10px 15px",
-      color: "rgba(0, 0, 0, 0.87)",
-      maxWidth: 220,
-      fontSize: theme.typography.pxToRem(12),
-      border: "1px solid #dadde9",
-      borderRadius: "7px",
-    },
-  }))(Tooltip);
-
   return (
     <div className={classes.gridRoot}>
       {progressElement}
@@ -142,23 +131,7 @@ const DisplayRouteElements = (props) => {
             xs={matches960 ? (matches1300 ? (matches1700 ? 3 : 4) : 6) : 12}
           >
             <Card className={classes.root}>
-              <HtmlTooltip
-                title={
-                  <React.Fragment>
-                    <Typography color="inherit">
-                      Mustafa Mustafiański
-                    </Typography>
-                  </React.Fragment>
-                }
-              >
-                <div
-                  className={style.avatar}
-                  style={{
-                    backgroundImage: `url(${"https://picsum.photos/150/150"})`,
-                  }}
-                ></div>
-              </HtmlTooltip>
-
+              <AccountAvatar />
               <Link
                 to={`/route/${object.routeId}`}
                 style={{ textDecoration: "none", color: "#222222" }}
