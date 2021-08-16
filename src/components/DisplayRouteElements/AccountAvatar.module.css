@@ -1,0 +1,75 @@
+.avatarContainer {
+  display: flex;
+  width: 55px;
+  height: 55px;
+  border-radius: 30px;
+  background-color: black;
+  opacity: 0.5;
+  animation: avatarContainer1 0.3s ease-out forwards;
+}
+
+@keyframes avatarContainer1 {
+  0% {
+    width: 250px;
+    height: 55px;
+  }
+  100% {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+.avatarContainerAnimation {
+  display: flex;
+  width: 55px;
+  height: 55px;
+  border-radius: 30px;
+  background-color: black;
+  opacity: 0.5;
+  animation: avatarContainer 0.3s ease-out forwards;
+}
+
+@keyframes avatarContainer {
+  0% {
+    width: 55px;
+    height: 55px;
+  }
+  100% {
+    width: 250px;
+    height: 55px;
+  }
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  margin: 3px 0px 0px 3px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background-image: url("https://picsum.photos/150/150");
+  /* background-color: black; */
+  background-size: cover;
+  /* animation-name: ava;
+  animation-duration: 1s;
+  animation-timing-function: linear; */
+  /* animation: slidein 0.6s infinite alternate; */
+}
+
+@keyframes slidein {
+  0% {
+    width: 10px;
+    height: 10px;
+  }
+  100% {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+.link {
+  margin: 10px 12px 0px 5px;
+}
+
+.link a {
+  color: white;
+}
