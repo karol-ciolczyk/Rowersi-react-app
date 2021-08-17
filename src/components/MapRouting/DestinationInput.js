@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete } from "@material-ui/lab";
-import { useFetchPlaceData } from "../../hooks/use-fetch-for-input";
+import { useFetchPlaceData } from "../../hooks/useFetchPlaceData";
 
 export default function DestinationInput(props) {
   const [inputValue, setInputValue] = useState("");

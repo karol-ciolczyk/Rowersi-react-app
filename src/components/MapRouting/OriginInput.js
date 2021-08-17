@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { useState } from "react";
-import { useFetchPlaceData } from "../../hooks/use-fetch-for-input";
+import { useFetchPlaceData } from "../../hooks/useFetchPlaceData";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete } from "@material-ui/lab";
 // import InputAdornment from "@material-ui/core/InputAdornment";
