@@ -7,7 +7,7 @@ import { Autocomplete } from "@material-ui/lab";
 
 export default function WaypointInput(props) {
   const [placesObject, setPlacesObject] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(props.inputValue);
   const [value, setValue] = useState(props.initialInputValue);
   useEffect(() => {
     if (inputValue) {
@@ -35,18 +35,11 @@ export default function WaypointInput(props) {
     }
   }, [inputValue]);
 
-  useEffect(() => {
-    if (props.inputValue) {
-      setInputValue(props.inputValue);
-      // setValue(props.inputValue);
-    } // this set destinaton input value after add new point button after add new waypoint
-  }, [props.inputValue]);
-
   const placesName = placesObject.map((obj) => obj.placeName);
 
   return (
     <Autocomplete
-      inputValue={inputValue}
+      inputValue={inputValue ? inputValue : ""} // needed to avoid changing from uncontrolled to controlled component due to undefined initial value of inputValue
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
