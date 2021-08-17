@@ -7,16 +7,8 @@ import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Avatar, Paper, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { Skeleton } from "@material-ui/lab";
-import {
-  ResponsiveContainer,
-  AreaChart,
-  XAxis,
-  YAxis,
-  Area,
-  Tooltip,
-  CartesianGrid,
-} from "recharts";
 import RatingElement from "./RatingElement";
+import { Chart } from "./Chart";
 
 import classes from "./RouteData.module.css";
 import style from "../mapStyle/directions-styles";
@@ -190,6 +182,8 @@ const RouteData = () => {
     scale: 0.9,
   });
 
+  //////////////////////////////////////////////////////////////////////////
+  // Functions to managing marker adding/removing to the route on the map //
   const manageMarker = (object) => {
     if (!object.isTooltipActive) return;
     if (!object.activePayload) return; // before render chart with data
@@ -209,51 +203,10 @@ const RouteData = () => {
       marker.togglePopup();
     }
   };
-
-  const removeMarker = (event) => {
+  const removeMarker = () => {
     if (map.current._markers.length === 3) marker.remove();
   };
-
-  const Chart = function () {
-    return (
-      <ResponsiveContainer width="100%" height={200}>
-        <AreaChart
-          data={routeData.chartData}
-          onMouseMove={manageMarker}
-          onMouseLeave={removeMarker}
-        >
-          <defs>
-            <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#2451B7" stopOpacity={0.6} />
-              <stop offset="100%" stopColor="#2451B7" stopOpacity={0.1} />
-            </linearGradient>
-          </defs>
-          <Area
-            type="monotone"
-            dataKey="elevation"
-            stroke="#2451B7"
-            fill="url(#color)"
-          />
-          <XAxis
-            dataKey="distance"
-            axisLine={false}
-            tickLine={false}
-            // tickFormatter={(number) => `${number} m`}
-          />
-          <YAxis
-            dataKey="elevation"
-            axisLine={false}
-            tickLine={false}
-            tickCount={10}
-            // tickFormatter={(number) => `${number} m`}
-          />
-          {/* <Tooltip content={<CustomTooltip />} /> */}
-          <Tooltip />
-          <CartesianGrid opacity={0.2} vertical={false} />
-        </AreaChart>
-      </ResponsiveContainer>
-    );
-  };
+  //////////////////////////////////////////////////////////////////////////
 
   return (
     <div className={classes.flexContainer}>
@@ -366,7 +319,11 @@ const RouteData = () => {
           </div>
           <div className={classes.chart}>
             {routeData.chartData ? (
-              <Chart />
+              <Chart
+                routeData={routeData}
+                manageMarker={manageMarker}
+                removeMarker={removeMarker}
+              />
             ) : (
               <Paper elevation={0} component="div">
                 <Skeleton variant="rect" height={180} />
