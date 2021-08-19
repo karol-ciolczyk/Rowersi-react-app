@@ -343,15 +343,6 @@ export default function Mapbox(props) {
             .setLngLat(coordinates)
             .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
             .addTo(map.current);
-          // marker.on("dragend", (event) => {
-          //   const mapOfWaypoints = event.target._map._markers.map(
-          //     (object, index) => {
-          //       return [index, [object._lngLat.lng, object._lngLat.lat]];
-          //     }
-          //   );
-          //   const waypointsObject = Object.fromEntries(mapOfWaypoints);
-          //   setWaypoints(waypointsObject);
-          // });
         });
       }
 
