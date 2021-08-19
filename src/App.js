@@ -27,6 +27,8 @@ function App() {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         setUserUid(user.uid);
+      } else {
+        setUserUid(null);
       }
     });
   }, []);
