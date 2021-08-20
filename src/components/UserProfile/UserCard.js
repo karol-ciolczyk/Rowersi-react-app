@@ -1,6 +1,6 @@
 import { Paper } from "@material-ui/core";
 
-import style from "./UserCard.css";
+import style from "./UserCard.module.css";
 
 export const UserCard = function () {
   return (
