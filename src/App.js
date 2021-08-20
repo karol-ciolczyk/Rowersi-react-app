@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import CreateNewRoute from "./components/CreateNewRoute/CreateNewRoute";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Profile } from "./user-profile/profile.jsx";
+import { UserProfile } from "./components/UserProfile/UserProfile";
 import firebase from "firebase/app";
 import "firebase/auth";
 import HomePage from "./components/HomePage/HomePage";
@@ -47,7 +47,7 @@ function App() {
           </header>
           <Switch>
             <Route exact path="/newRoute" component={CreateNewRoute} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/profile" component={UserProfile} />
             <Route exact path="/" component={HomePage} />
             {/* Tu trzeba wstawić inne widoki, czyli tworzenie tras, homepage itp */}
             <Route path="/allRoutes" component={ExploreAllRoutes} />
