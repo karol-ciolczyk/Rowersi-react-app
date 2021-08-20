@@ -1,0 +1,10 @@
+.photoContainer {
+  width: 200px;
+  height: 200px;
+  background-color: rgba(255, 99, 71, 0.686);
+}
+.userDescription {
+  width: 200px;
+  height: 500px;
+  background-color: rgba(206, 255, 71, 0.686);
+}
