@@ -1,26 +1,18 @@
-import React, { useEffect, useState, useContext } from "react";
-import UserSessionContext from "./context/userSession-context";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
-  IconButton,
   Typography,
-  Button,
   InputBase,
   alpha,
   makeStyles,
 } from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
+import { NavbarButtons } from "./NavbarButtons/NavbarButtons";
+
 import styled from "styled-components";
-
-import SignUpModal from "./SignUpModal/SignUpModal";
-import LoginModal from "./LoginModal/LoginModal";
-
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-
-import { LogOutButton } from "./LogOutButton/LogOutButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +82,6 @@ export default function Navbar(props) {
   const history = useHistory();
   const [isSignUpClicked, setIsSignUpClicked] = useState(null);
   const [loader, setLoader] = useState(true);
-  const ctx = useContext(UserSessionContext);
 
   function newRouteButtonClickHandler() {
     history.push("/newRoute");
@@ -108,36 +99,6 @@ export default function Navbar(props) {
       setLoader(false);
     }, 1500);
   }, []);
-
-  const navButtons = ctx.userUid ? (
-    <>
-      <Link to="/profile">
-        <IconButton aria-label="account">
-          <AccountCircle />
-        </IconButton>
-      </Link>
-      <Button
-        variant="contained"
-        onClick={newRouteButtonClickHandler}
-        style={{
-          marginRight: "7px",
-          color: "white",
-          backgroundColor: "tomato",
-        }}
-      >
-        New Route
-      </Button>
-      <LogOutButton />
-    </>
-  ) : (
-    <>
-      <LoginModal
-        onLoggedInData={props.onLoggedInData}
-        isSignUpLinkClickedHandler={isSignUpLinkClickedHandler}
-      />
-      <SignUpModal isSignUpClicked={isSignUpClicked} />
-    </>
-  );
 
   return (
     <div className={classes.root}>
@@ -167,7 +128,18 @@ export default function Navbar(props) {
             />
           </div>
           <RightBox>
-            <div>{loader ? "loading..." : navButtons}</div>
+            <div>
+              {loader ? (
+                "loading..."
+              ) : (
+                <NavbarButtons
+                  newRouteButtonClickHandler={newRouteButtonClickHandler}
+                  onLoggedInData={props.onLoggedInData}
+                  isSignUpLinkClickedHandler={isSignUpLinkClickedHandler}
+                  isSignUpClicked={isSignUpClicked}
+                />
+              )}
+            </div>
           </RightBox>
         </Toolbar>
       </AppBar>
