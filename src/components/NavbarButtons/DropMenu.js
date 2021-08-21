@@ -16,12 +16,24 @@ export const DropMenu = function (props) {
     >
       <Link to="/profile" style={{ textDecoration: "none" }}>
         <div className={style.dropMenu__userInfo}>
-          <div className={style["dropMenu__userInfo--avatar"]}></div>
-          <Typography className={style["dropMenu__userInfo--userName"]}>
+          <div className={style["dropMenu__userInfo__avatar"]}></div>
+          <Typography
+            variant="h6"
+            className={style["dropMenu__userInfo__userName"]}
+          >
             Amelia Ameliowska
           </Typography>
         </div>
       </Link>
+      <div>
+        <Link to="/profile" style={{ textDecoration: "none" }}>
+          <button
+            className={style["dropMenu__userInfo__button--showProfilePage"]}
+          >
+            <Typography variant="subtitle2"> show profile </Typography>
+          </button>
+        </Link>
+      </div>
       <hr></hr>
       <div>
         <Typography>Ustawienia konta</Typography>
