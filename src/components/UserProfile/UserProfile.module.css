@@ -1,7 +1,7 @@
 .userCard {
-  position: absolute;
-  top: 170px;
-  left: 100px;
+  position: fixed;
+  top: 130px;
+  left: 60px;
 }
 .userProfileContent {
   min-height: 100vh;
