@@ -10,7 +10,7 @@ export const AccountButton = function () {
   const [isAccount, setIsAccount] = useState(false);
 
   const accountClickHandler = function () {
-    setIsAccount(true);
+    setIsAccount(!isAccount);
   };
 
   return (
