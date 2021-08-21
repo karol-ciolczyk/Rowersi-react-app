@@ -1,0 +1,12 @@
+.accountButton {
+  display: inline-block;
+}
+.dropMenu--visible {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+}
+.dropMenu--hide {
+  display: none;
+}

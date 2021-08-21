@@ -10,6 +10,7 @@ import LoginModal from "../LoginModal/LoginModal";
 import { Link } from "react-router-dom";
 
 import { LogOutButton } from "../LogOutButton/LogOutButton";
+import { AccountButton } from "./AccountButton";
 
 export const NavbarButtons = function (props) {
   const ctx = useContext(UserSessionContext);
@@ -32,6 +33,7 @@ export const NavbarButtons = function (props) {
         New Route
       </Button>
       <LogOutButton />
+      <AccountButton />
     </>
   ) : (
     <>
