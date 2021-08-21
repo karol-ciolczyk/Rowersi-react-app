@@ -46,3 +46,23 @@
   background: #3bb2d018;
   cursor: pointer;
 }
+
+.dropMenu__account {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+.dropMenu__account h6 {
+  text-align: left;
+}
+.dropMenu__account p {
+  text-align: left;
+}
+.dropMenu__account__link {
+  padding: 4px 0px;
+  text-decoration: none;
+  color: grey;
+}
+.dropMenu__account__link:hover {
+  text-decoration: underline;
+}

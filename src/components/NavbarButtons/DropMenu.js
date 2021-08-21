@@ -35,8 +35,19 @@ export const DropMenu = function (props) {
         </Link>
       </div>
       <hr></hr>
-      <div>
-        <Typography>Ustawienia konta</Typography>
+      <div className={style.dropMenu__account}>
+        <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+          Account
+        </Typography>
+        <Link to="/userData" className={style.dropMenu__account__link}>
+          <Typography variant="body2">User Data</Typography>
+        </Link>
+        <Link to="/userData" className={style.dropMenu__account__link}>
+          <Typography variant="body2">Friends</Typography>
+        </Link>
+        <Link to="/userData" className={style.dropMenu__account__link}>
+          <Typography variant="body2">Events</Typography>
+        </Link>
       </div>
       <div>
         <Typography>Logout button</Typography>
