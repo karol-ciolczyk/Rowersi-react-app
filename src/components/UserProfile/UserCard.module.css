@@ -4,7 +4,8 @@
 .container__photoContainer {
   width: 300px;
   height: 200px;
-  background-color: rgba(255, 99, 71, 0.686);
+  background-image: url("../../files/UserProfile-Files/jakob-owens-DQPP9rVLYGQ-unsplash.jpg");
+  background-size: cover;
 }
 .container__userDescription {
   width: 100%;

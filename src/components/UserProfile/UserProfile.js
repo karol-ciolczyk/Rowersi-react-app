@@ -9,8 +9,12 @@ export const UserProfile = function () {
         <UserCard />
       </div>
       <section className={style.userProfileContent}>
-        <div>background photo</div>
-        <div>content of the userPage</div>
+        <div className={style.userProfileContent__backgroundGraphic}>
+          background photo
+        </div>
+        <div className={style.userProfileContent__data}>
+          content of the userPage
+        </div>
       </section>
     </>
   );
