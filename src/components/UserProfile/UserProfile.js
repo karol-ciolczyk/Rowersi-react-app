@@ -1,13 +1,17 @@
 import { UserCard } from "./UserCard";
 
+import style from "./UserProfile.module.css";
+
 export const UserProfile = function () {
   return (
-    <section>
-      <div>
+    <>
+      <div className={style.userCard}>
         <UserCard />
       </div>
-      <div>background photo</div>
-      <div>content of the userPage</div>
-    </section>
+      <section className={style.userProfileContent}>
+        <div>background photo</div>
+        <div>content of the userPage</div>
+      </section>
+    </>
   );
 };
