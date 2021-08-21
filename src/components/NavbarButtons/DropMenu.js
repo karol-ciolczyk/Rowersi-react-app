@@ -2,9 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Paper, Typography } from "@material-ui/core";
 
+import firebase from "firebase/app";
+import "firebase/auth";
 import style from "./DropMenu.module.css";
 
 export const DropMenu = function (props) {
+  const onClickHandler = () => {
+    firebase
+      .auth()
+      .signOut()
+      .catch((error) => {
+        alert("Error:", error);
+      });
+  };
+
   return (
     <Paper
       elevation={6}
@@ -49,8 +60,15 @@ export const DropMenu = function (props) {
           <Typography variant="body2">Events</Typography>
         </Link>
       </div>
+      <hr></hr>
       <div>
-        <Typography>Logout button</Typography>
+        <Link
+          to="/"
+          className={style.dropMenu__account__link}
+          onClick={onClickHandler}
+        >
+          <Typography variant="body2">Log out</Typography>
+        </Link>
       </div>
     </Paper>
   );
