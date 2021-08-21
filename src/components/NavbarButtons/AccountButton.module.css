@@ -1,4 +1,5 @@
 .accountButton {
+  display: inline-block;
 }
 .accountButton__dropMenu {
   display: none;
