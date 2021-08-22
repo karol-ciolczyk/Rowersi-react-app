@@ -8,19 +8,27 @@ import { AccountButton } from "./AccountButton";
 
 import style from "./NavbarButtons.module.css";
 
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: "0px 5px",
+    backgroundColor: "Tomato",
+    color: "#fff",
+    "&:hover, &:focus": {
+      backgroundColor: "#db543c",
+    },
+  },
+}));
+
 export const NavbarButtons = function (props) {
+  const classes = useStyles();
   const ctx = useContext(UserSessionContext);
   const navButtons = ctx.userUid ? (
     <div className={style.buttons}>
       <Button
-        className={style["button--newRoute"]}
+        className={classes.button}
         variant="contained"
         onClick={props.newRouteButtonClickHandler}
-        style={{
-          marginRight: "7px",
-          color: "white",
-          backgroundColor: "tomato",
-        }}
       >
         New Route
       </Button>
