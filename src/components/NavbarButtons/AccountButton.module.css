@@ -1,5 +1,10 @@
 .accountButton {
-  display: inline-block;
+  display: block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-image: url("../../art-hauntington-jzY0KRJopEI-unsplash.jpg");
+  background-size: cover;
 }
 .accountButton__dropMenu {
   display: none;

@@ -13,7 +13,6 @@ export const DropMenu = function (props) {
     // this useEffect is just to hide unnecessary keyframes animation effect from style: "dropMenu--hide" during first render
     if (isAfterAnimation) return;
     if (!props.isAccountClicked) return;
-    console.log("here");
     setIsAfterAnimation(true);
   }, [props.isAccountClicked, isAfterAnimation]);
 

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import UserSessionContext from "../context/userSession-context";
 
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton, Button, Avatar } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 
 import SignUpModal from "../SignUpModal/SignUpModal";
@@ -16,11 +16,11 @@ export const NavbarButtons = function (props) {
   const ctx = useContext(UserSessionContext);
   const navButtons = ctx.userUid ? (
     <>
-      <Link to="/profile">
-        <IconButton aria-label="account">
+      {/* <Link to="/profile">
+        <Avatar>
           <AccountCircle />
-        </IconButton>
-      </Link>
+        </Avatar>
+      </Link> */}
       <Button
         variant="contained"
         onClick={props.newRouteButtonClickHandler}
