@@ -1,27 +1,19 @@
 import React, { useContext } from "react";
 import UserSessionContext from "../context/userSession-context";
 
-import { IconButton, Button, Avatar } from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
-
+import { Button } from "@material-ui/core";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import LoginModal from "../LoginModal/LoginModal";
-
-import { Link } from "react-router-dom";
-
-import { LogOutButton } from "../LogOutButton/LogOutButton";
 import { AccountButton } from "./AccountButton";
+
+import style from "./NavbarButtons.module.css";
 
 export const NavbarButtons = function (props) {
   const ctx = useContext(UserSessionContext);
   const navButtons = ctx.userUid ? (
-    <>
-      {/* <Link to="/profile">
-        <Avatar>
-          <AccountCircle />
-        </Avatar>
-      </Link> */}
+    <div className={style.buttons}>
       <Button
+        className={style["button--newRoute"]}
         variant="contained"
         onClick={props.newRouteButtonClickHandler}
         style={{
@@ -32,9 +24,8 @@ export const NavbarButtons = function (props) {
       >
         New Route
       </Button>
-      <LogOutButton />
       <AccountButton />
-    </>
+    </div>
   ) : (
     <>
       <LoginModal
