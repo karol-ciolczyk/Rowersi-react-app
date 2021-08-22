@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Paper, Typography } from "@material-ui/core";
 
@@ -7,6 +7,16 @@ import "firebase/auth";
 import style from "./DropMenu.module.css";
 
 export const DropMenu = function (props) {
+  const [isAfterAnimation, setIsAfterAnimation] = useState(false);
+
+  useEffect(() => {
+    // this useEffect is just to hide unnecessary keyframes animation effect from style: "dropMenu--hide" during first render
+    if (isAfterAnimation) return;
+    if (!props.isAccountClicked) return;
+    console.log("here");
+    setIsAfterAnimation(true);
+  }, [props.isAccountClicked, isAfterAnimation]);
+
   const onClickHandler = () => {
     firebase
       .auth()
@@ -18,11 +28,14 @@ export const DropMenu = function (props) {
 
   return (
     <Paper
+      style={isAfterAnimation ? {} : { zIndex: -1 }}
       elevation={6}
       className={
-        props.isAccountClicked
-          ? style["dropMenu--visible"]
-          : style["dropMenu--hide"]
+        isAfterAnimation
+          ? props.isAccountClicked
+            ? style["dropMenu--visible"]
+            : style["dropMenu--hide"]
+          : style["dropMenu--initialHidden"]
       }
     >
       <Link to="/profile" style={{ textDecoration: "none" }}>
