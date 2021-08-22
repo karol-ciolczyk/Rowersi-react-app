@@ -29,7 +29,8 @@ export const DropMenu = function (props) {
         <div className={style.dropMenu__userInfo}>
           <div className={style["dropMenu__userInfo__avatar"]}></div>
           <Typography
-            variant="h6"
+            variant="subtitle1"
+            style={{ fontWeight: "bold" }}
             className={style["dropMenu__userInfo__userName"]}
           >
             Amelia Ameliowska
