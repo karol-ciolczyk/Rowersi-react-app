@@ -1,11 +1,3 @@
 .buttons {
   display: flex;
 }
-.button--newRoute {
-  margin-right: 7px;
-  color: white;
-  background-color: tomato;
-}
-.button--newRoute:hover {
-  background-color: rgb(219, 84, 60);
-}
