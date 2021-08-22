@@ -1,5 +1,15 @@
 .accountButton {
-  display: inline-block;
+  display: block;
+  width: 35px;
+  height: 35px;
+  margin: 0px 5px;
+  border-radius: 3px;
+  background-image: url("../../art-hauntington-jzY0KRJopEI-unsplash.jpg");
+  background-size: cover;
+}
+.accountButton:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px 2px rgb(177, 177, 177);
 }
 .accountButton__dropMenu {
   display: none;

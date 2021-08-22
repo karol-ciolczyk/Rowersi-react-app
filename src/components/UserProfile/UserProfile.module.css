@@ -1,0 +1,19 @@
+.userCard {
+  position: fixed;
+  top: 130px;
+  left: 60px;
+}
+.userProfileContent {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.userProfileContent__backgroundGraphic {
+  flex-grow: 2;
+  background-image: url("../../files/UserProfile-Files/majid-gheidarlou-dViaab0Qc8o-unsplash.jpg");
+  background-size: cover;
+  /* background-repeat: repeat; */
+}
+.userProfileContent__data {
+  flex-grow: 5;
+}
